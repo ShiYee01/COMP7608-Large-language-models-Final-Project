@@ -13,7 +13,7 @@ Individual project · COMP7608
   1. rewrites the whole plan (loses bookings and things the user cared about);
   2. breaks hard constraints (overlaps, too little travel time, closed venues, locked items);
   3. misses linked bookings (return flight, hotel nights) and **guesses fees** or counts paid money twice.
-- Show one real baseline failure from `raw_outputs.jsonl` (e.g. wrong cost in s01 or an invented number in s02).
+- Show one real baseline failure from `evaluation/results/qwen2.5-3b-local-cpu/raw_outputs.jsonl`: in s03 the 3B model moved the locked sushi dinner and never computed any cost (see slide 8).
 
 ## 3. Research question
 Can structured trip state + deterministic constraint validation + local repair + a booking dependency/cost
@@ -44,10 +44,35 @@ Backup: record a screen video beforehand in case the network or the laptop fails
 - Metrics: task success, feasibility, preservation, booking F1, cost exact match, unknown-cost handling,
   infeasible detection, latency, tokens.
 
-## 8. Preliminary results
-Table + `summary.png` from the real run. Comment on where the baselines fail (constraint violations, cost
-errors, invented costs when data is missing, never saying "infeasible") and on PlanB's cost (latency, calls).
-Mention the `planb` vs `planb_gold` gap = request-parsing errors.
+## 8. Preliminary results (real run: `evaluation/results/qwen2.5-3b-local-cpu/`)
+Model: Qwen2.5-3B-Instruct Q4, local CPU, temperature 0. 10 pilot scenarios × 4 methods.
+
+| method | task success | booking F1 | cost exact (known) | infeasible detected | latency | tokens |
+|---|---|---|---|---|---|---|
+| Direct LLM | 2/10 | 0.25 | 0/7 | 1/2 | 462 s | 10.1k |
+| Constraint-prompted LLM | 1/10 | 0.25 | 0/7 | 0/2 | 480 s | 10.5k |
+| **PlanB** | **8/10** | **0.875** | **6/7** | **2/2** | 45 s | 2.2k |
+| PlanB + gold event | 10/10 | 1.00 | 7/7 | 2/2 | <0.1 s | 0 |
+
+Put `summary.png` next to the table. Talking points:
+- **The baselines solved none of the 8 solvable cases** (0/8). Their only successes were refusals in the
+  infeasible cases.
+- **The baselines never produced a cost** (always `null`), even though the fees and quotes were in the prompt.
+- **The baselines broke constraints.**
+  - Rain (s03): moved the locked 18:30 sushi dinner to 14:30, with 9 hard violations.
+  - Shortened trip (s09): kept the whole of day 3.
+  - Museum closed (s05): invented place ids.
+- **Both PlanB failures are parsing errors by the 3B model.**
+  - s03: "下午1点" (1 pm) was read as 12:00.
+  - s07: the time the delay ends was left out, so PlanB asked for more information instead of guessing.
+  - `planb_gold` = 10/10, so the engine itself made no error. The fix is a better parser or a larger model.
+- **PlanB is cheaper to run.** One LLM call of about 2k tokens vs about 10k tokens, and it is about 10× faster
+  on CPU.
+- **Honesty slide.** This is a small pilot set written by the author. The baselines' "unknown cost handled = 1.0"
+  is an artefact of always answering `null`. Two scoring fixes are documented in `NOTES.md`.
+
+For the slide 2 failure example, use the s03 Direct LLM output: the locked dinner moved and teamLab moved
+outside its ticket slot.
 
 ## 9. Limitations and plan to the final
 - Pilot set is small and written by the author → expand to ~40 scenarios with a held-out split.

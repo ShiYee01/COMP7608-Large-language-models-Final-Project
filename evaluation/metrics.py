@@ -34,8 +34,10 @@ def score_case(s: Scenario, out: MethodOutput) -> dict:
         row["event_type_correct"] = pe.get("event_type") == s.gold_event.event_type
 
     if expected == "infeasible":
-        row["status_correct"] = out.status in ("infeasible", "needs_information")
-        row["success"] = row["status_correct"]
+        # strict: the method must say "infeasible"; lenient success: it refused to output a plan
+        # (asking for more information is safe, but it is not a correct diagnosis)
+        row["status_correct"] = out.status == "infeasible"
+        row["success"] = out.status in ("infeasible", "needs_information")
         return row
 
     row["status_correct"] = out.status == "ok"

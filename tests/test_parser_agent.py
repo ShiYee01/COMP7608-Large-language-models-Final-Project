@@ -34,3 +34,17 @@ def test_agent_mock_end_to_end(trip, bookings, world):
 def test_agent_unknown_message(trip, bookings, world):
     agent = PlanBAgent(TripStore(trip, bookings, world), LLMClient(provider="mock"))
     assert agent.handle("你好").state == "NEEDS_INFORMATION"
+
+
+def test_baseline_id_normalisation(trip, world):
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "evaluation"))
+    from common import itinerary_to_trip
+
+    items = [{"activity_id": a.activity_id, "place_id": a.place_id, "title": a.title,
+              "start_at": a.start_at.isoformat(), "end_at": a.end_at.isoformat()} for a in trip.sorted_activities()]
+    items[-1]["activity_id"] = "a12_new"          # same place, renamed id
+    t, errors = itinerary_to_trip(items, trip, world)
+    assert errors == 0
+    assert {a.activity_id for a in t.activities} == {a.activity_id for a in trip.activities}

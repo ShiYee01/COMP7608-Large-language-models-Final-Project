@@ -97,16 +97,50 @@ def _parse_dt(s: str, world: World) -> datetime:
     return dt if dt.tzinfo else dt.replace(tzinfo=world.tz)
 
 
+def _normalize_ids(items: list[dict], original: Trip) -> list[str | None]:
+    """Neutral ID normalisation for baseline output.
+
+    Small models often re-emit an existing activity under a new id (e.g. ``a12_new``). Scoring that as
+    "original deleted + new item added" would unfairly flag locked items as removed. An item whose id is
+    unknown (or already used) is matched to an original activity at the same place_id that the output
+    does not otherwise contain (one-to-one, in output order).
+    """
+    orig_ids = [a.activity_id for a in original.activities]
+    raw = [str(it.get("activity_id")) if isinstance(it, dict) and it.get("activity_id") else None for it in items]
+    used, out = set(), []
+    for r in raw:
+        if r in orig_ids and r not in used:
+            used.add(r)
+            out.append(r)
+        else:
+            out.append(None)
+    for i, it in enumerate(items):
+        if out[i] is not None or not isinstance(it, dict):
+            continue
+        pid = str(it.get("place_id", ""))
+        match = next((a.activity_id for a in original.activities
+                      if a.place_id == pid and a.activity_id not in used), None)
+        if match:
+            used.add(match)
+            out[i] = match
+        else:
+            out[i] = raw[i] if raw[i] and raw[i] not in used and raw[i] not in orig_ids else None
+            if out[i]:
+                used.add(out[i])
+    return out
+
+
 def itinerary_to_trip(items: list[dict], original: Trip, world: World) -> tuple[Trip, int]:
     """Convert an LLM itinerary list to a Trip. Returns (trip, number of malformed items)."""
     trip = original.model_copy(deep=True)
     orig = {a.activity_id: a for a in original.activities}
+    ids = _normalize_ids(items or [], original)
     acts, errors = [], 0
     for i, it in enumerate(items or []):
         try:
             start, end = _parse_dt(it["start_at"], world), _parse_dt(it["end_at"], world)
             pid = str(it.get("place_id", ""))
-            aid = str(it.get("activity_id") or f"new_{i}")
+            aid = ids[i] or f"new_{i}"
             if aid in orig:
                 base = orig[aid]
                 acts.append(base.model_copy(update={"place_id": pid, "start_at": start, "end_at": end,

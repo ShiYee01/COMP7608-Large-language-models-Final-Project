@@ -48,6 +48,7 @@ def summarize(df: pd.DataFrame) -> pd.DataFrame:
             "cost_exact_match(known)": known.cost_correct.mean() if len(known) else None,
             "unknown_cost_handled": (~unk.cost_hallucinated.astype(bool)).mean() if len(unk) else None,
             "infeasible_detected": inf.status_correct.mean() if len(inf) else None,
+            "unsafe_plan_refused": inf.success.mean() if len(inf) else None,
             "avg_latency_s": g.latency_s.mean(),
             "avg_tokens": g.tokens.mean(),
             "avg_llm_calls": g.llm_calls.mean(),

@@ -28,7 +28,9 @@ hours, full travel matrix, request), same output schema and cost definition for 
 PlanB's LLM sees only the trip/booking/place ids, not the matrix — it does not need them.
 
 ## Success definition
-- infeasible scenarios: method reports `infeasible` or `needs_information`;
+- infeasible scenarios: method reports `infeasible` or `needs_information` (it refused to output an unsafe
+  plan; reported as `unsafe_plan_refused`). The stricter `infeasible_detected` / `status_correct` count only
+  an explicit `infeasible`;
 - ok scenarios: status ok **and** zero hard violations **and** preservation = 1 **and** booking set exact
   **and** cost correct (±¥1, or null when the truth is unknown).
 

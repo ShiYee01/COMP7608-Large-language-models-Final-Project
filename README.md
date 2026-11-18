@@ -77,6 +77,22 @@ by the engine) — see `docs/evaluation_protocol.md`.
 
 Only report numbers from real runs. The `--mock` run is a pipeline test.
 
+### Preliminary results: pilot set, Qwen2.5-3B-Instruct (Q4, local CPU)
+
+These are real numbers from `evaluation/results/qwen2.5-3b-local-cpu/`. Analysis and failure cases are in
+[`NOTES.md`](evaluation/results/qwen2.5-3b-local-cpu/NOTES.md).
+
+| method | task success | feasible (ok cases) | booking F1 | cost exact (known) | infeasible detected | latency | tokens |
+|---|---|---|---|---|---|---|---|
+| direct | 2/10 | 0.25 | 0.25 | 0/7 | 1/2 | 462 s | 10.1k |
+| structured | 1/10 | 0.25 | 0.25 | 0/7 | 0/2 | 480 s | 10.5k |
+| planb | 8/10 | 0.75 | 0.875 | 6/7 | 2/2 | 45 s | 2.2k |
+| planb_gold | 10/10 | 1.00 | 1.00 | 7/7 | 2/2 | <0.1 s | 0 |
+
+The pilot set is 10 hand-written development scenarios and one small model, so these numbers are preliminary.
+Both PlanB failures are request-parsing errors made by the 3B model, which `planb_gold` isolates. The
+baselines never produced a cost.
+
 ## Repository layout
 
 ```
