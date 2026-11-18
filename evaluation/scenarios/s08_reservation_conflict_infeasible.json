@@ -1,0 +1,23 @@
+{
+ "scenario_id": "s08_reservation_conflict_infeasible",
+ "category": "reservation_change",
+ "description": "teamLab 入场被商家改到 18:00（不可再改），与锁定的 18:30 寿司晚餐冲突 → 无解，需用户决定",
+ "user_request": "teamLab 通知我12月11日的入场时间被改到了晚上18:00，而且不能再改。但我18:30在银座订了寿司，这个不能动。帮我看看怎么办。",
+ "gold_event": {
+  "event_type": "reservation_change",
+  "parameters": {
+   "booking_id": "att-teamlab",
+   "new_start": "2026-12-11T18:00:00+09:00"
+  }
+ },
+ "ground_truth": {
+  "expected_status": "infeasible",
+  "affected_booking_ids": [],
+  "expected_cost_minor": null,
+  "cost_unknown": false,
+  "must_keep": [],
+  "must_change": []
+ },
+ "split": "pilot",
+ "overrides": {}
+}

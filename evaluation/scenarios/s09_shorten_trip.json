@@ -1,0 +1,39 @@
+{
+ "scenario_id": "s09_shorten_trip",
+ "category": "trip_shortening",
+ "description": "提前一天回国（12/11 23:00 红眼航班），酒店提前退房不退款",
+ "user_request": "家里有事，我需要提前一天回去，改成12月11日晚上的航班。",
+ "gold_event": {
+  "event_type": "trip_shortening",
+  "parameters": {
+   "new_end_date": "2026-12-11"
+  }
+ },
+ "ground_truth": {
+  "expected_status": "ok",
+  "affected_booking_ids": [
+   "flight-ret",
+   "hotel-1"
+  ],
+  "expected_cost_minor": 30000,
+  "cost_unknown": false,
+  "must_keep": [
+   "a1",
+   "a2",
+   "a3",
+   "a4",
+   "a5",
+   "a6",
+   "a7",
+   "a8"
+  ],
+  "must_change": [
+   "a9",
+   "a10",
+   "a11",
+   "a12"
+  ]
+ },
+ "split": "pilot",
+ "overrides": {}
+}

@@ -384,21 +384,7 @@ def replan(trip: Trip, event: DisruptionEvent, world: World, bookings: list[Book
             if best_failure is None or len(res.hard_violations) < len(best_failure.hard_violations):
                 best_failure = res
             continue
-        impacts = analyze_booking_impact(trip, state, bookings, world, ctx)
-        cost = estimate_cost(impacts, bookings, world, state.end_date)
-        changes = diff_trips(trip, state, world, reasons)
-        disruption = _disruption(trip, state, world, ctx)
-        score = {
-            "disruption": disruption,
-            "cost_known": cost.is_complete,
-            "known_additional_minor": cost.known_additional_minor,
-            "travel_minutes": _travel_minutes(state, world),
-            "preference": _pref(state, world),
-            "n_changes": sum(1 for c in changes if c.change_type != "keep"),
-        }
-        proposals.append(PlanProposal(trip_id=trip.trip_id, base_revision=trip.revision, label=label,
-                                      event=event, proposed_trip=state, changes=changes, validation=res,
-                                      booking_impacts=impacts, cost_estimate=cost, score=score))
+        proposals.append(build_proposal(trip, state, world, bookings, ctx, event, label, reasons, res))
 
     if not proposals:
         reasons = [v.message for v in (best_failure.hard_violations if best_failure else [])]
@@ -423,6 +409,28 @@ def replan(trip: Trip, event: DisruptionEvent, world: World, bookings: list[Book
         if not p.label:
             p.label = labels[min(i, 2)]
     return ReplanResult(status="ok", event=event, affected_activity_ids=affected, proposals=unique[:max_proposals])
+
+
+def build_proposal(original: Trip, candidate: Trip, world: World, bookings: list[Booking],
+                   ctx: EventContext | None = None, event: DisruptionEvent | None = None, label: str = "",
+                   reasons: dict[str, str] | None = None, validation=None) -> PlanProposal:
+    """Validate + booking impact + cost + diff for any candidate (AI-generated or manual edit)."""
+    ctx = ctx or EventContext()
+    res = validation or validate(candidate, world, ctx, original)
+    impacts = analyze_booking_impact(original, candidate, bookings, world, ctx)
+    cost = estimate_cost(impacts, bookings, world, candidate.end_date)
+    changes = diff_trips(original, candidate, world, reasons)
+    score = {
+        "disruption": _disruption(original, candidate, world, ctx),
+        "cost_known": cost.is_complete,
+        "known_additional_minor": cost.known_additional_minor,
+        "travel_minutes": _travel_minutes(candidate, world),
+        "preference": _pref(candidate, world),
+        "n_changes": sum(1 for c in changes if c.change_type != "keep"),
+    }
+    return PlanProposal(trip_id=original.trip_id, base_revision=original.revision, label=label, event=event,
+                        proposed_trip=candidate, changes=changes, validation=res, booking_impacts=impacts,
+                        cost_estimate=cost, score=score)
 
 
 def _fill_new_time(state: Trip, original: Trip, world: World, ctx: EventContext) -> Optional[Trip]:

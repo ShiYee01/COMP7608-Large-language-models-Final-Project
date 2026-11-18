@@ -1,0 +1,40 @@
+{
+ "scenario_id": "s06_teamlab_closed_refund",
+ "category": "place_closed",
+ "description": "teamLab 12/11 闭馆；门票规则：场馆原因全额退款 ¥180",
+ "user_request": "teamLab Planets 通知12月11日全天闭馆，我的行程和门票怎么办？",
+ "gold_event": {
+  "event_type": "place_closed",
+  "affected_place_ids": [
+   "teamlab_planets"
+  ],
+  "affected_start": "2026-12-11T00:00:00+09:00",
+  "affected_end": "2026-12-12T00:00:00+09:00"
+ },
+ "ground_truth": {
+  "expected_status": "ok",
+  "affected_booking_ids": [
+   "att-teamlab"
+  ],
+  "expected_cost_minor": -18000,
+  "cost_unknown": false,
+  "must_keep": [
+   "a1",
+   "a2",
+   "a3",
+   "a4",
+   "a5",
+   "a6",
+   "a8",
+   "a9",
+   "a10",
+   "a11",
+   "a12"
+  ],
+  "must_change": [
+   "a7"
+  ]
+ },
+ "split": "pilot",
+ "overrides": {}
+}
