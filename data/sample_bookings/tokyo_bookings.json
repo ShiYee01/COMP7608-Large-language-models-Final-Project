@@ -1,0 +1,134 @@
+[
+ {
+  "booking_id": "flight-out",
+  "booking_type": "flight",
+  "title": "去程航班 上海→东京羽田",
+  "provider_name": "Demo Air",
+  "place_id": "haneda_airport",
+  "service_start": "2026-12-10T08:00:00+09:00",
+  "service_end": "2026-12-10T11:30:00+09:00",
+  "paid_minor": 180000,
+  "linked_activity_ids": [
+   "a1"
+  ],
+  "policy": {
+   "change_allowed": true,
+   "cancel_allowed": false,
+   "change_fee_minor": 20000,
+   "negative_fare_difference_refunded": false,
+   "conditions": "改签收手续费 ¥200 + 票价差；差价为负不退"
+  },
+  "quotes": []
+ },
+ {
+  "booking_id": "flight-ret",
+  "booking_type": "flight",
+  "title": "返程航班 东京羽田→上海",
+  "provider_name": "Demo Air",
+  "place_id": "haneda_airport",
+  "service_start": "2026-12-12T18:00:00+09:00",
+  "service_end": "2026-12-12T20:30:00+09:00",
+  "paid_minor": 180000,
+  "linked_activity_ids": [
+   "a12"
+  ],
+  "policy": {
+   "change_allowed": true,
+   "cancel_allowed": false,
+   "change_fee_minor": 20000,
+   "negative_fare_difference_refunded": false,
+   "conditions": "改签收手续费 ¥200 + 票价差；差价为负不退"
+  },
+  "quotes": [
+   {
+    "quote_id": "q-flight-1213",
+    "action": "change_date",
+    "target_start": "2026-12-13T18:00:00+09:00",
+    "target_end": "2026-12-13T20:30:00+09:00",
+    "amount_minor": 35000,
+    "available": true,
+    "notes": "改到 12/13 18:00 同航线，票价差 ¥350（模拟报价）"
+   },
+   {
+    "quote_id": "q-flight-1211",
+    "action": "change_date",
+    "target_start": "2026-12-11T23:00:00+09:00",
+    "target_end": "2026-12-12T01:30:00+09:00",
+    "amount_minor": 10000,
+    "available": true,
+    "notes": "改到 12/11 23:00 红眼航班，票价差 ¥100（模拟报价）"
+   }
+  ]
+ },
+ {
+  "booking_id": "hotel-1",
+  "booking_type": "hotel",
+  "title": "新宿演示酒店 12/10 入住 - 12/12 退房（2 晚）",
+  "provider_name": "PlanB Demo Hotel",
+  "place_id": "hotel_shinjuku",
+  "service_start": "2026-12-10T15:00:00+09:00",
+  "service_end": "2026-12-12T11:00:00+09:00",
+  "paid_minor": 120000,
+  "linked_activity_ids": [],
+  "policy": {
+   "change_allowed": true,
+   "cancel_allowed": false,
+   "early_checkout_refund_minor": 0,
+   "conditions": "提前退房不退款；续住按报价"
+  },
+  "quotes": [
+   {
+    "quote_id": "q-hotel-ext-1212",
+    "action": "extend_stay",
+    "target_start": "2026-12-12T15:00:00+09:00",
+    "target_end": "2026-12-13T11:00:00+09:00",
+    "amount_minor": 60000,
+    "available": true,
+    "notes": "续住 12/12 一晚 ¥600（模拟报价，假设可续住）"
+   }
+  ]
+ },
+ {
+  "booking_id": "att-teamlab",
+  "booking_type": "attraction",
+  "title": "teamLab Planets 门票 12/11 14:00-14:30 入场",
+  "provider_name": "teamLab (demo)",
+  "place_id": "teamlab_planets",
+  "service_start": "2026-12-11T14:00:00+09:00",
+  "service_end": "2026-12-11T14:30:00+09:00",
+  "paid_minor": 18000,
+  "linked_activity_ids": [
+   "a7"
+  ],
+  "policy": {
+   "change_allowed": false,
+   "cancel_allowed": false,
+   "refund_on_cancel_minor": 0,
+   "provider_cancellation_refund_minor": 18000,
+   "conditions": "个人原因不可改不可退；场馆原因关闭全额退款"
+  },
+  "quotes": []
+ },
+ {
+  "booking_id": "rest-sushi",
+  "booking_type": "restaurant",
+  "title": "银座寿司 12/11 18:30 订位（定金 ¥300）",
+  "provider_name": "Ginza Sushi (demo)",
+  "place_id": "sushi_ginza",
+  "service_start": "2026-12-11T18:30:00+09:00",
+  "service_end": "2026-12-11T20:00:00+09:00",
+  "paid_minor": 30000,
+  "linked_activity_ids": [
+   "a8"
+  ],
+  "policy": {
+   "change_allowed": false,
+   "cancel_allowed": true,
+   "refund_on_cancel_minor": 0,
+   "provider_cancellation_refund_minor": 30000,
+   "free_cancel_deadline": "2026-12-10T18:30:00+09:00",
+   "conditions": "提前 24 小时取消退定金，否则定金不退"
+  },
+  "quotes": []
+ }
+]
