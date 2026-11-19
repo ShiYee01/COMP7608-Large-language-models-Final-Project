@@ -27,12 +27,12 @@ TAG_LABELS = {
     "photography": "拍照", "city_view": "城市景观",
 }
 TAG_KEYWORDS = {
-    "quiet": ["安静", "清静", "人少", "不要太吵", "quiet", "peaceful"],
+    "quiet": ["安静", "清静", "人少", "人不多", "不要太吵", "quiet", "peaceful"],
     "lively": ["热闹", "lively", "busy"],
     "anime": ["二次元", "动漫", "动画", "漫画", "宅", "anime", "manga"],
     "nature": ["自然", "公园", "花园", "庭园", "nature", "garden"],
     "culture": ["文化", "寺", "神社", "culture", "temple", "shrine"],
-    "history": ["历史", "古迹", "history", "historic"],
+    "history": ["历史", "古迹", "古老", "history", "historic"],
     "art": ["艺术", "美术", "展览", "art", "museum"],
     "science": ["科学", "科技", "science"],
     "shopping": ["购物", "买东西", "逛街", "shopping"],
@@ -114,7 +114,9 @@ class TripRequest(BaseModel):
 SYSTEM_PROMPT = """You are the trip-setup module of PlanB, a travel copilot for Tokyo.
 Read the traveller's message and extract ONE JSON object describing their request. Do NOT plan the trip.
 Use only place ids from the catalogue in the context. If the traveller names a place that is not in the
-catalogue, put its name in "unknown_places" - never map it to a different place. Bookings are whatever the
+catalogue, put its name in "unknown_places" - never map it to a different place, and do not add a related
+catalogue place instead (e.g. for "a cafe at Tokyo Tower" do not add Tokyo Tower unless the traveller also asks
+for Tokyo Tower itself). Bookings are whatever the
 traveller says they have already booked; do not invent prices, fees or times: use null when not stated.
 Dates: ISO format; infer the year from "today" in the context (the trip is in the future).
 Datetimes: ISO 8601 with +09:00.

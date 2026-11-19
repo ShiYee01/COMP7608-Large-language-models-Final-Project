@@ -69,6 +69,13 @@ def validate(
 
     # --- per-activity checks -------------------------------------------------
     for a in acts:
+        if a.category == "free_time":
+            # Free slots (e.g. "lunch, eat nearby") are not tied to a venue: no opening hours or weather
+            # checks; they still count for overlaps, and travel is checked between the real activities.
+            if a.end_at <= a.start_at:
+                hard.append(Violation(rule="TIME_ORDER", activity_ids=[a.activity_id],
+                                      message=f"{a.title}: 结束时间不晚于开始时间"))
+            continue
         place = world.place(a.place_id)
         if place is None:
             hard.append(Violation(rule="UNKNOWN_PLACE", activity_ids=[a.activity_id], place_id=a.place_id,
@@ -129,13 +136,17 @@ def validate(
                                   message=f"{a.title} 与 {b.title} 时间重叠"))
 
     # --- travel time between consecutive activities on the same day -------------
-    for a, b in zip(acts, acts[1:]):
+    # Free slots ("eat nearby") take time but no travel: the time they occupy is subtracted from the gap.
+    real = [a for a in acts if a.category != "free_time"]
+    for a, b in zip(real, real[1:]):
         if world.local(a.start_at).date() != world.local(b.start_at).date():
             continue
         if world.place(a.place_id) is None or world.place(b.place_id) is None:
             continue
         minutes = world.travel_minutes(a.place_id, b.place_id)
-        gap = (b.start_at - a.end_at).total_seconds() / 60
+        busy = sum((min(f.end_at, b.start_at) - max(f.start_at, a.end_at)).total_seconds() / 60
+                   for f in acts if f.category == "free_time" and f.start_at < b.start_at and f.end_at > a.end_at)
+        gap = (b.start_at - a.end_at).total_seconds() / 60 - busy
         if minutes is None:
             unknown.append(Violation(rule="TRAVEL_TIME", activity_ids=[a.activity_id, b.activity_id],
                                      message=f"{a.title} → {b.title}: 缺少交通时间数据"))

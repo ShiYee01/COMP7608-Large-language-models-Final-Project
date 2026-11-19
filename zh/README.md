@@ -45,7 +45,7 @@
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 38 个单元测试，不需要 LLM
+python -m pytest -q                      # 46 个单元测试，不需要 LLM
 streamlit run app/streamlit_app.py       # 演示界面（没有 API key 也能用：mock 模式）
 python evaluation/run_eval.py --mock     # 评测流程测试（mock，不是真实结果）
 ```
@@ -78,7 +78,9 @@ python evaluation/run_eval.py --run-name my-model
 | 应用使用的扩展地点库：47 个地点，含二次元、安静等标签（评测仍使用 24 个地点的基础库） | `data/*_extended.json` | ✅ 模拟数据 |
 | Streamlit 演示：时间轴、地图、手动编辑、事件预设、聊天、差异对比、订单影响、费用明细、批准/拒绝、历史 | `app/streamlit_app.py` | ✅ |
 | 基线 A（直接问 LLM）和基线 B（加约束提示的 LLM）、评测指标、10 个试点场景 | `evaluation/` | ✅ |
-| 聊天中“不想去 X 了”+ 按喜好推荐；对话式新建行程的评测 | — | 下一步 |
+| 聊天修改：“不想去 X 了”（给 2 个替换方案 + 留空）、“推荐一个二次元的地方”（放进空闲时间，没空就替换 PlanB 自己推荐的项目）、“12号午饭去筑地”（地点库外的餐厅按所说区域估算交通，不说区域则为未知）、不安排某顿饭、“我更喜欢安静的地方”（会被记住） | `planb/edits.py` | ✅ 新功能，尚未评测 |
+| 每天自动留出午餐、晚餐时间（“附近自由用餐”）；已订的餐厅会替换它 | `planb/planner.py` | ✅ |
+| 对话式新建行程和聊天修改的评测 | — | 下一步 |
 | 40 个场景的测试集、消融实验、React 前端 | — | 计划中 |
 
 ## 评测

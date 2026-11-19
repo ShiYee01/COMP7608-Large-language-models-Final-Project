@@ -27,7 +27,7 @@ request ─► LLM parser ─► DisruptionEvent ─► impact analysis ─► l
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 38 unit tests, no LLM needed
+python -m pytest -q                      # 46 unit tests, no LLM needed
 streamlit run app/streamlit_app.py       # demo UI (works without an API key: mock mode)
 python evaluation/run_eval.py --mock     # evaluation pipeline test (mock, NOT real results)
 ```
@@ -60,7 +60,9 @@ Results go to `evaluation/results/<run-name>/` (`summary.md`, `summary.csv`, `pe
 | Extended place catalogue for the app: 47 places incl. anime / quiet tags (the evaluation keeps the 24-place base catalogue) | `data/*_extended.json` | ✅ simulated |
 | Streamlit demo: timeline, map, manual edits, event presets, chat, diff, booking impact, cost breakdown, approve/reject, history | `app/streamlit_app.py` | ✅ |
 | Baselines A (direct LLM) and B (constraint-prompted LLM), metrics, 10 pilot scenarios | `evaluation/` | ✅ |
-| "I don't want to go to X" + preference-based recommendations in chat; evaluation of trip setup | — | next |
+| Chat edits: "I don't want to go to X" (2 replacements + keep free), "recommend an anime place" (fits a free slot, or swaps one of PlanB's own suggestions), "lunch on the 12th at Tsukiji" (restaurants outside the catalogue: travel estimated from the stated area, or unknown), skip a meal, "I prefer quiet places" (remembered) | `planb/edits.py` | ✅ new, not yet evaluated |
+| Free lunch and dinner slots every day ("eat nearby"); booked meals replace them | `planb/planner.py` | ✅ |
+| Evaluation of trip setup and chat edits | — | next |
 | 40-scenario test set, ablations, React front end | — | planned |
 
 ## Evaluation

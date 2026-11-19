@@ -32,6 +32,15 @@ PRESETS = {
     "🏠 提前一天回国": "家里有事，我需要提前一天回去，改成12月11日晚上的航班。",
     "⛔ 预约冲突（无解）": "teamLab 通知我12月11日的入场时间被改到了晚上18:00，而且不能再改。但我18:30在银座订了寿司，这个不能动。",
 }
+# Itinerary edits (work best on a trip created in the "新建行程（对话）" tab)
+EDIT_PRESETS = {
+    "🙅 不想去浅草寺了": "我不想去浅草寺了，我更喜欢有历史感的地方。",
+    "✨ 推荐二次元的地方": "推荐一个二次元的地方加到12号。",
+    "🍣 12号午饭去筑地": "12号午饭我想去筑地吃。",
+    "🍤 11号晚饭：浅草天妇罗": "11号晚饭去浅草那家天妇罗店。",
+    "🍜 12号不用安排午饭": "12号午饭不用安排了。",
+    "💚 更新喜好：安静": "我更喜欢安静一点的地方。",
+}
 CHANGE_LABEL = {"keep": "保留", "shift": "调整时间", "replace": "替换", "remove": "删除", "add": "新增", "extend": "随行程延长"}
 IMPACT_LABEL = {"unaffected": "不受影响", "change_required": "需要变更", "potentially_affected": "可能受影响",
                 "unknown": "未知"}
@@ -104,8 +113,8 @@ def day_table(trip, highlight: dict[str, str] | None = None) -> dict:
             "时间": f"{world.local(a.start_at):%H:%M}–{world.local(a.end_at):%H:%M}",
             "活动": a.title,
             "说明": a.notes,
-            "地点": p.name if p else f"❓{a.place_id}",
-            "室内": "室内" if p and p.indoor else "户外",
+            "地点": "附近（自由安排）" if a.category == "free_time" else (p.name if p else f"❓{a.place_id}"),
+            "室内": "" if a.category == "free_time" else ("室内" if p and p.indoor else "户外"),
             "锁定": "🔒" if a.is_locked else "",
             "预估门票": yuan(a.estimated_cost_minor) if a.category in ("visit", "meal") else "",
             **({"变化": highlight.get(a.activity_id, "")} if highlight is not None else {}),
@@ -122,7 +131,8 @@ with tab_trip:
             st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
     with right:
         pts = [{"lat": world.place(a.place_id).latitude, "lon": world.place(a.place_id).longitude}
-               for a in store.trip.activities if world.place(a.place_id)]
+               for a in store.trip.activities if world.place(a.place_id) and a.category != "free_time"
+               and (world.place(a.place_id).latitude, world.place(a.place_id).longitude) != (0.0, 0.0)]
         st.subheader("地图")
         st.map(pd.DataFrame(pts), size=60)
 
@@ -185,12 +195,19 @@ with tab_trip:
 # Copilot
 # ---------------------------------------------------------------------------
 with tab_ai:
-    st.caption("用自然语言描述变化，或点击模拟事件。PlanB 只会生成候选方案，需要你确认后才会修改行程。")
+    st.caption("用自然语言描述变化或修改（例如「不想去X了」「12号午饭去筑地」「推荐一个安静的地方」），或点击下面的例子。"
+               "PlanB 只会生成候选方案，需要你确认后才会修改行程。")
+    st.markdown("**突发事件**")
     cols = st.columns(4)
     for i, (label, text) in enumerate(PRESETS.items()):
         if cols[i % 4].button(label, use_container_width=True):
             run_agent(text)
-    prompt = st.chat_input("例如：我想在东京多待一天，12月13日再回来")
+    st.markdown("**行程修改与推荐**（适合在「新建行程（对话）」生成的行程上使用）")
+    cols = st.columns(3)
+    for i, (label, text) in enumerate(EDIT_PRESETS.items()):
+        if cols[i % 3].button(label, use_container_width=True):
+            run_agent(text)
+    prompt = st.chat_input("例如：我想多待一天，12月13日再回来 / 我不想去浅草寺了 / 12号午饭去筑地吃")
     if prompt:
         run_agent(prompt)
     for turn in reversed(st.session_state.turns[-6:]):
@@ -198,6 +215,7 @@ with tab_ai:
             st.write(turn.user_text)
         with st.chat_message("assistant", avatar="🧭"):
             badge = {"WAITING_FOR_APPROVAL": "✅ 已生成候选方案，等待你确认", "INFEASIBLE": "⛔ 无法在硬约束内完成",
+                     "PREFERENCES_UPDATED": "💚 已更新你的喜好",
                      "NEEDS_INFORMATION": "❔ 需要更多信息"}.get(turn.state, turn.state)
             st.markdown(f"**{badge}**")
             st.markdown(turn.message)
@@ -360,7 +378,7 @@ with tab_new:
         if c2.button("✅ 确认并生成行程", type="primary", disabled=bool(missing)):
             plan = plan_trip(world, req)
             st.session_state.store = TripStore(plan.trip, plan.bookings, world)
-            st.session_state.agent = PlanBAgent(st.session_state.store, st.session_state.llm)
+            st.session_state.agent = PlanBAgent(st.session_state.store, st.session_state.llm, avoided=set(req.avoid))
             st.session_state.turns = []
             st.session_state.trip_request = None
             status = ("✅ 已知硬约束全部通过" if plan.validation.feasibility_status == "valid"
