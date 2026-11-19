@@ -1,0 +1,38 @@
+{
+ "scenario_id": "s05_museum_closed",
+ "category": "place_closed",
+ "description": "东京国立博物馆 12/12 临时闭馆，无关联订单",
+ "user_request": "东京国立博物馆12月12日临时闭馆，帮我换个安排。",
+ "gold_event": {
+  "event_type": "place_closed",
+  "affected_place_ids": [
+   "tokyo_national_museum"
+  ],
+  "affected_start": "2026-12-12T00:00:00+09:00",
+  "affected_end": "2026-12-13T00:00:00+09:00"
+ },
+ "ground_truth": {
+  "expected_status": "ok",
+  "affected_booking_ids": [],
+  "expected_cost_minor": 0,
+  "cost_unknown": false,
+  "must_keep": [
+   "a1",
+   "a2",
+   "a3",
+   "a4",
+   "a5",
+   "a6",
+   "a7",
+   "a8",
+   "a9",
+   "a11",
+   "a12"
+  ],
+  "must_change": [
+   "a10"
+  ]
+ },
+ "split": "pilot",
+ "overrides": {}
+}

@@ -1,0 +1,33 @@
+{
+ "scenario_id": "s07_morning_transport_delay",
+ "category": "transport_delay",
+ "description": "12/11 早上地铁延误到 10:30，连锁影响上午安排；teamLab 入场窗 14:00-14:30",
+ "user_request": "12月11日早上地铁大面积延误，我10点半之前都到不了任何景点。",
+ "gold_event": {
+  "event_type": "transport_delay",
+  "affected_start": "2026-12-11T08:00:00+09:00",
+  "affected_end": "2026-12-11T10:30:00+09:00"
+ },
+ "ground_truth": {
+  "expected_status": "ok",
+  "affected_booking_ids": [],
+  "expected_cost_minor": 0,
+  "cost_unknown": false,
+  "must_keep": [
+   "a1",
+   "a2",
+   "a3",
+   "a4",
+   "a8",
+   "a9",
+   "a10",
+   "a11",
+   "a12"
+  ],
+  "must_change": [
+   "a5"
+  ]
+ },
+ "split": "pilot",
+ "overrides": {}
+}

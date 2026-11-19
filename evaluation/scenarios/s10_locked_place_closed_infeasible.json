@@ -1,0 +1,30 @@
+{
+ "scenario_id": "s10_locked_place_closed_infeasible",
+ "category": "place_closed",
+ "description": "用户锁定的浅草寺 12/10 全天不开放 → 无法在保留锁定的前提下修复",
+ "user_request": "浅草寺12月10日全天不对外开放。浅草寺这个时间段我已经锁定了，不允许改时间或删除。",
+ "overrides": {
+  "activities": {
+   "a2": {
+    "is_locked": true
+   }
+  }
+ },
+ "gold_event": {
+  "event_type": "place_closed",
+  "affected_place_ids": [
+   "senso_ji"
+  ],
+  "affected_start": "2026-12-10T00:00:00+09:00",
+  "affected_end": "2026-12-11T00:00:00+09:00"
+ },
+ "ground_truth": {
+  "expected_status": "infeasible",
+  "affected_booking_ids": [],
+  "expected_cost_minor": null,
+  "cost_unknown": false,
+  "must_keep": [],
+  "must_change": []
+ },
+ "split": "pilot"
+}

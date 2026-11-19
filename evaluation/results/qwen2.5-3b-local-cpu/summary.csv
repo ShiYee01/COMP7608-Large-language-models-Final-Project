@@ -1,0 +1,5 @@
+method,cases,task_success,json_valid,status_accuracy,feasibility_rate(ok cases),avg_hard_violations,plan_preservation,booking_f1,cost_exact_match(known),unknown_cost_handled,infeasible_detected,unsafe_plan_refused,avg_latency_s,avg_tokens,avg_llm_calls
+direct,10,0.2,1.0,0.7,0.25,3.6666666666666665,0.6295,0.25012500000000004,0.0,1.0,0.5,1.0,462.20200000000006,10092.7,1.0
+structured,10,0.1,1.0,0.7,0.25,1.8571428571428572,0.8511249999999999,0.25012500000000004,0.0,1.0,0.0,0.5,480.0876,10519.8,1.0
+planb,10,0.8,1.0,0.9,0.75,0.14285714285714285,0.875,0.875,0.8571428571428571,1.0,1.0,1.0,44.5462,2210.8,1.0
+planb_gold,10,1.0,1.0,1.0,1.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,0.007299999999999999,0.0,0.0

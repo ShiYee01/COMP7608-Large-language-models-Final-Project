@@ -1,0 +1,39 @@
+{
+ "scenario_id": "s01_extend_known_cost",
+ "category": "trip_extension",
+ "description": "Story D：延长一天，机票改签费/差价与续住报价都已知",
+ "user_request": "我想在东京多待一天，12月13日再回来，之前安排好的景点尽量不要改。",
+ "gold_event": {
+  "event_type": "trip_extension",
+  "parameters": {
+   "new_end_date": "2026-12-13"
+  }
+ },
+ "ground_truth": {
+  "expected_status": "ok",
+  "affected_booking_ids": [
+   "flight-ret",
+   "hotel-1"
+  ],
+  "expected_cost_minor": 115000,
+  "cost_unknown": false,
+  "must_keep": [
+   "a1",
+   "a2",
+   "a3",
+   "a4",
+   "a5",
+   "a6",
+   "a7",
+   "a8",
+   "a9",
+   "a10",
+   "a11"
+  ],
+  "must_change": [
+   "a12"
+  ]
+ },
+ "split": "pilot",
+ "overrides": {}
+}

@@ -1,0 +1,35 @@
+{
+ "scenario_id": "s03_rain_day2_morning",
+ "category": "weather_change",
+ "description": "12/11 上午暴雨，明治神宫与竹下通为户外",
+ "user_request": "天气预报说12月11日上午8点到下午1点有暴雨，帮我调整一下行程。",
+ "gold_event": {
+  "event_type": "weather_change",
+  "affected_start": "2026-12-11T08:00:00+09:00",
+  "affected_end": "2026-12-11T13:00:00+09:00"
+ },
+ "ground_truth": {
+  "expected_status": "ok",
+  "affected_booking_ids": [],
+  "expected_cost_minor": 0,
+  "cost_unknown": false,
+  "must_keep": [
+   "a1",
+   "a2",
+   "a3",
+   "a4",
+   "a7",
+   "a8",
+   "a9",
+   "a10",
+   "a11",
+   "a12"
+  ],
+  "must_change": [
+   "a5",
+   "a6"
+  ]
+ },
+ "split": "pilot",
+ "overrides": {}
+}
