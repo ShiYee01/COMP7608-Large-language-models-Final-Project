@@ -147,8 +147,12 @@ class TripPlan:
     validation: ValidationResult
 
 
-DAY_START, DAY_END = time(9, 0), time(19, 0)
+DAY_START, DAY_END = time(9, 0), time(19, 30)
 FLIGHT_CATEGORIES = ("flight_arrival", "flight_departure")
+# (title, earliest start, latest end, minutes, preferred start)
+MEALS = [("午餐", time(11, 30), time(13, 30), 60, time(12, 0)),
+         ("晚餐", time(17, 30), time(20, 0), 90, time(18, 0))]
+MEAL_NOTE = "附近自由用餐"
 
 
 def _minor(cny: Optional[float]) -> Optional[int]:
@@ -178,12 +182,58 @@ def _gaps(world: World, d: date, acts: list[Activity], hotel: str):
     cursor, gaps = ws, []
     for a in fixed:
         gap_end = min(a.start_at, we)
+        free = a.category == "free_time"  # a meal slot "nearby": no travel to it, keep the previous place
         if gap_end > cursor:
-            gaps.append((cursor, gap_end, prev, a.place_id))
-        cursor, prev = max(cursor, a.end_at), a.place_id
+            gaps.append((cursor, gap_end, prev, None if free else a.place_id))
+        cursor = max(cursor, a.end_at)
+        if not free:
+            prev = a.place_id
     if we > cursor:
         gaps.append((cursor, we, prev, end_place))
     return gaps
+
+
+def add_meal_slots(world: World, days: list[date], acts: list[Activity], hotel: str) -> list[Activity]:
+    """Reserve a free lunch and dinner slot per day, unless a booked meal or the flights leave no room."""
+    tz, added = world.tz, []
+    for d in days:
+        day_acts = [a for a in acts + added if world.local(a.start_at).date() == d]
+        lo_bound = max([a.end_at for a in day_acts if a.category == "flight_arrival"],
+                       default=datetime.combine(d, time(0), tzinfo=tz))
+        hi_bound = min([a.start_at for a in day_acts if a.category == "flight_departure"],
+                       default=datetime.combine(d, time(23, 59), tzinfo=tz))
+        for title, lo, hi, minutes, pref in MEALS:
+            wlo, whi = datetime.combine(d, lo, tzinfo=tz), datetime.combine(d, hi, tzinfo=tz)
+            if any(a.category == "meal" and a.start_at < whi and a.end_at > wlo for a in day_acts):
+                continue  # the traveller already booked a meal in this window
+            p = datetime.combine(d, pref, tzinfo=tz)
+            starts = [wlo + timedelta(minutes=15 * i) for i in range(int((whi - wlo).total_seconds() // 900) + 1)]
+            for start in sorted(starts, key=lambda x: abs((x - p).total_seconds())):
+                end = start + timedelta(minutes=minutes)
+                if start < lo_bound or end > hi_bound or end > whi:
+                    continue
+                if any(a.start_at < end and a.end_at > start for a in day_acts):
+                    continue
+                meal = Activity(activity_id=new_id("act"), place_id=hotel, title=f"{title}（自由安排）",
+                                start_at=start, end_at=end, category="free_time", notes=MEAL_NOTE)
+                added.append(meal)
+                day_acts.append(meal)
+                break
+    return added
+
+
+def place_meal_slots(world: World, trip: Trip) -> None:
+    """Label each free meal slot with the place it follows (shown as 'nearby'; it adds no travel)."""
+    by_day: dict = {}
+    for a in trip.sorted_activities():
+        by_day.setdefault(world.local(a.start_at).date(), []).append(a)
+    for d, items in by_day.items():
+        last = trip.hotel_place_id
+        for a in items:
+            if a.category == "free_time":
+                a.place_id = last or a.place_id
+            else:
+                last = a.place_id
 
 
 def _fit(world: World, ctx: EventContext, place_id: str, gap) -> Optional[tuple[datetime, datetime, int]]:
@@ -279,6 +329,7 @@ def plan_trip(world: World, req: "TripRequest") -> TripPlan:
 
     ctx = EventContext()
     days = [req.start_date + timedelta(days=i) for i in range((req.end_date - req.start_date).days + 1)]
+    acts += add_meal_slots(world, days, acts, hotel)
     cap = PACE_VISITS[prefs.pace]
     count = {d: sum(1 for a in acts if a.category == "visit" and world.local(a.start_at).date() == d) for d in days}
 
@@ -304,21 +355,26 @@ def plan_trip(world: World, req: "TripRequest") -> TripPlan:
         count[d] += 1
         placed_must += 1
 
-    used = {a.place_id for a in acts} | set(req.avoid)
+    used = {a.place_id for a in acts if a.category != "free_time"} | set(req.avoid)
     recommended = 0
     for d in days:
-        for gap in _gaps(world, d, acts, hotel):
-            remaining = cap - count[d]
-            if remaining <= 0:
+        cursor = None  # fill in time order, recomputing gaps so travel always starts from the real previous stop
+        while cap - count[d] > 0:
+            gaps = [g for g in _gaps(world, d, acts, hotel) if cursor is None or g[0] >= cursor]
+            if not gaps:
                 break
-            added = fill_window(trip, world, ctx, gap[0], gap[1], gap[2], gap[3], remaining, used)
+            gap = gaps[0]
+            added = fill_window(trip, world, ctx, gap[0], gap[1], gap[2], gap[3], cap - count[d], used)
             acts += added
             count[d] += len(added)
             recommended += len(added)
+            cursor = gap[1]
 
     trip.activities = sorted(acts, key=lambda a: a.start_at)
+    place_meal_slots(world, trip)
     validation = validate(trip, world)
     n_booked = sum(1 for b in bookings if b.linked_activity_ids)
+    n_meals = sum(1 for a in acts if a.category == "free_time")
     report.insert(0, f"共安排 {sum(count.values())} 个景点：你想去的 {placed_must} 个，按喜好推荐的 {recommended} 个；"
-                     f"已预订的 {n_booked} 项已锁定")
+                     f"已预订的 {n_booked} 项已锁定；留了 {n_meals} 段用餐时间（自由安排）")
     return TripPlan(trip=trip, bookings=bookings, report=report, validation=validation)

@@ -103,9 +103,31 @@ def _amounts(text: str) -> set[str]:
 
 
 class PlanBAgent:
-    def __init__(self, store: TripStore, llm: LLMClient):
+    def __init__(self, store: TripStore, llm: LLMClient, avoided: set[str] | None = None):
         self.store = store
         self.llm = llm
+        self.avoided: set[str] = set(avoided or ())  # places the traveller said they do not want
+
+    def handle_edit(self, text: str, kind: str, turn: "AgentTurn") -> "AgentTurn":
+        """Itinerary edits (remove / recommend / meals / preferences): code builds every candidate."""
+        from .edits import apply_edit, extract_edit
+
+        trip, bookings, world = self.store.trip, self.store.bookings, self.store.world
+        t0 = time.perf_counter()
+        req, method = extract_edit(text, kind, trip, world, self.llm, turn.usage)
+        turn.parse_method = method
+        turn.steps.append(AgentStep("UNDERSTANDING_REQUEST", f"行程修改：{req.kind}（解析方式: {method}）",
+                                    "extract_edit", (time.perf_counter() - t0) * 1000))
+        t0 = time.perf_counter()
+        outcome = apply_edit(req, trip, bookings, world, self.avoided)
+        turn.steps.append(AgentStep("GENERATING_CANDIDATES", f"{len(outcome.proposals)} 个候选（已验证、已计算费用）",
+                                    "edit_itinerary", (time.perf_counter() - t0) * 1000))
+        for p in outcome.proposals:
+            self.store.add_proposal(p)
+        turn.state = outcome.state
+        turn.steps.append(AgentStep(outcome.state))
+        turn.message = outcome.message
+        return turn
 
     def explain(self, p: PlanProposal, usage: LLMUsage | None = None) -> str:
         if self.llm.is_mock:
@@ -132,6 +154,11 @@ class PlanBAgent:
 
         t0 = time.perf_counter()
         if event is None:
+            from .edits import detect_edit
+
+            kind = detect_edit(text)
+            if kind:
+                return self.handle_edit(text, kind, turn)
             event, method = parse_request(text, trip, bookings, world, self.llm, turn.usage)
             turn.parse_method = method
         else:
