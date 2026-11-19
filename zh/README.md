@@ -12,6 +12,7 @@
 > | `zh/docs/decisions.md` | `docs/decisions.md` |
 > | `zh/docs/evaluation_protocol.md` | `docs/evaluation_protocol.md` |
 > | `zh/docs/presentation_outline.md` | `docs/presentation_outline.md` |
+> | `zh/docs/presentation_script.md` | 中文讲稿（逐页对应 slides 的演讲者备注，无英文原文） |
 > | `zh/evaluation/results/...` | `evaluation/results/...`（各次评测的说明和汇总表） |
 >
 > `PROJECT_CONTEXT.md` 原本就是中文，没有另做译本。
