@@ -55,7 +55,7 @@ The averages are taken over the cases each column applies to. See `summary.md` f
   - s01 ¥1,150;
   - s02 "unknown" (not 0);
   - s06 −¥180 (provider refund);
-  - s09 ¥300 (forfeited deposit).
+  - s09 ¥300 (¥200 change fee + ¥100 fare difference; the unused hotel night, ¥600, is reported separately as forfeited, not as new cash).
 - **Both failures are request-parsing errors by the 3B model.** `planb_gold` solves both cases:
   - **s03:** "上午8点到下午1点有暴雨" was parsed as 08:00–**12:00** instead of 13:00. The repair then left
     one activity in the 12:00–13:00 rain window (1 hard violation, judged with the gold event).
