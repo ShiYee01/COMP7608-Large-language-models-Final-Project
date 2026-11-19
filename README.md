@@ -27,7 +27,7 @@ request ─► LLM parser ─► DisruptionEvent ─► impact analysis ─► l
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 30 unit tests, no LLM needed
+python -m pytest -q                      # 38 unit tests, no LLM needed
 streamlit run app/streamlit_app.py       # demo UI (works without an API key: mock mode)
 python evaluation/run_eval.py --mock     # evaluation pipeline test (mock, NOT real results)
 ```
@@ -56,10 +56,12 @@ Results go to `evaluation/results/<run-name>/` (`summary.md`, `summary.csv`, `pe
 | Preview → Approve → Commit with revision check and history | `planb/store.py` | ✅ |
 | LLM adapter (OpenAI-compatible, cache, mock), request parser with schema validation + retry + rule fallback | `planb/llm.py`, `planb/parser.py` | ✅ |
 | Agent orchestrator with backend state machine and amount-guarded explanations | `planb/agent.py` | ✅ |
-| Initial itinerary generation (Story A, deterministic greedy) | `planb/planner.py` | ✅ basic |
+| Conversational trip setup: one paragraph (dates, must-see / avoid places, preferences such as "quiet" or "anime", bookings stated in words) → read-back → one-sentence corrections → daily plan with stated bookings locked | `planb/trip_request.py`, `planb/planner.py` (`plan_trip`) | ✅ new, not yet evaluated |
+| Extended place catalogue for the app: 47 places incl. anime / quiet tags (the evaluation keeps the 24-place base catalogue) | `data/*_extended.json` | ✅ simulated |
 | Streamlit demo: timeline, map, manual edits, event presets, chat, diff, booking impact, cost breakdown, approve/reject, history | `app/streamlit_app.py` | ✅ |
 | Baselines A (direct LLM) and B (constraint-prompted LLM), metrics, 10 pilot scenarios | `evaluation/` | ✅ |
-| 40-scenario test set, ablations, React front end, booking-text extraction | — | planned |
+| "I don't want to go to X" + preference-based recommendations in chat; evaluation of trip setup | — | next |
+| 40-scenario test set, ablations, React front end | — | planned |
 
 ## Evaluation
 

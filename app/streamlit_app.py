@@ -15,9 +15,10 @@ from planb.agent import PlanBAgent  # noqa: E402
 from planb.data import load_bookings, load_trip, load_world  # noqa: E402
 from planb.llm import LLMClient  # noqa: E402
 from planb.models import Activity, Budget, Preferences, new_id  # noqa: E402
-from planb.planner import generate_itinerary  # noqa: E402
+from planb.planner import generate_itinerary, plan_trip  # noqa: E402
 from planb.repair import build_proposal  # noqa: E402
 from planb.store import ApprovalError, TripStore  # noqa: E402
+from planb.trip_request import extract_trip_request, summarize  # noqa: E402
 
 st.set_page_config(page_title="PlanB — AI Travel Copilot", page_icon="🧭", layout="wide")
 
@@ -42,12 +43,13 @@ def yuan(minor) -> str:
 
 def init_state(reset: bool = False) -> None:
     if reset or "store" not in st.session_state:
-        world = load_world()
+        world = load_world(extended=True)  # base catalogue + extra places/tags (evaluation keeps the base one)
         st.session_state.store = TripStore(load_trip(), load_bookings(), world)
         st.session_state.llm = LLMClient()
         st.session_state.agent = PlanBAgent(st.session_state.store, st.session_state.llm)
         st.session_state.turns = []
         st.session_state.flash = None
+        st.session_state.trip_request = None
 
 
 init_state()
@@ -86,8 +88,8 @@ if st.session_state.flash:
     getattr(st, kind)(msg)
     st.session_state.flash = None
 
-tab_trip, tab_ai, tab_cmp, tab_book, tab_hist, tab_new = st.tabs(
-    ["🗓 行程", "🤖 Copilot / 突发事件", "📋 方案对比与审批", "🧾 订单", "🕘 历史", "🆕 新建行程"])
+tab_new, tab_trip, tab_ai, tab_cmp, tab_book, tab_hist = st.tabs(
+    ["🆕 新建行程（对话）", "🗓 行程", "🤖 Copilot / 突发事件", "📋 方案对比与审批", "🧾 订单", "🕘 历史"])
 
 
 # ---------------------------------------------------------------------------
@@ -101,6 +103,7 @@ def day_table(trip, highlight: dict[str, str] | None = None) -> dict:
         days.setdefault(d, []).append({
             "时间": f"{world.local(a.start_at):%H:%M}–{world.local(a.end_at):%H:%M}",
             "活动": a.title,
+            "说明": a.notes,
             "地点": p.name if p else f"❓{a.place_id}",
             "室内": "室内" if p and p.indoor else "户外",
             "锁定": "🔒" if a.is_locked else "",
@@ -321,27 +324,69 @@ with tab_hist:
 
 
 # ---------------------------------------------------------------------------
-# New trip (Story A)
+# New trip by conversation (Story A): one paragraph -> read-back -> plan
 # ---------------------------------------------------------------------------
+EXAMPLE_REQUEST = ("我12月10日到12日去东京玩，想去浅草寺和秋叶原，不想去涩谷十字路口。我喜欢安静的地方，也喜欢二次元，"
+                   "节奏轻松一点。我订了10号11:30到羽田的航班、12号18:00起飞的返程，酒店在新宿，"
+                   "11号下午2点有teamLab的门票。")
+
 with tab_new:
-    st.caption("根据偏好从本地东京地点库生成初始行程（确定性排程，保证可验证）。生成后会替换当前演示行程，且不含订单。")
-    c1, c2 = st.columns(2)
-    sd = c1.date_input("出发日期", date(2026, 12, 10))
-    ed = c2.date_input("返程日期", date(2026, 12, 12))
-    interests = st.multiselect("兴趣", ["photography", "nature", "culture", "art", "shopping", "anime", "food",
-                                         "city_view", "science"], ["photography", "nature"])
-    pace = st.select_slider("节奏", ["relaxed", "normal", "packed"], "relaxed")
-    budget = st.number_input("预算（元，不含机酒）", 0, 100000, 3000, step=500)
-    c3, c4 = st.columns(2)
-    arr = c3.time_input("到达机场时间（第一天）", time(11, 30))
-    dep = c4.time_input("返程起飞时间（最后一天）", time(18, 0))
-    if st.button("生成初始行程", type="primary"):
-        trip = generate_itinerary(world, "Tokyo", sd, ed, Preferences(interests=interests, pace=pace),
-                                  Budget(amount_minor=budget * 100),
-                                  arrival_at=datetime.combine(sd, arr, tzinfo=world.tz),
-                                  departure_at=datetime.combine(ed, dep, tzinfo=world.tz))
-        st.session_state.store = TripStore(trip, [], world)
-        st.session_state.agent = PlanBAgent(st.session_state.store, st.session_state.llm)
-        st.session_state.turns = []
-        st.session_state.flash = ("success", f"已生成 {len(trip.activities)} 项活动的初始行程。")
+    st.caption("用一段话描述你的旅行：日期、想去/不想去的地方、喜好，以及你**已经预订**的航班、酒店、门票。"
+               "PlanB 会先复述它的理解，你确认或用一句话更正后，再生成每日计划。预订信息以你说的为准，无需上传凭证。")
+    text = st.text_area("你的旅行需求", EXAMPLE_REQUEST, height=110)
+    if st.button("🧭 理解我的需求", type="primary"):
+        with st.spinner("PlanB 正在理解你的需求…"):
+            req, how = extract_trip_request(text, world, st.session_state.llm)
+        st.session_state.trip_request = (req, how)
         st.rerun()
+
+    if st.session_state.get("trip_request"):
+        req, how = st.session_state.trip_request
+        st.subheader("我理解的是：")
+        st.markdown(summarize(req, world))
+        st.caption({"llm": "由 LLM 解析，并已对照地点库校验", "rule": "离线模式：由规则解析器解析",
+                    "rule_fallback": "LLM 输出无法使用，已改用规则解析器"}[how])
+        with st.expander("结构化需求（JSON）"):
+            st.json(req.model_dump(mode="json", exclude_none=True))
+        fix = st.text_input("不对的话，直接用一句话更正（例如：酒店其实在浅草；返程是12号晚上8点）")
+        c1, c2, _ = st.columns([1, 1, 3])
+        if c1.button("✏️ 更正") and fix.strip():
+            with st.spinner("PlanB 正在更新…"):
+                st.session_state.trip_request = extract_trip_request(fix, world, st.session_state.llm, previous=req)
+            st.rerun()
+        missing = req.missing_required()
+        if missing:
+            st.warning("还缺少：" + "、".join(missing) + "。请在上面更正。")
+        if c2.button("✅ 确认并生成行程", type="primary", disabled=bool(missing)):
+            plan = plan_trip(world, req)
+            st.session_state.store = TripStore(plan.trip, plan.bookings, world)
+            st.session_state.agent = PlanBAgent(st.session_state.store, st.session_state.llm)
+            st.session_state.turns = []
+            st.session_state.trip_request = None
+            status = ("✅ 已知硬约束全部通过" if plan.validation.feasibility_status == "valid"
+                      else f"⚠️ 约束检查：{plan.validation.feasibility_status}")
+            st.session_state.flash = ("success", "；".join(plan.report) + f"。{status}。到「🗓 行程」查看，"
+                                      "之后可以在「🤖 Copilot」里继续修改。")
+            st.rerun()
+
+    with st.expander("旧版：用表单生成（无订单）"):
+        c1, c2 = st.columns(2)
+        sd = c1.date_input("出发日期", date(2026, 12, 10))
+        ed = c2.date_input("返程日期", date(2026, 12, 12))
+        interests = st.multiselect("兴趣", ["quiet", "anime", "photography", "nature", "culture", "history", "art",
+                                             "shopping", "food", "city_view", "lively", "science"], ["photography", "nature"])
+        pace = st.select_slider("节奏", ["relaxed", "normal", "packed"], "relaxed")
+        budget = st.number_input("预算（元，不含机酒）", 0, 100000, 3000, step=500)
+        c3, c4 = st.columns(2)
+        arr = c3.time_input("到达机场时间（第一天）", time(11, 30))
+        dep = c4.time_input("返程起飞时间（最后一天）", time(18, 0))
+        if st.button("生成初始行程"):
+            trip = generate_itinerary(world, "Tokyo", sd, ed, Preferences(interests=interests, pace=pace),
+                                      Budget(amount_minor=budget * 100),
+                                      arrival_at=datetime.combine(sd, arr, tzinfo=world.tz),
+                                      departure_at=datetime.combine(ed, dep, tzinfo=world.tz))
+            st.session_state.store = TripStore(trip, [], world)
+            st.session_state.agent = PlanBAgent(st.session_state.store, st.session_state.llm)
+            st.session_state.turns = []
+            st.session_state.flash = ("success", f"已生成 {len(trip.activities)} 项活动的初始行程。")
+            st.rerun()

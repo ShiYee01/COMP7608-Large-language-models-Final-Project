@@ -52,6 +52,55 @@ PLACES = [
 # Pairs intentionally missing from the matrix (travel time UNKNOWN).
 MISSING_PAIRS = {("yanaka_ginza", "ghibli_museum"), ("yanaka_ginza", "odaiba_seaside")}
 
+# ---------------------------------------------------------------------------
+# EXTENDED catalogue (used by the app for trip planning and recommendations).
+# The base files above stay unchanged so the recorded evaluation stays reproducible.
+# Everything here is SIMULATED as well: approximate coordinates, illustrative hours/prices.
+# ---------------------------------------------------------------------------
+EXTRA_PLACES = [
+    # area hotels (one representative per area, so "my hotel is in Asakusa" can be planned around)
+    ("hotel_asakusa", "PlanB Demo Hotel Asakusa", "浅草演示酒店", "hotel", True, 35.7119, 139.7950, "Asakusa", hours("00:00", "23:59"), 0, 0, [], False),
+    ("hotel_ginza", "PlanB Demo Hotel Ginza", "银座演示酒店", "hotel", True, 35.6717, 139.7660, "Ginza", hours("00:00", "23:59"), 0, 0, [], False),
+    ("hotel_shibuya", "PlanB Demo Hotel Shibuya", "涩谷演示酒店", "hotel", True, 35.6590, 139.7010, "Shibuya", hours("00:00", "23:59"), 0, 0, [], False),
+    ("hotel_ueno", "PlanB Demo Hotel Ueno", "上野演示酒店", "hotel", True, 35.7130, 139.7770, "Ueno", hours("00:00", "23:59"), 0, 0, [], False),
+    ("hotel_ikebukuro", "PlanB Demo Hotel Ikebukuro", "池袋演示酒店", "hotel", True, 35.7295, 139.7109, "Ikebukuro", hours("00:00", "23:59"), 0, 0, [], False),
+    ("narita_airport", "Narita Airport (NRT)", "成田机场", "airport", True, 35.7720, 140.3929, "Narita", hours("00:00", "23:59"), 120, 0, [], False),
+    # anime / pop culture
+    ("nakano_broadway", "Nakano Broadway", "中野百老汇", "shopping", True, 35.7090, 139.6658, "Nakano", hours("12:00", "20:00"), 90, 0, ["anime", "shopping", "lively"], False),
+    ("ikebukuro_otome_road", "Otome Road (Ikebukuro)", "池袋乙女路", "shopping", False, 35.7303, 139.7185, "Ikebukuro", hours("10:00", "21:00"), 75, 0, ["anime", "shopping"], False),
+    ("pokemon_center_ikebukuro", "Pokemon Center Mega Tokyo", "宝可梦中心（池袋）", "shopping", True, 35.7290, 139.7195, "Ikebukuro", hours("10:00", "21:00"), 45, 0, ["anime", "shopping"], False),
+    ("gundam_odaiba", "Unicorn Gundam Statue (Odaiba)", "独角兽高达立像（台场）", "viewpoint", False, 35.6247, 139.7754, "Odaiba", hours("10:00", "21:00"), 45, 0, ["anime", "photography"], False),
+    ("character_street", "Tokyo Character Street", "东京站动漫人物街", "shopping", True, 35.6800, 139.7680, "Marunouchi", hours("10:00", "20:30"), 45, 0, ["anime", "shopping"], False),
+    # quiet gardens, shrines, small museums
+    ("kiyosumi_teien", "Kiyosumi Garden", "清澄庭园", "park", False, 35.6800, 139.7965, "Kiyosumi", hours("09:00", "17:00"), 60, 700, ["nature", "quiet", "culture"], False),
+    ("rikugien", "Rikugien Garden", "六义园", "park", False, 35.7330, 139.7466, "Komagome", hours("09:00", "17:00"), 75, 1500, ["nature", "quiet", "history"], False),
+    ("hamarikyu", "Hamarikyu Gardens", "滨离宫恩赐庭园", "park", False, 35.6600, 139.7633, "Shiodome", hours("09:00", "17:00"), 75, 1500, ["nature", "quiet", "city_view"], False),
+    ("nezu_museum", "Nezu Museum", "根津美术馆", "museum", True, 35.6623, 139.7171, "Aoyama", hours("10:00", "17:00", closed=("mon",)), 75, 7000, ["art", "quiet", "culture"], False),
+    ("nezu_shrine", "Nezu Shrine", "根津神社", "shrine", False, 35.7202, 139.7607, "Nezu", hours("06:00", "17:00"), 45, 0, ["culture", "quiet", "history", "photography"], False),
+    ("gotokuji", "Gotokuji Temple", "豪德寺", "temple", False, 35.6488, 139.6475, "Setagaya", hours("06:00", "17:00"), 60, 0, ["culture", "quiet", "photography"], False),
+    ("todoroki_valley", "Todoroki Valley", "等等力溪谷", "park", False, 35.6077, 139.6487, "Setagaya", hours("09:00", "17:00"), 60, 0, ["nature", "quiet"], False),
+    ("hokusai_museum", "Sumida Hokusai Museum", "墨田北斋美术馆", "museum", True, 35.6966, 139.7997, "Ryogoku", hours("09:30", "17:30", closed=("mon",)), 60, 2000, ["art", "culture", "quiet"], False),
+    ("jindaiji", "Jindaiji Temple", "深大寺", "temple", False, 35.6700, 139.5470, "Chofu", hours("09:00", "17:00"), 75, 0, ["culture", "quiet", "nature"], False),
+    # lively city
+    ("shibuya_crossing", "Shibuya Scramble Crossing", "涩谷十字路口", "viewpoint", False, 35.6595, 139.7005, "Shibuya", hours("00:00", "23:59"), 30, 0, ["city_view", "lively", "photography"], False),
+    ("ameyoko", "Ameyoko Market Street", "阿美横丁", "shopping", False, 35.7101, 139.7745, "Ueno", hours("10:00", "20:00"), 60, 0, ["food", "shopping", "lively"], False),
+    ("shimokitazawa", "Shimokitazawa", "下北泽", "shopping", False, 35.6616, 139.6680, "Shimokitazawa", hours("11:00", "20:00"), 90, 0, ["shopping", "lively", "culture"], False),
+]
+
+# Extra tags for base places in the extended catalogue only.
+EXTRA_TAGS = {
+    "senso_ji": ["history", "lively"],
+    "tokyo_national_museum": ["history"],
+    "meiji_jingu": ["quiet"],
+    "harajuku_takeshita": ["lively"],
+    "akihabara": ["lively"],
+    "omoide_yokocho": ["lively"],
+    "shinjuku_gyoen": ["quiet"],
+    "imperial_east_gardens": ["quiet", "history"],
+    "inokashira_park": ["quiet"],
+    "ghibli_museum": ["quiet"],
+}
+
 
 def haversine_km(a, b):
     lat1, lon1, lat2, lon2 = map(math.radians, (a[0], a[1], b[0], b[1]))
@@ -66,27 +115,40 @@ def travel(dist):
     return "transit", minutes, int(round(8 + 0.6 * dist)) * 100  # rough fare in CNY fen
 
 
-def main():
+def build(rows, extra_tags=None):
+    extra_tags = extra_tags or {}
     places = []
-    for pid, name, zh, cat, indoor, lat, lon, area, opening, visit, cost, tags, resv in PLACES:
+    for pid, name, zh, cat, indoor, lat, lon, area, opening, visit, cost, tags, resv in rows:
         places.append({
             "place_id": pid, "name": name, "name_zh": zh, "category": cat, "indoor": indoor,
             "latitude": lat, "longitude": lon, "area": area, "opening_hours": opening,
             "closed_dates": [], "suggested_visit_minutes": visit, "entry_cost_minor": cost,
-            "tags": tags, "reservation_required": resv, "data_source": "fixture",
+            "tags": tags + [t for t in extra_tags.get(pid, []) if t not in tags],
+            "reservation_required": resv, "data_source": "fixture",
             "verified_status": "simulated",
         })
     matrix = []
-    for i, a in enumerate(PLACES):
-        for b in PLACES[i + 1:]:
+    for i, a in enumerate(rows):
+        for b in rows[i + 1:]:
             if (a[0], b[0]) in MISSING_PAIRS or (b[0], a[0]) in MISSING_PAIRS:
                 continue
             mode, minutes, fare = travel(haversine_km((a[5], a[6]), (b[5], b[6])))
             matrix.append({"origin_place_id": a[0], "destination_place_id": b[0], "mode": mode,
                            "travel_minutes": minutes, "travel_cost_minor": fare, "source": "synthetic_estimate"})
+    return places, matrix
+
+
+def main():
+    # Base catalogue: used by the recorded evaluation. Do not change.
+    places, matrix = build(PLACES)
     (ROOT / "data/places/tokyo_places.json").write_text(json.dumps(places, ensure_ascii=False, indent=1))
     (ROOT / "data/travel_times/tokyo_matrix.json").write_text(json.dumps(matrix, ensure_ascii=False, indent=1))
-    print(f"{len(places)} places, {len(matrix)} travel pairs")
+    print(f"base: {len(places)} places, {len(matrix)} travel pairs")
+    # Extended catalogue: base + extra places and tags, used by the app.
+    places, matrix = build(PLACES + EXTRA_PLACES, EXTRA_TAGS)
+    (ROOT / "data/places/tokyo_places_extended.json").write_text(json.dumps(places, ensure_ascii=False, indent=1))
+    (ROOT / "data/travel_times/tokyo_matrix_extended.json").write_text(json.dumps(matrix, ensure_ascii=False, indent=1))
+    print(f"extended: {len(places)} places, {len(matrix)} travel pairs")
 
 
 if __name__ == "__main__":

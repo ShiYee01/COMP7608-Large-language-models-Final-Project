@@ -45,7 +45,7 @@
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 30 个单元测试，不需要 LLM
+python -m pytest -q                      # 38 个单元测试，不需要 LLM
 streamlit run app/streamlit_app.py       # 演示界面（没有 API key 也能用：mock 模式）
 python evaluation/run_eval.py --mock     # 评测流程测试（mock，不是真实结果）
 ```
@@ -74,10 +74,12 @@ python evaluation/run_eval.py --run-name my-model
 | 预览 → 批准 → 提交，带版本号检查和历史记录 | `planb/store.py` | ✅ |
 | LLM 适配层（OpenAI 兼容、缓存、mock），请求解析器（结构校验 + 重试 + 规则兜底） | `planb/llm.py`、`planb/parser.py` | ✅ |
 | Agent 编排器：后端状态机，解释中的金额受校验 | `planb/agent.py` | ✅ |
-| 初始行程生成（Story A，确定性贪心算法） | `planb/planner.py` | ✅ 基础版 |
+| 对话式新建行程：一段话（日期、想去/不想去、喜好如“安静”“二次元”、用语言说明的已订航班酒店门票）→ 复述确认 → 一句话更正 → 生成每日计划，已订项目锁定 | `planb/trip_request.py`、`planb/planner.py`（`plan_trip`） | ✅ 新功能，尚未评测 |
+| 应用使用的扩展地点库：47 个地点，含二次元、安静等标签（评测仍使用 24 个地点的基础库） | `data/*_extended.json` | ✅ 模拟数据 |
 | Streamlit 演示：时间轴、地图、手动编辑、事件预设、聊天、差异对比、订单影响、费用明细、批准/拒绝、历史 | `app/streamlit_app.py` | ✅ |
 | 基线 A（直接问 LLM）和基线 B（加约束提示的 LLM）、评测指标、10 个试点场景 | `evaluation/` | ✅ |
-| 40 个场景的测试集、消融实验、React 前端、订单文本抽取 | — | 计划中 |
+| 聊天中“不想去 X 了”+ 按喜好推荐；对话式新建行程的评测 | — | 下一步 |
+| 40 个场景的测试集、消融实验、React 前端 | — | 计划中 |
 
 ## 评测
 
