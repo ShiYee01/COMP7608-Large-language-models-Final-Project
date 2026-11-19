@@ -24,7 +24,10 @@
   "interests_required": [
    "photography"
   ],
-  "interests_allowed": [],
+  "interests_allowed": [
+   "city_view",
+   "culture"
+  ],
   "pace": null,
   "hotel_place_id": "hotel_asakusa",
   "bookings": [

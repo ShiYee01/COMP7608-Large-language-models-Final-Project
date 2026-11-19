@@ -19,7 +19,9 @@
    "anime",
    "lively"
   ],
-  "interests_allowed": [],
+  "interests_allowed": [
+   "shopping"
+  ],
   "pace": null,
   "hotel_place_id": null,
   "bookings": [],

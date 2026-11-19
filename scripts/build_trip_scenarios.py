@@ -38,7 +38,7 @@ SETUP = [
          why="12/14 是周一，东京国立博物馆周一闭馆：必须排在 15 或 16 号。成田机场离市区远，返程当天要预留交通时间。",
          gold_request=dict(start_date="2026-12-14", end_date="2026-12-16",
                            must_visit=["tokyo_national_museum", "ueno_park"], must_visit_days={},
-                           avoid=[], interests_required=["nature", "history"], interests_allowed=["culture"],
+                           avoid=[], interests_required=["nature", "history"], interests_allowed=["culture", "quiet", "photography"],
                            pace="normal", hotel_place_id="hotel_ueno",
                            bookings=[b("flight_arrival", "narita_airport", "2026-12-14T10:00:00+09:00"),
                                      b("flight_departure", "narita_airport", "2026-12-16T20:00:00+09:00")],
@@ -55,7 +55,7 @@ SETUP = [
          why="“15号到17号”按今天（11/19）推断为 12 月。12/15 是周二，吉卜力美术馆周二闭馆；中野百老汇 12:00 才开门。",
          gold_request=dict(start_date="2026-12-15", end_date="2026-12-17",
                            must_visit=["ghibli_museum", "nakano_broadway", "akihabara"], must_visit_days={},
-                           avoid=[], interests_required=["anime"], interests_allowed=["shopping"],
+                           avoid=[], interests_required=["anime"], interests_allowed=["shopping", "lively"],
                            pace="packed", hotel_place_id="hotel_ikebukuro",
                            bookings=[b("flight_arrival", "haneda_airport", "2026-12-15T12:00:00+09:00"),
                                      b("flight_departure", "haneda_airport", "2026-12-17T17:00:00+09:00")],
@@ -72,7 +72,7 @@ SETUP = [
          why="迪士尼和横滨中华街不在地点库里：必须报告“没有”，不能换成别的地点，也不能编造。筑地周三、周日休息，10/11 号是周四、周五，可以去。",
          gold_request=dict(start_date="2026-12-10", end_date="2026-12-11",
                            must_visit=["tsukiji_outer_market"], must_visit_days={}, avoid=[],
-                           interests_required=["food", "shopping"], interests_allowed=[],
+                           interests_required=["food", "shopping"], interests_allowed=["lively"],
                            pace=None, hotel_place_id="hotel_ginza", bookings=[],
                            unknown_places=["东京迪士尼乐园", "横滨中华街"]),
          plan_checks=dict(must_include=["tsukiji_outer_market"], must_exclude=[], on_day={}, not_on_day={},
@@ -85,7 +85,7 @@ SETUP = [
          why="英文请求。两处“不想去”必须避开；节奏轻松（每天最多 3 个景点）；推荐应偏向安静的庭园和美术馆。",
          gold_request=dict(start_date="2026-12-12", end_date="2026-12-13", must_visit=[], must_visit_days={},
                            avoid=["shibuya_crossing", "harajuku_takeshita"],
-                           interests_required=["quiet", "art"], interests_allowed=["nature"],
+                           interests_required=["quiet", "art"], interests_allowed=["nature", "culture"],
                            pace="relaxed", hotel_place_id="hotel_shibuya",
                            bookings=[b("flight_arrival", "haneda_airport", "2026-12-12T09:00:00+09:00"),
                                      b("flight_departure", "haneda_airport", "2026-12-13T21:00:00+09:00")],
@@ -102,7 +102,8 @@ SETUP = [
          why="已订的寿司和 teamLab 必须锁定在说好的时间；12 号 11:00 起飞、09:00 值机，当天没有游览时间；"
              "明治神宫 16:30 关门，10 号 16:00 才出机场赶不上，只能排在 11 号。价格和改签费要按原数提取。",
          gold_request=dict(start_date="2026-12-10", end_date="2026-12-12", must_visit=["meiji_jingu"],
-                           must_visit_days={}, avoid=[], interests_required=[], interests_allowed=[],
+                           must_visit_days={}, avoid=[], interests_required=[],
+                           interests_allowed=["food", "art", "culture", "nature"],
                            pace=None, hotel_place_id="hotel_shinjuku",
                            bookings=[b("flight_arrival", "haneda_airport", "2026-12-10T15:30:00+09:00"),
                                      b("flight_departure", "haneda_airport", "2026-12-12T11:00:00+09:00",
@@ -127,7 +128,7 @@ SETUP = [
                            must_visit_days={"tsukiji_outer_market": "2026-12-11",
                                             "imperial_east_gardens": "2026-12-12",
                                             "tokyo_skytree": "2026-12-13"},
-                           avoid=[], interests_required=["photography"], interests_allowed=[],
+                           avoid=[], interests_required=["photography"], interests_allowed=["city_view", "culture"],
                            pace=None, hotel_place_id="hotel_asakusa",
                            bookings=[b("flight_arrival", "haneda_airport", "2026-12-11T08:00:00+09:00"),
                                      b("flight_departure", "haneda_airport", "2026-12-13T19:00:00+09:00")],
@@ -160,7 +161,7 @@ SETUP = [
          why="没有具体日期：正确做法是追问日期，而不是自己编一个日期去排行程。",
          expected_status="needs_information",
          gold_request=dict(start_date=None, end_date=None, must_visit=["akihabara"], must_visit_days={}, avoid=[],
-                           interests_required=["anime", "lively"], interests_allowed=[], pace=None,
+                           interests_required=["anime", "lively"], interests_allowed=["shopping"], pace=None,
                            hotel_place_id=None, bookings=[], unknown_places=[]),
          plan_checks=None),
 ]
@@ -219,15 +220,19 @@ EDIT_BASE = {
 #            added_place       a specific place that must be added, with its allowed window
 #            must_not_use      catalogue places that must NOT be used (substitutes for something else)
 #            unknown_expected  the answer must say the restaurant's hours/price are unknown (not claim them)
+# status "ask_with_options": when it does not fit, ask the user with concrete options (swap X / move to another
+#            day or time); a bare "it does not fit" is wrong. Every option must be feasible.
+# Preferences (decided with the reviewer): a case is correct when all interests_required are extracted;
+# associated extras (interests_allowed or others) are not penalised.
 EDITS = [
     dict(id="e01_remove_with_preference", request="我不想去浅草寺了，换一个安静一点的地方。",
          why="删掉浅草寺；如果补一个地点，必须是“安静”的，并且放得下；其余项目（尤其已订的 teamLab 和航班）不动。",
          expected=dict(status="ok", removed=["e2"], must_keep=["e1", "e4", "e5", "e7", "e9", "e10"],
                        added_tags_any=["quiet"], added_place=None, must_not_use=[], unknown_expected=False)),
     dict(id="e02_recommend_on_full_day", request="推荐一个二次元的地方加到12号。",
-         why="12 号排满了（秋叶原、午餐、滨离宫、16:00 去机场）。两种答案都算对：① 加一个二次元地点，"
-             "但不能动你想去的秋叶原、不能动航班，计划仍可行；② 明确说放不下。",
-         expected=dict(status="ok_or_refused", removed=[], must_keep=["e1", "e4", "e7", "e10"],
+         why="12 号排满了（秋叶原、午餐、滨离宫、16:00 去机场）。不能只回答“放不下”：要给出具体选项询问用户，"
+             "例如“把某某换成某个二次元地点”或“改到某天某时段去”。每个选项都必须可行，已订的 teamLab 和航班不能动。",
+         expected=dict(status="ask_with_options", removed=[], must_keep=["e1", "e4", "e10"],
                        added_tags_any=["anime"], added_place=None, must_not_use=[], unknown_expected=False)),
     dict(id="e03_lunch_at_catalogue_restaurant", request="12号午饭想去筑地吃。",
          why="12/12 周六筑地营业（06:00–14:00）。午餐要放在 11:30–13:30 之间、在筑地，其余项目不动。",
@@ -284,7 +289,7 @@ def write_review():
         if g["avoid"]:
             L.append("- 不去：" + "、".join(n(p) for p in g["avoid"]))
         L.append("- 喜好（必须有）：" + ("、".join(tags[t] for t in g["interests_required"]) or "无")
-                 + ("；（可有可无）" + "、".join(tags[t] for t in g["interests_allowed"]) if g["interests_allowed"] else ""))
+                 + ("；（合理联想，有也算对）" + "、".join(tags[t] for t in g["interests_allowed"]) if g["interests_allowed"] else ""))
         L.append("- 节奏：" + {"relaxed": "轻松", "normal": "适中", "packed": "紧凑", None: "未说明（默认适中）"}[g["pace"]])
         L.append("- 酒店：" + (n(g["hotel_place_id"]) if g["hotel_place_id"] else "未提供"))
         for bk in g["bookings"]:
@@ -322,7 +327,8 @@ def write_review():
     for e in EDITS:
         x = e["expected"]
         L += [f"### {e['id']}", "", f"**请求**：{e['request']}", "", f"**考点**：{e['why']}", "", "**标准答案**："]
-        L.append("- 结果：" + {"ok": "生成修改方案", "refused": "不自动修改，提示用户确认", "ok_or_refused": "生成可行方案，或明确说放不下"}[x["status"]])
+        L.append("- 结果：" + {"ok": "生成修改方案", "refused": "不自动修改，提示用户确认",
+                               "ask_with_options": "给出具体选项询问用户（替换某项 / 改到某天某时段），不能只说放不下"}[x["status"]])
         if x["removed"]:
             L.append("- 必须去掉：" + "、".join(x["removed"]))
         L.append("- 必须保持不变：" + "、".join(x["must_keep"]))
@@ -336,13 +342,14 @@ def write_review():
         if x["unknown_expected"]:
             L.append("- 必须说明营业时间/价格未知（不能当作已确认）")
         L.append("")
-    L += ["## 三、需要你特别判断的地方", "",
-          "1. **T01/T05 的喜好**：我只把原文明确说的算作“必须有”，像“历史 → 文化”这种联想放在“可有可无”。你同意吗？",
-          "2. **T03**：“筑地市场”我对应到地点库的“筑地场外市场”。你作为用户会这样理解吗？",
-          "3. **T05**：“明治神宫只能排在 11 号”是我根据营业时间和到达时间推出来的（10 号 16:00 才出机场，赶不到 16:30 关门）。",
-          "4. **E02**：“加一个二次元地点”或“说放不下”两种都算对。你觉得只有其中一种才对吗？",
-          "5. **E04**：餐厅不在地点库里时，我要求必须说明“营业时间/价格未知”。",
-          "6. 还缺什么类型的场景？例如：多人出行、预算限制、下雨天的初始规划……"]
+    L += ["## 三、已确认的评分规则（2026-11-19 核对）", "",
+          "1. **喜好**：原文明确说的必须提取到；联想出来的额外喜好（如“历史 → 文化”）也算对，不扣分。",
+          "2. **T03**：“筑地市场”对应地点库的“筑地场外市场”。",
+          "3. **E02**：放不下时不能只说“放不下”，必须给出具体选项询问用户（把某某换成 X / 改到某天某时段）。",
+          "", "## 四、还没确认的地方", "",
+          "- T05 “明治神宫只能排在 11 号”是根据营业时间和到达时间推出来的（10 号最早 17:05 到，16:30 已关门）。",
+          "- E04：餐厅不在地点库时，必须说明“营业时间/价格未知”。",
+          "- 还缺什么类型的场景？例如：多人出行、预算限制、规划时就知道会下雨……"]
     (OUT / "REVIEW.md").write_text("\n".join(L) + "\n")
 
 

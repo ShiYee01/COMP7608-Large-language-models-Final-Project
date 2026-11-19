@@ -19,7 +19,9 @@
    "food",
    "shopping"
   ],
-  "interests_allowed": [],
+  "interests_allowed": [
+   "lively"
+  ],
   "pace": null,
   "hotel_place_id": "hotel_ginza",
   "bookings": [],

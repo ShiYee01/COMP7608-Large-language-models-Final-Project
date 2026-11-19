@@ -16,7 +16,12 @@
   "must_visit_days": {},
   "avoid": [],
   "interests_required": [],
-  "interests_allowed": [],
+  "interests_allowed": [
+   "food",
+   "art",
+   "culture",
+   "nature"
+  ],
   "pace": null,
   "hotel_place_id": "hotel_shinjuku",
   "bookings": [
