@@ -13,7 +13,8 @@ Individual project · COMP7608
   1. rewrites the whole plan (loses bookings and things the user cared about);
   2. breaks hard constraints (overlaps, too little travel time, closed venues, locked items);
   3. misses linked bookings (return flight, hotel nights) and **guesses fees** or counts paid money twice.
-- Show one real baseline failure from `evaluation/results/qwen2.5-3b-local-cpu/raw_outputs.jsonl`: in s03 the 3B model moved the locked sushi dinner and never computed any cost (see slide 8).
+- Show one real baseline failure: even the 550B model answered ¥950 instead of ¥1,150 for "stay one more day"
+  (it forgot the ¥200 change fee). See `evaluation/results/nemotron-3-ultra-openrouter-free/raw_outputs.jsonl`, s01.
 
 ## 3. Research question
 Can structured trip state + deterministic constraint validation + local repair + a booking dependency/cost
@@ -44,41 +45,45 @@ Backup: record a screen video beforehand in case the network or the laptop fails
 - Metrics: task success, feasibility, preservation, booking F1, cost exact match, unknown-cost handling,
   infeasible detection, latency, tokens.
 
-## 8. Preliminary results (real run: `evaluation/results/qwen2.5-3b-local-cpu/`)
-Model: Qwen2.5-3B-Instruct Q4, local CPU, temperature 0. 10 pilot scenarios × 4 methods.
+## 8. Preliminary results: two free open models (real runs)
+10 pilot scenarios × 4 methods, temperature 0. Show `evaluation/results/model_comparison.png`.
 
-| method | task success | booking F1 | cost exact (known) | infeasible detected | latency | tokens |
-|---|---|---|---|---|---|---|
-| Direct LLM | 2/10 | 0.25 | 0/7 | 1/2 | 462 s | 10.1k |
-| Constraint-prompted LLM | 1/10 | 0.25 | 0/7 | 0/2 | 480 s | 10.5k |
-| **PlanB** | **8/10** | **0.875** | **6/7** | **2/2** | 45 s | 2.2k |
-| PlanB + gold event | 10/10 | 1.00 | 7/7 | 2/2 | <0.1 s | 0 |
+| method | Qwen2.5-3B (local CPU) | Nemotron 3 Ultra 550B (OpenRouter free) |
+|---|---|---|
+| Direct LLM | 2/10 success, cost 0/7 | 6/10 success, cost 3/7 |
+| Constraint-prompted LLM | 1/10, cost 0/7 | 8/10, cost 6/7 |
+| **PlanB** | **8/10, cost 6/7** | **10/10, cost 7/7** |
+| PlanB + gold event | 10/10, cost 7/7 | 10/10, cost 7/7 |
 
-Put `summary.png` next to the table. Talking points:
-- **The baselines solved none of the 8 solvable cases** (0/8). Their only successes were refusals in the
-  infeasible cases.
-- **The baselines never produced a cost** (always `null`), even though the fees and quotes were in the prompt.
-- **The baselines broke constraints.**
-  - Rain (s03): moved the locked 18:30 sushi dinner to 14:30, with 9 hard violations.
+Talking points:
+- **Small model (3B): the baselines collapse.** They solve 0 of the 8 solvable cases and never compute a cost.
+  - Rain (s03): moved the locked 18:30 dinner to 14:30, with 9 hard violations.
   - Shortened trip (s09): kept the whole of day 3.
-  - Museum closed (s05): invented place ids.
-- **Both PlanB failures are parsing errors by the 3B model.**
-  - s03: "下午1点" (1 pm) was read as 12:00.
-  - s07: the time the delay ends was left out, so PlanB asked for more information instead of guessing.
-  - `planb_gold` = 10/10, so the engine itself made no error. The fix is a better parser or a larger model.
-- **PlanB is cheaper to run.** One LLM call of about 2k tokens vs about 10k tokens, and it is about 10× faster
-  on CPU.
-- **Honesty slide.** This is a small pilot set written by the author. The baselines' "unknown cost handled = 1.0"
-  is an artefact of always answering `null`. Two scoring fixes are documented in `NOTES.md`.
+- **Large model (550B): the baselines plan well.** They have 0 hard violations and detect every infeasible case.
+  Be honest about this: a strong model is a good planner when it is given all the facts.
+- **But money is still wrong with the large model.**
+  - s01: ¥950 instead of ¥1,150, because the ¥200 change fee was forgotten.
+  - The change fee was forgotten in 3 of the 4 baseline outputs where it applied.
+  - Cost exact match: direct 3/7, structured 6/7, PlanB 7/7.
+- **PlanB is stable across model size.** The engine is deterministic: PlanB + gold event is 10/10 for both
+  models. The 3B model's two failures are parsing errors (s03 read "下午1点" as 12:00; s07 left out the time
+  the delay ends, so PlanB asked instead of guessing).
+- **PlanB is cheaper.** One call of about 2.5k tokens vs about 14k for a baseline. With the large model, PlanB
+  took about 6 s and a baseline 54–64 s.
+- **Honesty.** This is a small pilot set written by the author, so a difference of 1–2 cases is not significant.
+  The scoring fixes are documented in each run's `NOTES.md`.
 
-For the slide 2 failure example, use the s03 Direct LLM output: the locked dinner moved and teamLab moved
-outside its ticket slot.
+**Refined claim:** the LLM is good at understanding and, when strong, at planning. Exact money calculation and
+guaranteed constraint satisfaction should come from code. PlanB makes a small free model usable.
+
+For the slide 2 failure example, use s01 from the large model: it gave a convincing explanation that was missing
+¥200. For a dramatic example, use s03 from the 3B model.
 
 ## 9. Limitations and plan to the final
 - Pilot set is small and written by the author → expand to ~40 scenarios with a held-out split.
 - Simulated data, one city, synthetic travel times.
-- Next: more scenarios, ablations (without local repair / without validator / LLM-only cost), a larger free model
-  vs a small one, booking-text extraction, React front end if time allows.
+- Next: more scenarios, more cost-heavy scenarios (fees + fare differences + refunds across several bookings), ablations
+  (without local repair / without validator / LLM-only cost), a mid-size Qwen as a third model, booking-text extraction, React front end if time allows.
 
 ## 10. Summary
 Reliability comes from splitting responsibilities: language → LLM, constraints & money → code, decision → user.
@@ -92,3 +97,12 @@ Reliability comes from splitting responsibilities: language → LLM, constraints
   development set; the final numbers will come from a held-out set.
 - *Is the cost "real"?* It is exact with respect to the user-provided rules and quotes; PlanB never fetches
   live prices and says so.
+- *Why these models? Why not Qwen for the large one?* The budget is zero, so only free open-weights models are
+  used. The small model is Qwen2.5-3B, run locally. The large model was the biggest free open model on OpenRouter
+  that could actually be called on the day of the run. No Qwen model was in the free list then, and Gemma 4 31B
+  was rate-limited upstream. The system talks to any model through an OpenAI-compatible API, so swapping in a
+  Qwen model is a configuration change and is planned for the final.
+- *With a strong model the baselines are close. Is PlanB still needed?* Yes, for three reasons:
+  - Money is still wrong (cost exact 3/7 and 6/7 vs 7/7).
+  - PlanB's output is checked by construction, not by trust.
+  - PlanB costs about 5× fewer tokens and works with a 3B model.
