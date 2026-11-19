@@ -94,6 +94,8 @@ class LLMClient:
             text = mock(messages) if mock else ""
             return LLMResponse(text=text, latency_s=time.perf_counter() - t0, model="mock", provider="mock")
 
+        # reasoning models spend completion tokens on hidden reasoning; LLM_MIN_MAX_TOKENS raises the budget
+        max_tokens = max(max_tokens, int(os.environ.get("LLM_MIN_MAX_TOKENS", "0") or 0))
         path = self._cache_path(messages, max_tokens)
         if self.use_cache and path.exists():
             data = json.loads(path.read_text())
@@ -102,7 +104,8 @@ class LLMClient:
         if self._client is None:
             from openai import OpenAI
 
-            self._client = OpenAI(base_url=self.base_url, api_key=self.api_key or "not-needed")
+            # max_retries=0: retries are handled below, so free-tier request quotas are not spent silently
+            self._client = OpenAI(base_url=self.base_url, api_key=self.api_key or "not-needed", max_retries=0)
         last_err: Exception | None = None
         for attempt in range(self.max_retries):
             try:
@@ -115,12 +118,15 @@ class LLMClient:
                                   prompt_tokens=getattr(usage, "prompt_tokens", 0) or 0,
                                   completion_tokens=getattr(usage, "completion_tokens", 0) or 0,
                                   latency_s=latency, model=self.model, provider=self.provider)
-                if self.use_cache:
+                if self.use_cache and out.text.strip():
                     CACHE_DIR.mkdir(parents=True, exist_ok=True)
                     path.write_text(json.dumps(out.__dict__, ensure_ascii=False))
                 return out
             except Exception as e:  # rate limits on free tiers are common
                 last_err = e
+                msg = str(e).lower()
+                if "per-day" in msg or "per day" in msg or "daily" in msg:
+                    raise RuntimeError(f"Daily request quota exhausted: {e}") from e
                 time.sleep(min(30, 2 ** (attempt + 2)))
         raise RuntimeError(f"LLM call failed after {self.max_retries} attempts: {last_err}")
 
