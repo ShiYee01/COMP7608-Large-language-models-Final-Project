@@ -1,0 +1,2908 @@
+[
+ {
+  "place_id": "haneda_airport",
+  "name": "Haneda Airport (HND)",
+  "name_zh": "羽田机场",
+  "category": "airport",
+  "indoor": true,
+  "latitude": 35.5494,
+  "longitude": 139.7798,
+  "area": "Ota",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 120,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hotel_shinjuku",
+  "name": "PlanB Demo Hotel Shinjuku",
+  "name_zh": "新宿演示酒店",
+  "category": "hotel",
+  "indoor": true,
+  "latitude": 35.6905,
+  "longitude": 139.6995,
+  "area": "Shinjuku",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 0,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "senso_ji",
+  "name": "Senso-ji Temple",
+  "name_zh": "浅草寺",
+  "category": "temple",
+  "indoor": false,
+  "latitude": 35.7148,
+  "longitude": 139.7967,
+  "area": "Asakusa",
+  "opening_hours": {
+   "mon": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 0,
+  "tags": [
+   "culture",
+   "photography",
+   "history",
+   "lively"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "tokyo_skytree",
+  "name": "Tokyo Skytree",
+  "name_zh": "东京晴空塔",
+  "category": "viewpoint",
+  "indoor": true,
+  "latitude": 35.7101,
+  "longitude": 139.8107,
+  "area": "Oshiage",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 15000,
+  "tags": [
+   "photography",
+   "city_view"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "ueno_park",
+  "name": "Ueno Park",
+  "name_zh": "上野公园",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.7156,
+  "longitude": 139.7745,
+  "area": "Ueno",
+  "opening_hours": {
+   "mon": [
+    [
+     "05:00",
+     "23:00"
+    ]
+   ],
+   "tue": [
+    [
+     "05:00",
+     "23:00"
+    ]
+   ],
+   "wed": [
+    [
+     "05:00",
+     "23:00"
+    ]
+   ],
+   "thu": [
+    [
+     "05:00",
+     "23:00"
+    ]
+   ],
+   "fri": [
+    [
+     "05:00",
+     "23:00"
+    ]
+   ],
+   "sat": [
+    [
+     "05:00",
+     "23:00"
+    ]
+   ],
+   "sun": [
+    [
+     "05:00",
+     "23:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 0,
+  "tags": [
+   "nature",
+   "photography"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "tokyo_national_museum",
+  "name": "Tokyo National Museum",
+  "name_zh": "东京国立博物馆",
+  "category": "museum",
+  "indoor": true,
+  "latitude": 35.7188,
+  "longitude": 139.7765,
+  "area": "Ueno",
+  "opening_hours": {
+   "tue": [
+    [
+     "09:30",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:30",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:30",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:30",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:30",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:30",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 105,
+  "entry_cost_minor": 5000,
+  "tags": [
+   "culture",
+   "art",
+   "history"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "nature_science_museum",
+  "name": "National Museum of Nature and Science",
+  "name_zh": "国立科学博物馆",
+  "category": "museum",
+  "indoor": true,
+  "latitude": 35.7163,
+  "longitude": 139.7764,
+  "area": "Ueno",
+  "opening_hours": {
+   "tue": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 3500,
+  "tags": [
+   "nature",
+   "science"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "meiji_jingu",
+  "name": "Meiji Jingu Shrine",
+  "name_zh": "明治神宫",
+  "category": "shrine",
+  "indoor": false,
+  "latitude": 35.6764,
+  "longitude": 139.6993,
+  "area": "Harajuku",
+  "opening_hours": {
+   "mon": [
+    [
+     "06:00",
+     "16:30"
+    ]
+   ],
+   "tue": [
+    [
+     "06:00",
+     "16:30"
+    ]
+   ],
+   "wed": [
+    [
+     "06:00",
+     "16:30"
+    ]
+   ],
+   "thu": [
+    [
+     "06:00",
+     "16:30"
+    ]
+   ],
+   "fri": [
+    [
+     "06:00",
+     "16:30"
+    ]
+   ],
+   "sat": [
+    [
+     "06:00",
+     "16:30"
+    ]
+   ],
+   "sun": [
+    [
+     "06:00",
+     "16:30"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 0,
+  "tags": [
+   "nature",
+   "culture",
+   "photography",
+   "quiet"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "harajuku_takeshita",
+  "name": "Takeshita Street",
+  "name_zh": "竹下通",
+  "category": "shopping",
+  "indoor": false,
+  "latitude": 35.6716,
+  "longitude": 139.7031,
+  "area": "Harajuku",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 0,
+  "tags": [
+   "shopping",
+   "photography",
+   "lively"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "teamlab_planets",
+  "name": "teamLab Planets",
+  "name_zh": "teamLab Planets",
+  "category": "museum",
+  "indoor": true,
+  "latitude": 35.6491,
+  "longitude": 139.7898,
+  "area": "Toyosu",
+  "opening_hours": {
+   "mon": [
+    [
+     "09:00",
+     "22:00"
+    ]
+   ],
+   "tue": [
+    [
+     "09:00",
+     "22:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "22:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "22:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "22:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "22:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "22:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 120,
+  "entry_cost_minor": 18000,
+  "tags": [
+   "art",
+   "photography"
+  ],
+  "reservation_required": true,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "sushi_ginza",
+  "name": "Ginza Sushi Dinner (demo)",
+  "name_zh": "银座寿司晚餐（演示）",
+  "category": "food",
+  "indoor": true,
+  "latitude": 35.6717,
+  "longitude": 139.765,
+  "area": "Ginza",
+  "opening_hours": {
+   "mon": [
+    [
+     "17:00",
+     "22:00"
+    ]
+   ],
+   "tue": [
+    [
+     "17:00",
+     "22:00"
+    ]
+   ],
+   "wed": [
+    [
+     "17:00",
+     "22:00"
+    ]
+   ],
+   "thu": [
+    [
+     "17:00",
+     "22:00"
+    ]
+   ],
+   "fri": [
+    [
+     "17:00",
+     "22:00"
+    ]
+   ],
+   "sat": [
+    [
+     "17:00",
+     "22:00"
+    ]
+   ],
+   "sun": [
+    [
+     "17:00",
+     "22:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": null,
+  "tags": [
+   "food"
+  ],
+  "reservation_required": true,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "omoide_yokocho",
+  "name": "Omoide Yokocho",
+  "name_zh": "思い出横丁",
+  "category": "food",
+  "indoor": false,
+  "latitude": 35.6933,
+  "longitude": 139.6994,
+  "area": "Shinjuku",
+  "opening_hours": {
+   "mon": [
+    [
+     "17:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "17:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "17:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "17:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "17:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "17:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "17:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 15000,
+  "tags": [
+   "food",
+   "photography",
+   "lively"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "akihabara",
+  "name": "Akihabara Electric Town",
+  "name_zh": "秋叶原电器街",
+  "category": "shopping",
+  "indoor": true,
+  "latitude": 35.6984,
+  "longitude": 139.7731,
+  "area": "Akihabara",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 0,
+  "tags": [
+   "shopping",
+   "anime",
+   "lively"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "shibuya_sky",
+  "name": "Shibuya Sky",
+  "name_zh": "涩谷SKY",
+  "category": "viewpoint",
+  "indoor": false,
+  "latitude": 35.6585,
+  "longitude": 139.7022,
+  "area": "Shibuya",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "22:30"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "22:30"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "22:30"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "22:30"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "22:30"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "22:30"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "22:30"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 12000,
+  "tags": [
+   "photography",
+   "city_view"
+  ],
+  "reservation_required": true,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "mori_art_museum",
+  "name": "Mori Art Museum",
+  "name_zh": "森美术馆",
+  "category": "museum",
+  "indoor": true,
+  "latitude": 35.6604,
+  "longitude": 139.7292,
+  "area": "Roppongi",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "22:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "22:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "22:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "22:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "22:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "22:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "22:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 10000,
+  "tags": [
+   "art",
+   "photography"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "tokyo_tower",
+  "name": "Tokyo Tower",
+  "name_zh": "东京塔",
+  "category": "viewpoint",
+  "indoor": true,
+  "latitude": 35.6586,
+  "longitude": 139.7454,
+  "area": "Shiba",
+  "opening_hours": {
+   "mon": [
+    [
+     "09:00",
+     "23:00"
+    ]
+   ],
+   "tue": [
+    [
+     "09:00",
+     "23:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "23:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "23:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "23:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "23:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "23:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 6000,
+  "tags": [
+   "photography",
+   "city_view"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "shinjuku_gyoen",
+  "name": "Shinjuku Gyoen National Garden",
+  "name_zh": "新宿御苑",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.6852,
+  "longitude": 139.71,
+  "area": "Shinjuku",
+  "opening_hours": {
+   "tue": [
+    [
+     "09:00",
+     "17:30"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "17:30"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "17:30"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "17:30"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "17:30"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "17:30"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 2500,
+  "tags": [
+   "nature",
+   "photography",
+   "quiet"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "imperial_east_gardens",
+  "name": "Imperial Palace East Gardens",
+  "name_zh": "皇居东御苑",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.6852,
+  "longitude": 139.7528,
+  "area": "Chiyoda",
+  "opening_hours": {
+   "tue": [
+    [
+     "09:00",
+     "16:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "16:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "16:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "16:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "16:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 0,
+  "tags": [
+   "nature",
+   "culture",
+   "quiet",
+   "history"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "tsukiji_outer_market",
+  "name": "Tsukiji Outer Market",
+  "name_zh": "筑地场外市场",
+  "category": "food",
+  "indoor": false,
+  "latitude": 35.6654,
+  "longitude": 139.7707,
+  "area": "Tsukiji",
+  "opening_hours": {
+   "mon": [
+    [
+     "06:00",
+     "14:00"
+    ]
+   ],
+   "tue": [
+    [
+     "06:00",
+     "14:00"
+    ]
+   ],
+   "thu": [
+    [
+     "06:00",
+     "14:00"
+    ]
+   ],
+   "fri": [
+    [
+     "06:00",
+     "14:00"
+    ]
+   ],
+   "sat": [
+    [
+     "06:00",
+     "14:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 8000,
+  "tags": [
+   "food"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "ghibli_museum",
+  "name": "Ghibli Museum (demo)",
+  "name_zh": "吉卜力美术馆（演示）",
+  "category": "museum",
+  "indoor": true,
+  "latitude": 35.6962,
+  "longitude": 139.5704,
+  "area": "Mitaka",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "18:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "18:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "18:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "18:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "18:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "18:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 5000,
+  "tags": [
+   "art",
+   "anime",
+   "quiet"
+  ],
+  "reservation_required": true,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "inokashira_park",
+  "name": "Inokashira Park",
+  "name_zh": "井之头恩赐公园",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.7,
+  "longitude": 139.5733,
+  "area": "Kichijoji",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 0,
+  "tags": [
+   "nature",
+   "photography",
+   "quiet"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "odaiba_seaside",
+  "name": "Odaiba Seaside Park",
+  "name_zh": "台场海滨公园",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.6298,
+  "longitude": 139.7745,
+  "area": "Odaiba",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 0,
+  "tags": [
+   "nature",
+   "photography",
+   "city_view"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "ginza_six",
+  "name": "GINZA SIX",
+  "name_zh": "GINZA SIX 商场",
+  "category": "shopping",
+  "indoor": true,
+  "latitude": 35.6696,
+  "longitude": 139.764,
+  "area": "Ginza",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:30",
+     "20:30"
+    ]
+   ],
+   "tue": [
+    [
+     "10:30",
+     "20:30"
+    ]
+   ],
+   "wed": [
+    [
+     "10:30",
+     "20:30"
+    ]
+   ],
+   "thu": [
+    [
+     "10:30",
+     "20:30"
+    ]
+   ],
+   "fri": [
+    [
+     "10:30",
+     "20:30"
+    ]
+   ],
+   "sat": [
+    [
+     "10:30",
+     "20:30"
+    ]
+   ],
+   "sun": [
+    [
+     "10:30",
+     "20:30"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 0,
+  "tags": [
+   "shopping"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "yanaka_ginza",
+  "name": "Yanaka Ginza Shopping Street",
+  "name_zh": "谷中银座商店街",
+  "category": "shopping",
+  "indoor": false,
+  "latitude": 35.7277,
+  "longitude": 139.766,
+  "area": "Yanaka",
+  "opening_hours": null,
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 0,
+  "tags": [
+   "culture",
+   "food",
+   "photography"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hotel_asakusa",
+  "name": "PlanB Demo Hotel Asakusa",
+  "name_zh": "浅草演示酒店",
+  "category": "hotel",
+  "indoor": true,
+  "latitude": 35.7119,
+  "longitude": 139.795,
+  "area": "Asakusa",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 0,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hotel_ginza",
+  "name": "PlanB Demo Hotel Ginza",
+  "name_zh": "银座演示酒店",
+  "category": "hotel",
+  "indoor": true,
+  "latitude": 35.6717,
+  "longitude": 139.766,
+  "area": "Ginza",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 0,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hotel_shibuya",
+  "name": "PlanB Demo Hotel Shibuya",
+  "name_zh": "涩谷演示酒店",
+  "category": "hotel",
+  "indoor": true,
+  "latitude": 35.659,
+  "longitude": 139.701,
+  "area": "Shibuya",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 0,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hotel_ueno",
+  "name": "PlanB Demo Hotel Ueno",
+  "name_zh": "上野演示酒店",
+  "category": "hotel",
+  "indoor": true,
+  "latitude": 35.713,
+  "longitude": 139.777,
+  "area": "Ueno",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 0,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hotel_ikebukuro",
+  "name": "PlanB Demo Hotel Ikebukuro",
+  "name_zh": "池袋演示酒店",
+  "category": "hotel",
+  "indoor": true,
+  "latitude": 35.7295,
+  "longitude": 139.7109,
+  "area": "Ikebukuro",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 0,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "narita_airport",
+  "name": "Narita Airport (NRT)",
+  "name_zh": "成田机场",
+  "category": "airport",
+  "indoor": true,
+  "latitude": 35.772,
+  "longitude": 140.3929,
+  "area": "Narita",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 120,
+  "entry_cost_minor": 0,
+  "tags": [],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "nakano_broadway",
+  "name": "Nakano Broadway",
+  "name_zh": "中野百老汇",
+  "category": "shopping",
+  "indoor": true,
+  "latitude": 35.709,
+  "longitude": 139.6658,
+  "area": "Nakano",
+  "opening_hours": {
+   "mon": [
+    [
+     "12:00",
+     "20:00"
+    ]
+   ],
+   "tue": [
+    [
+     "12:00",
+     "20:00"
+    ]
+   ],
+   "wed": [
+    [
+     "12:00",
+     "20:00"
+    ]
+   ],
+   "thu": [
+    [
+     "12:00",
+     "20:00"
+    ]
+   ],
+   "fri": [
+    [
+     "12:00",
+     "20:00"
+    ]
+   ],
+   "sat": [
+    [
+     "12:00",
+     "20:00"
+    ]
+   ],
+   "sun": [
+    [
+     "12:00",
+     "20:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 0,
+  "tags": [
+   "anime",
+   "shopping",
+   "lively"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "ikebukuro_otome_road",
+  "name": "Otome Road (Ikebukuro)",
+  "name_zh": "池袋乙女路",
+  "category": "shopping",
+  "indoor": false,
+  "latitude": 35.7303,
+  "longitude": 139.7185,
+  "area": "Ikebukuro",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 0,
+  "tags": [
+   "anime",
+   "shopping"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "pokemon_center_ikebukuro",
+  "name": "Pokemon Center Mega Tokyo",
+  "name_zh": "宝可梦中心（池袋）",
+  "category": "shopping",
+  "indoor": true,
+  "latitude": 35.729,
+  "longitude": 139.7195,
+  "area": "Ikebukuro",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 45,
+  "entry_cost_minor": 0,
+  "tags": [
+   "anime",
+   "shopping"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "gundam_odaiba",
+  "name": "Unicorn Gundam Statue (Odaiba)",
+  "name_zh": "独角兽高达立像（台场）",
+  "category": "viewpoint",
+  "indoor": false,
+  "latitude": 35.6247,
+  "longitude": 139.7754,
+  "area": "Odaiba",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "21:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 45,
+  "entry_cost_minor": 0,
+  "tags": [
+   "anime",
+   "photography"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "character_street",
+  "name": "Tokyo Character Street",
+  "name_zh": "东京站动漫人物街",
+  "category": "shopping",
+  "indoor": true,
+  "latitude": 35.68,
+  "longitude": 139.768,
+  "area": "Marunouchi",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "20:30"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "20:30"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "20:30"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "20:30"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "20:30"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "20:30"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "20:30"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 45,
+  "entry_cost_minor": 0,
+  "tags": [
+   "anime",
+   "shopping"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "kiyosumi_teien",
+  "name": "Kiyosumi Garden",
+  "name_zh": "清澄庭园",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.68,
+  "longitude": 139.7965,
+  "area": "Kiyosumi",
+  "opening_hours": {
+   "mon": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 700,
+  "tags": [
+   "nature",
+   "quiet",
+   "culture"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "rikugien",
+  "name": "Rikugien Garden",
+  "name_zh": "六义园",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.733,
+  "longitude": 139.7466,
+  "area": "Komagome",
+  "opening_hours": {
+   "mon": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 1500,
+  "tags": [
+   "nature",
+   "quiet",
+   "history"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hamarikyu",
+  "name": "Hamarikyu Gardens",
+  "name_zh": "滨离宫恩赐庭园",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.66,
+  "longitude": 139.7633,
+  "area": "Shiodome",
+  "opening_hours": {
+   "mon": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 1500,
+  "tags": [
+   "nature",
+   "quiet",
+   "city_view"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "nezu_museum",
+  "name": "Nezu Museum",
+  "name_zh": "根津美术馆",
+  "category": "museum",
+  "indoor": true,
+  "latitude": 35.6623,
+  "longitude": 139.7171,
+  "area": "Aoyama",
+  "opening_hours": {
+   "tue": [
+    [
+     "10:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 7000,
+  "tags": [
+   "art",
+   "quiet",
+   "culture"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "nezu_shrine",
+  "name": "Nezu Shrine",
+  "name_zh": "根津神社",
+  "category": "shrine",
+  "indoor": false,
+  "latitude": 35.7202,
+  "longitude": 139.7607,
+  "area": "Nezu",
+  "opening_hours": {
+   "mon": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 45,
+  "entry_cost_minor": 0,
+  "tags": [
+   "culture",
+   "quiet",
+   "history",
+   "photography"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "gotokuji",
+  "name": "Gotokuji Temple",
+  "name_zh": "豪德寺",
+  "category": "temple",
+  "indoor": false,
+  "latitude": 35.6488,
+  "longitude": 139.6475,
+  "area": "Setagaya",
+  "opening_hours": {
+   "mon": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "06:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 0,
+  "tags": [
+   "culture",
+   "quiet",
+   "photography"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "todoroki_valley",
+  "name": "Todoroki Valley",
+  "name_zh": "等等力溪谷",
+  "category": "park",
+  "indoor": false,
+  "latitude": 35.6077,
+  "longitude": 139.6487,
+  "area": "Setagaya",
+  "opening_hours": {
+   "mon": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 0,
+  "tags": [
+   "nature",
+   "quiet"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "hokusai_museum",
+  "name": "Sumida Hokusai Museum",
+  "name_zh": "墨田北斋美术馆",
+  "category": "museum",
+  "indoor": true,
+  "latitude": 35.6966,
+  "longitude": 139.7997,
+  "area": "Ryogoku",
+  "opening_hours": {
+   "tue": [
+    [
+     "09:30",
+     "17:30"
+    ]
+   ],
+   "wed": [
+    [
+     "09:30",
+     "17:30"
+    ]
+   ],
+   "thu": [
+    [
+     "09:30",
+     "17:30"
+    ]
+   ],
+   "fri": [
+    [
+     "09:30",
+     "17:30"
+    ]
+   ],
+   "sat": [
+    [
+     "09:30",
+     "17:30"
+    ]
+   ],
+   "sun": [
+    [
+     "09:30",
+     "17:30"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 2000,
+  "tags": [
+   "art",
+   "culture",
+   "quiet"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "jindaiji",
+  "name": "Jindaiji Temple",
+  "name_zh": "深大寺",
+  "category": "temple",
+  "indoor": false,
+  "latitude": 35.67,
+  "longitude": 139.547,
+  "area": "Chofu",
+  "opening_hours": {
+   "mon": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "tue": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "wed": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "thu": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "fri": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sat": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ],
+   "sun": [
+    [
+     "09:00",
+     "17:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 75,
+  "entry_cost_minor": 0,
+  "tags": [
+   "culture",
+   "quiet",
+   "nature"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "shibuya_crossing",
+  "name": "Shibuya Scramble Crossing",
+  "name_zh": "涩谷十字路口",
+  "category": "viewpoint",
+  "indoor": false,
+  "latitude": 35.6595,
+  "longitude": 139.7005,
+  "area": "Shibuya",
+  "opening_hours": {
+   "mon": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "tue": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "wed": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "thu": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "fri": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sat": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ],
+   "sun": [
+    [
+     "00:00",
+     "23:59"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 30,
+  "entry_cost_minor": 0,
+  "tags": [
+   "city_view",
+   "lively",
+   "photography"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "ameyoko",
+  "name": "Ameyoko Market Street",
+  "name_zh": "阿美横丁",
+  "category": "shopping",
+  "indoor": false,
+  "latitude": 35.7101,
+  "longitude": 139.7745,
+  "area": "Ueno",
+  "opening_hours": {
+   "mon": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "tue": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "wed": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "thu": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "fri": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "sat": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ],
+   "sun": [
+    [
+     "10:00",
+     "20:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 60,
+  "entry_cost_minor": 0,
+  "tags": [
+   "food",
+   "shopping",
+   "lively"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ },
+ {
+  "place_id": "shimokitazawa",
+  "name": "Shimokitazawa",
+  "name_zh": "下北泽",
+  "category": "shopping",
+  "indoor": false,
+  "latitude": 35.6616,
+  "longitude": 139.668,
+  "area": "Shimokitazawa",
+  "opening_hours": {
+   "mon": [
+    [
+     "11:00",
+     "20:00"
+    ]
+   ],
+   "tue": [
+    [
+     "11:00",
+     "20:00"
+    ]
+   ],
+   "wed": [
+    [
+     "11:00",
+     "20:00"
+    ]
+   ],
+   "thu": [
+    [
+     "11:00",
+     "20:00"
+    ]
+   ],
+   "fri": [
+    [
+     "11:00",
+     "20:00"
+    ]
+   ],
+   "sat": [
+    [
+     "11:00",
+     "20:00"
+    ]
+   ],
+   "sun": [
+    [
+     "11:00",
+     "20:00"
+    ]
+   ]
+  },
+  "closed_dates": [],
+  "suggested_visit_minutes": 90,
+  "entry_cost_minor": 0,
+  "tags": [
+   "shopping",
+   "lively",
+   "culture"
+  ],
+  "reservation_required": false,
+  "data_source": "fixture",
+  "verified_status": "simulated"
+ }
+]

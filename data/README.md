@@ -9,6 +9,11 @@ All data in this folder is **simulated** for a course demo. It is not real-time 
 | `sample_trips/tokyo_3day.json` | 3-day trip 2026-12-10 → 12-12 (Thu–Sat), 12 activities | fixture (`scripts/build_sample_trip.py`) |
 | `sample_bookings/tokyo_bookings.json` | 2 flights, 1 hotel, teamLab ticket, sushi reservation, with refund/change rules and alternative quotes | user-provided style fixture |
 
+`places/tokyo_places_extended.json` + `travel_times/tokyo_matrix_extended.json`: the base 24 places plus
+23 more (area hotels, Narita, anime spots, quiet gardens and shrines, lively streets) and extra tags such as
+`quiet`, `lively`, `history`. Used by the app for trip planning and recommendations; the recorded
+evaluation keeps the base files so its prompts and cached results stay reproducible.
+
 Deliberate gaps (to test unknown handling): `yanaka_ginza` has unknown opening hours; the pairs
 `yanaka_ginza~ghibli_museum` and `yanaka_ginza~odaiba_seaside` are missing from the matrix; the sushi dinner price is unknown.
 

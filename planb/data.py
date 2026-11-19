@@ -46,9 +46,11 @@ class World:
         return dt.astimezone(self.tz)
 
 
-def load_world(places_file: Path | None = None, matrix_file: Path | None = None) -> World:
-    places_file = places_file or DATA / "places/tokyo_places.json"
-    matrix_file = matrix_file or DATA / "travel_times/tokyo_matrix.json"
+def load_world(places_file: Path | None = None, matrix_file: Path | None = None, extended: bool = False) -> World:
+    """Base catalogue by default (used by the recorded evaluation); extended=True for the app."""
+    suffix = "_extended" if extended else ""
+    places_file = places_file or DATA / f"places/tokyo_places{suffix}.json"
+    matrix_file = matrix_file or DATA / f"travel_times/tokyo_matrix{suffix}.json"
     places = [Place.model_validate(p) for p in json.loads(Path(places_file).read_text())]
     travel = [TravelTime.model_validate(t) for t in json.loads(Path(matrix_file).read_text())]
     return World(places, travel)
