@@ -113,3 +113,15 @@ def test_generated_trip_supports_replanning_with_unknown_cost(xworld, mock):
     p = agent.store.pending()[0]
     # fees were never stated -> the extra cost must be unknown, not 0
     assert p.cost_estimate.total_additional_minor is None and p.cost_estimate.unknown_components
+
+
+def test_meal_slot_never_blocks_travel_to_the_airport(xworld):
+    # far-west sights on the last day + evening flight: the dinner slot must not eat the travel time
+    req = TripRequest(start_date=date(2026, 12, 13), end_date=date(2026, 12, 13), interests=["quiet"], pace="relaxed",
+                      must_visit=[MustVisit(place_id="jindaiji")],
+                      bookings=[StatedBooking(kind="flight_arrival", place_id="haneda_airport",
+                                              start="2026-12-13T09:00:00+09:00"),
+                                StatedBooking(kind="flight_departure", place_id="haneda_airport",
+                                              start="2026-12-13T21:00:00+09:00")])
+    plan = plan_trip(xworld, sanitize(req, xworld))
+    assert not plan.validation.hard_violations

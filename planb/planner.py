@@ -6,7 +6,7 @@ preferences; the schedule itself is built here so it is always checkable.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime, time, timedelta
 from typing import TYPE_CHECKING, Optional
 
@@ -145,6 +145,7 @@ class TripPlan:
     bookings: list[Booking]
     report: list[str]
     validation: ValidationResult
+    unplaceable: list[str] = field(default_factory=list)  # must-visits that could not be scheduled (reported)
 
 
 DAY_START, DAY_END = time(9, 0), time(19, 30)
@@ -220,6 +221,39 @@ def add_meal_slots(world: World, days: list[date], acts: list[Activity], hotel: 
                 day_acts.append(meal)
                 break
     return added
+
+
+def settle_meal_slots(world: World, trip: Trip) -> list[str]:
+    """A meal slot must not eat the travel time to the next stop (e.g. dinner right before airport check-in).
+    Move such a slot earlier inside its window, or drop it and say so."""
+    notes: list[str] = []
+    windows = {title: (lo, hi) for title, lo, hi, _, _ in MEALS}
+    for _ in range(10):
+        bad = [v for v in validate(trip, world).hard_violations if v.rule == "TRAVEL_TIME" and len(v.activity_ids) >= 2]
+        if not bad:
+            break
+        a, b = trip.activity(bad[0].activity_ids[0]), trip.activity(bad[0].activity_ids[1])
+        meals = [m for m in trip.activities if m.category == "free_time" and m.start_at < b.start_at and m.end_at > a.end_at]
+        if not meals:
+            break
+        m = meals[-1]
+        title = next((t for t in windows if t in m.title), None)
+        lo = datetime.combine(world.local(m.start_at).date(), windows[title][0], tzinfo=world.tz) if title else m.start_at
+        dur, moved = m.end_at - m.start_at, False
+        start = m.start_at - timedelta(minutes=15)
+        while start >= max(lo, a.end_at):
+            m.start_at, m.end_at = start, start + dur
+            others = [x for x in trip.activities if x is not m]
+            if not any(x.start_at < m.end_at and x.end_at > m.start_at for x in others) and not any(
+                    v.rule == "TRAVEL_TIME" and m.activity_id not in v.activity_ids and {a.activity_id, b.activity_id} <= set(v.activity_ids)
+                    for v in validate(trip, world).hard_violations):
+                moved = True
+                break
+            start -= timedelta(minutes=15)
+        if not moved:
+            trip.activities = [x for x in trip.activities if x is not m]
+            notes.append(f"{world.local(m.start_at):%m月%d日}{(title or '用餐')}时间不够（要赶去下一站），没有单独留出")
+    return notes
 
 
 def place_meal_slots(world: World, trip: Trip) -> None:
@@ -333,7 +367,7 @@ def plan_trip(world: World, req: "TripRequest") -> TripPlan:
     cap = PACE_VISITS[prefs.pace]
     count = {d: sum(1 for a in acts if a.category == "visit" and world.local(a.start_at).date() == d) for d in days}
 
-    placed_must = 0
+    placed_must, unplaceable = 0, []
     for mv in req.must_visit:
         best = None
         for d in ([mv.day] if mv.day in days else days):
@@ -347,6 +381,7 @@ def plan_trip(world: World, req: "TripRequest") -> TripPlan:
             p = world.place(mv.place_id)
             why = "营业时间未知，无法确认" if p.opening_hours is None else "营业时间或剩余时间不够"
             report.append(f"没能排进「{name(mv.place_id)}」：{why}")
+            unplaceable.append(mv.place_id)
             continue
         start, end, _, d = best
         acts.append(Activity(activity_id=new_id("act"), place_id=mv.place_id, title=name(mv.place_id), start_at=start,
@@ -372,9 +407,11 @@ def plan_trip(world: World, req: "TripRequest") -> TripPlan:
 
     trip.activities = sorted(acts, key=lambda a: a.start_at)
     place_meal_slots(world, trip)
+    report += settle_meal_slots(world, trip)
+    trip.activities = sorted(trip.activities, key=lambda a: a.start_at)
     validation = validate(trip, world)
     n_booked = sum(1 for b in bookings if b.linked_activity_ids)
-    n_meals = sum(1 for a in acts if a.category == "free_time")
+    n_meals = sum(1 for a in trip.activities if a.category == "free_time")
     report.insert(0, f"共安排 {sum(count.values())} 个景点：你想去的 {placed_must} 个，按喜好推荐的 {recommended} 个；"
                      f"已预订的 {n_booked} 项已锁定；留了 {n_meals} 段用餐时间（自由安排）")
-    return TripPlan(trip=trip, bookings=bookings, report=report, validation=validation)
+    return TripPlan(trip=trip, bookings=bookings, report=report, validation=validation, unplaceable=unplaceable)
