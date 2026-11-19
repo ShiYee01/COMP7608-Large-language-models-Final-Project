@@ -1,0 +1,90 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "ok",
+ "id": "t05_bookings_with_prices",
+ "category": "stated_bookings",
+ "request": "12月10日到12日，住新宿。10号下午3点半到羽田，12号上午11点从羽田起飞，返程机票1800元，改签费200元。我已经订了11号晚上7点银座的寿司（定金300元）和11号上午10点的teamLab门票（180元）。想去明治神宫。",
+ "why": "已订的寿司和 teamLab 必须锁定在说好的时间；12 号 11:00 起飞、09:00 值机，当天没有游览时间；明治神宫 16:30 关门，10 号 16:00 才出机场赶不上，只能排在 11 号。价格和改签费要按原数提取。",
+ "gold_request": {
+  "start_date": "2026-12-10",
+  "end_date": "2026-12-12",
+  "must_visit": [
+   "meiji_jingu"
+  ],
+  "must_visit_days": {},
+  "avoid": [],
+  "interests_required": [],
+  "interests_allowed": [],
+  "pace": null,
+  "hotel_place_id": "hotel_shinjuku",
+  "bookings": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-10T15:30:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-12T11:00:00+09:00",
+    "price_cny": 1800,
+    "change_fee_cny": 200
+   },
+   {
+    "kind": "restaurant",
+    "place_id": "sushi_ginza",
+    "start": "2026-12-11T19:00:00+09:00",
+    "price_cny": 300
+   },
+   {
+    "kind": "attraction",
+    "place_id": "teamlab_planets",
+    "start": "2026-12-11T10:00:00+09:00",
+    "price_cny": 180
+   }
+  ],
+  "unknown_places": []
+ },
+ "plan_checks": {
+  "must_include": [
+   "meiji_jingu",
+   "sushi_ginza",
+   "teamlab_planets"
+  ],
+  "must_exclude": [],
+  "on_day": {
+   "meiji_jingu": "2026-12-11"
+  },
+  "not_on_day": {},
+  "locked_at": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-10T15:30:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-12T11:00:00+09:00"
+   },
+   {
+    "kind": "restaurant",
+    "place_id": "sushi_ginza",
+    "start": "2026-12-11T19:00:00+09:00"
+   },
+   {
+    "kind": "attraction",
+    "place_id": "teamlab_planets",
+    "start": "2026-12-11T10:00:00+09:00"
+   }
+  ],
+  "no_visits_on": [
+   "2026-12-12"
+  ],
+  "expected_unplaceable": [],
+  "max_visits_per_day": 4,
+  "preference_tags": []
+ }
+}

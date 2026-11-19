@@ -1,0 +1,24 @@
+{
+ "type": "edit",
+ "base": "edit_base.json",
+ "split": "pilot",
+ "id": "e02_recommend_on_full_day",
+ "request": "推荐一个二次元的地方加到12号。",
+ "why": "12 号排满了（秋叶原、午餐、滨离宫、16:00 去机场）。两种答案都算对：① 加一个二次元地点，但不能动你想去的秋叶原、不能动航班，计划仍可行；② 明确说放不下。",
+ "expected": {
+  "status": "ok_or_refused",
+  "removed": [],
+  "must_keep": [
+   "e1",
+   "e4",
+   "e7",
+   "e10"
+  ],
+  "added_tags_any": [
+   "anime"
+  ],
+  "added_place": null,
+  "must_not_use": [],
+  "unknown_expected": false
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "type": "edit",
+ "base": "edit_base.json",
+ "split": "pilot",
+ "id": "e01_remove_with_preference",
+ "request": "我不想去浅草寺了，换一个安静一点的地方。",
+ "why": "删掉浅草寺；如果补一个地点，必须是“安静”的，并且放得下；其余项目（尤其已订的 teamLab 和航班）不动。",
+ "expected": {
+  "status": "ok",
+  "removed": [
+   "e2"
+  ],
+  "must_keep": [
+   "e1",
+   "e4",
+   "e5",
+   "e7",
+   "e9",
+   "e10"
+  ],
+  "added_tags_any": [
+   "quiet"
+  ],
+  "added_place": null,
+  "must_not_use": [],
+  "unknown_expected": false
+ }
+}

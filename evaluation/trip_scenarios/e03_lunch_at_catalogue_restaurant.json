@@ -1,0 +1,32 @@
+{
+ "type": "edit",
+ "base": "edit_base.json",
+ "split": "pilot",
+ "id": "e03_lunch_at_catalogue_restaurant",
+ "request": "12号午饭想去筑地吃。",
+ "why": "12/12 周六筑地营业（06:00–14:00）。午餐要放在 11:30–13:30 之间、在筑地，其余项目不动。",
+ "expected": {
+  "status": "ok",
+  "removed": [
+   "e8"
+  ],
+  "must_keep": [
+   "e1",
+   "e4",
+   "e7",
+   "e9",
+   "e10"
+  ],
+  "added_tags_any": [],
+  "added_place": {
+   "place_id": "tsukiji_outer_market",
+   "day": "2026-12-12",
+   "window": [
+    "11:30",
+    "13:30"
+   ]
+  },
+  "must_not_use": [],
+  "unknown_expected": false
+ }
+}

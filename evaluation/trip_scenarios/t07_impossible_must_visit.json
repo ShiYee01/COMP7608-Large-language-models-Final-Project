@@ -1,0 +1,65 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "ok",
+ "id": "t07_impossible_must_visit",
+ "category": "infeasible_part",
+ "request": "12月16日一天在东京转机，想去筑地场外市场和东京国立博物馆。16号早上9点到羽田，晚上9点羽田起飞。不住酒店。",
+ "why": "12/16 是周三，筑地周三休息：不能排进去，必须明确告诉用户；东京国立博物馆周三开放，可以排。",
+ "gold_request": {
+  "start_date": "2026-12-16",
+  "end_date": "2026-12-16",
+  "must_visit": [
+   "tsukiji_outer_market",
+   "tokyo_national_museum"
+  ],
+  "must_visit_days": {},
+  "avoid": [],
+  "interests_required": [],
+  "interests_allowed": [],
+  "pace": null,
+  "hotel_place_id": null,
+  "bookings": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-16T09:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-16T21:00:00+09:00"
+   }
+  ],
+  "unknown_places": []
+ },
+ "plan_checks": {
+  "must_include": [
+   "tokyo_national_museum"
+  ],
+  "must_exclude": [
+   "tsukiji_outer_market"
+  ],
+  "on_day": {},
+  "not_on_day": {},
+  "locked_at": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-16T09:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-16T21:00:00+09:00"
+   }
+  ],
+  "no_visits_on": [],
+  "expected_unplaceable": [
+   "tsukiji_outer_market"
+  ],
+  "max_visits_per_day": 4,
+  "preference_tags": []
+ }
+}

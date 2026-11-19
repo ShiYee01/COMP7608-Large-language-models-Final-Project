@@ -1,0 +1,31 @@
+{
+ "type": "edit",
+ "base": "edit_base.json",
+ "split": "pilot",
+ "id": "e04_restaurant_not_in_catalogue",
+ "request": "11号晚饭想去浅草那家天妇罗店。",
+ "why": "这家店不在地点库里：不能换成库里的寿司店、思い出横丁或筑地；营业时间和价格未知，必须说明“无法确认”，不能编。",
+ "expected": {
+  "status": "ok",
+  "removed": [
+   "e6"
+  ],
+  "must_keep": [
+   "e1",
+   "e2",
+   "e4",
+   "e7",
+   "e9",
+   "e10"
+  ],
+  "added_tags_any": [],
+  "added_place": null,
+  "must_not_use": [
+   "sushi_ginza",
+   "omoide_yokocho",
+   "tsukiji_outer_market",
+   "ameyoko"
+  ],
+  "unknown_expected": true
+ }
+}

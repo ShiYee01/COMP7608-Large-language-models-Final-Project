@@ -1,0 +1,76 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "ok",
+ "id": "t06_must_visit_on_given_days",
+ "category": "day_constraints",
+ "request": "我12月11日到13日在东京玩，住浅草。11号一定要去筑地场外市场，12号想去皇居东御苑，13号去东京晴空塔。喜欢拍照。11号早上8点就到羽田了，13号晚上7点羽田起飞。",
+ "why": "三个地点都指定了日期。筑地周三/周日休息（11 号周五可以）；皇居东御苑周一/周五闭园（12 号周六可以，11 号不行）。",
+ "gold_request": {
+  "start_date": "2026-12-11",
+  "end_date": "2026-12-13",
+  "must_visit": [
+   "tsukiji_outer_market",
+   "imperial_east_gardens",
+   "tokyo_skytree"
+  ],
+  "must_visit_days": {
+   "tsukiji_outer_market": "2026-12-11",
+   "imperial_east_gardens": "2026-12-12",
+   "tokyo_skytree": "2026-12-13"
+  },
+  "avoid": [],
+  "interests_required": [
+   "photography"
+  ],
+  "interests_allowed": [],
+  "pace": null,
+  "hotel_place_id": "hotel_asakusa",
+  "bookings": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-11T08:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-13T19:00:00+09:00"
+   }
+  ],
+  "unknown_places": []
+ },
+ "plan_checks": {
+  "must_include": [
+   "tsukiji_outer_market",
+   "imperial_east_gardens",
+   "tokyo_skytree"
+  ],
+  "must_exclude": [],
+  "on_day": {
+   "tsukiji_outer_market": "2026-12-11",
+   "imperial_east_gardens": "2026-12-12",
+   "tokyo_skytree": "2026-12-13"
+  },
+  "not_on_day": {},
+  "locked_at": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-11T08:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-13T19:00:00+09:00"
+   }
+  ],
+  "no_visits_on": [],
+  "expected_unplaceable": [],
+  "max_visits_per_day": 4,
+  "preference_tags": [
+   "photography"
+  ]
+ }
+}
