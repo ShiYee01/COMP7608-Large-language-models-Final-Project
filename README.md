@@ -27,7 +27,7 @@ request ─► LLM parser ─► DisruptionEvent ─► impact analysis ─► l
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 29 unit tests, no LLM needed
+python -m pytest -q                      # 30 unit tests, no LLM needed
 streamlit run app/streamlit_app.py       # demo UI (works without an API key: mock mode)
 python evaluation/run_eval.py --mock     # evaluation pipeline test (mock, NOT real results)
 ```
@@ -110,6 +110,7 @@ evaluation/   scenarios, baselines, metrics, run_eval.py, results/
 scripts/      fixture / scenario generators
 tests/        unit tests
 docs/         design decisions, evaluation protocol, presentation outline
+zh/           Chinese translations of the Markdown docs (see zh/README.md)
 ```
 
 See `PROJECT_CONTEXT.md` for the full requirements and design.
