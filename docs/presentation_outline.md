@@ -73,6 +73,13 @@ Talking points:
 - **Honesty.** This is a small pilot set written by the author, so a difference of 1–2 cases is not significant.
   The scoring fixes are documented in each run's `NOTES.md`.
 
+**New features (trip setup + chat edits, 13 pilot scenarios, Nemotron 3 Ultra; optional slide):**
+setup success: direct 4/8, constraint-prompted 8/8, PlanB 8/8; edits 4/5, 5/5, 5/5. With a strong model and a
+rule-heavy prompt the baseline matches PlanB here; without the rules, half the plans break opening hours or travel
+time. PlanB needs about 4.6k tokens vs about 29k and answers in 14 s vs 118 s. Say this honestly: the advantage on
+the new features is cost, speed and guarantees by construction, not correctness. See
+`evaluation/results/trip-nemotron-openrouter-free/NOTES.md`.
+
 **Refined claim:** the LLM is good at understanding and, when strong, at planning. Exact money calculation and
 guaranteed constraint satisfaction should come from code. PlanB makes a small free model usable.
 

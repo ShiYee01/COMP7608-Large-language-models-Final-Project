@@ -27,7 +27,7 @@ request ─► LLM parser ─► DisruptionEvent ─► impact analysis ─► l
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 46 unit tests, no LLM needed
+python -m pytest -q                      # 63 unit tests, no LLM needed
 streamlit run app/streamlit_app.py       # demo UI (works without an API key: mock mode)
 python evaluation/run_eval.py --mock     # evaluation pipeline test (mock, NOT real results)
 ```
@@ -62,7 +62,7 @@ Results go to `evaluation/results/<run-name>/` (`summary.md`, `summary.csv`, `pe
 | Baselines A (direct LLM) and B (constraint-prompted LLM), metrics, 10 pilot scenarios | `evaluation/` | ✅ |
 | Chat edits: "I don't want to go to X" (2 replacements + keep free), "recommend an anime place" (fits a free slot, or swaps one of PlanB's own suggestions), "lunch on the 12th at Tsukiji" (restaurants outside the catalogue: travel estimated from the stated area, or unknown), skip a meal, "I prefer quiet places" (remembered) | `planb/edits.py` | ✅ new, not yet evaluated |
 | Free lunch and dinner slots every day ("eat nearby"); booked meals replace them | `planb/planner.py` | ✅ |
-| Evaluation of trip setup and chat edits | — | next |
+| Evaluation of trip setup and chat edits: 13 reviewed pilot scenarios, LLM baselines, scorer fairness tests | `evaluation/trip_eval.py`, `evaluation/trip_scenarios/` | ✅ |
 | 40-scenario test set, ablations, React front end | — | planned |
 
 ## Evaluation
@@ -103,6 +103,21 @@ How to read this:
 - **PlanB does not depend on model size** once the request is parsed correctly. It also uses about 5× fewer tokens.
 
 The pilot set is 10 hand-written development scenarios, so these numbers are preliminary.
+
+### New features: trip setup by conversation and chat edits (Nemotron 3 Ultra, 13 pilot scenarios)
+
+Real run: `evaluation/results/trip-nemotron-openrouter-free/` (`python evaluation/trip_eval.py`). The scenarios were
+reviewed before any model was run; the notes list three post-hoc fixes, all of them in favour of the baselines.
+
+| method | setup success (8) | extraction acc. | edit success (5) | tokens setup / edit | latency setup / edit |
+|---|---|---|---|---|---|
+| direct | 4/8 | 0.97 | 4/5 | 25.6k / 27.4k | 47 s / 54 s |
+| structured | 8/8 | 0.98 | 5/5 | 29.2k / 28.4k | 118 s / 81 s |
+| planb | 8/8 | 1.00 | 5/5 | 4.6k / 3.5k | 14 s / 6 s |
+
+With this strong model, a rule-heavy prompt matches PlanB's correctness on the new features. Without the rules,
+half of the setup plans fail (opening hours, travel time, over-asking). PlanB uses about 6–8× fewer tokens and is
+much faster.
 
 ## Repository layout
 

@@ -45,7 +45,7 @@
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 46 个单元测试，不需要 LLM
+python -m pytest -q                      # 63 个单元测试，不需要 LLM
 streamlit run app/streamlit_app.py       # 演示界面（没有 API key 也能用：mock 模式）
 python evaluation/run_eval.py --mock     # 评测流程测试（mock，不是真实结果）
 ```
@@ -80,7 +80,7 @@ python evaluation/run_eval.py --run-name my-model
 | 基线 A（直接问 LLM）和基线 B（加约束提示的 LLM）、评测指标、10 个试点场景 | `evaluation/` | ✅ |
 | 聊天修改：“不想去 X 了”（给 2 个替换方案 + 留空）、“推荐一个二次元的地方”（放进空闲时间，没空就替换 PlanB 自己推荐的项目）、“12号午饭去筑地”（地点库外的餐厅按所说区域估算交通，不说区域则为未知）、不安排某顿饭、“我更喜欢安静的地方”（会被记住） | `planb/edits.py` | ✅ 新功能，尚未评测 |
 | 每天自动留出午餐、晚餐时间（“附近自由用餐”）；已订的餐厅会替换它 | `planb/planner.py` | ✅ |
-| 对话式新建行程和聊天修改的评测 | — | 下一步 |
+| 对话式新建行程和聊天修改的评测：13 个已核对的试点场景、LLM 基线、评分公平性测试 | `evaluation/trip_eval.py`、`evaluation/trip_scenarios/` | ✅ |
 | 40 个场景的测试集、消融实验、React 前端 | — | 计划中 |
 
 ## 评测
@@ -117,6 +117,20 @@ python evaluation/run_eval.py --run-name my-model
 - **只要请求解析正确，PlanB 的表现就不受模型大小影响。** 它用的 token 也少了大约 5 倍。
 
 试点集只有 10 个手工编写的开发场景，所以这些数字是初步的。
+
+### 新功能：对话式新建行程与聊天修改（Nemotron 3 Ultra，13 个试点场景）
+
+真实运行：`evaluation/results/trip-nemotron-openrouter-free/`（`python evaluation/trip_eval.py`）。场景在调用任何模型之前已经核对；
+说明文件里记录了三处事后修正，全部对基线有利。
+
+| 方法 | 新建行程成功（8） | 理解准确率 | 修改成功（5） | token（新建 / 修改） | 延迟（新建 / 修改） |
+|---|---|---|---|---|---|
+| direct | 4/8 | 0.97 | 4/5 | 25.6k / 27.4k | 47 秒 / 54 秒 |
+| structured | 8/8 | 0.98 | 5/5 | 29.2k / 28.4k | 118 秒 / 81 秒 |
+| planb | 8/8 | 1.00 | 5/5 | 4.6k / 3.5k | 14 秒 / 6 秒 |
+
+用这个强模型时，规则详细的提示词在新功能上的正确性和 PlanB 持平；去掉规则，一半的新建行程会失败（营业时间、交通时间、过度追问）。
+PlanB 的 token 少约 6–8 倍，速度也快得多。
 
 ## 仓库结构
 

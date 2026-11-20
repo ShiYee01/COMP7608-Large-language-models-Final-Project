@@ -71,3 +71,19 @@ def test_bare_refusal_on_full_day_is_wrong():
            "unverified_flag": False, "llm_calls": 1, "tokens": 0, "latency_s": 0.0,
            "world": load_world(extended=True), "base": run_edit(e, "planb", LLMClient(provider="mock"))["base"]}
     assert not score_edit(e, out)["success"]
+
+
+def test_free_time_used_as_travel_is_not_penalised():
+    s = next(x for x in SETUPS if x["id"] == "t05_bookings_with_prices")
+    world = load_world(extended=True)
+    plan = plan_trip(world, gold_request(s))
+    items = [it for it in _as_items(plan.trip.activities) if it["category"] != "free_time"]
+    # a baseline that writes its travel as free_time "Travel to ..." entries, filling every gap exactly
+    acts = sorted(items, key=lambda it: it["start_at"])
+    travel = [{"place_id": "free_time", "title": "Travel", "start_at": a["end_at"], "end_at": b["start_at"],
+               "category": "free_time"} for a, b in zip(acts, acts[1:]) if a["end_at"] < b["start_at"]]
+    parsed, _, invented = _items_to_acts(acts + travel, world)
+    out = {"method": "direct", "status": "ok", "understood": understood_from_request(gold_request(s)), "acts": parsed,
+           "invented": invented, "unplaceable": [], "llm_calls": 1, "tokens": 0, "latency_s": 0.0, "world": world}
+    row = score_setup(s, out)
+    assert row["c_feasible"] and row["c_no_invented"] and row["success"], row

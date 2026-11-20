@@ -177,13 +177,16 @@ def _items_to_acts(items: list, world: World, keep_ids: bool = False) -> tuple[l
     for i, it in enumerate(items or []):
         try:
             pid = str(it.get("place_id") or "")
-            if pid == "custom" or pid.startswith("custom"):
+            cat = it.get("category") if it.get("category") in ("visit", "meal", "flight_arrival", "flight_departure",
+                                                                "free_time") else "visit"
+            if cat == "free_time":
+                # meal slots are location-free ("eat nearby"): their place id is irrelevant, never "invented"
+                pid = pid if world.place(pid) else (acts[-1].place_id if acts else "hotel_shinjuku")
+            elif pid == "custom" or pid.startswith("custom"):
                 pid, _ = add_user_restaurant(world, str(it.get("custom_name") or it.get("title") or "custom"))
             elif world.place(pid) is None:
                 invented.append(pid)
             start, end = _dt(it["start_at"]), _dt(it["end_at"])
-            cat = it.get("category") if it.get("category") in ("visit", "meal", "flight_arrival", "flight_departure",
-                                                                "free_time") else "visit"
             acts.append(Activity(activity_id=str(it.get("activity_id")) if keep_ids and it.get("activity_id") else f"x{i}",
                                  place_id=pid, title=str(it.get("title") or pid), start_at=start, end_at=end,
                                  category=cat, is_locked=bool(it.get("is_locked", False))))
@@ -362,8 +365,11 @@ def score_setup(s: dict, out: dict) -> dict:
     if out.get("status") != "ok" or not acts:
         row.update(hard_violations=None, checks_passed=0.0, success=False)
         return row
+    # free_time items are ignored when judging feasibility, for EVERY method: PlanB uses them as "eat nearby"
+    # slots, the baselines also used them for "travel to X" / "transfer"; the schema never defined them precisely.
     trip = Trip(trip_id="eval", destination="Tokyo", start_date=g["start_date"], end_date=g["end_date"],
-                preferences=Preferences(pace=g["pace"] or "normal"), hotel_place_id=g["hotel_place_id"], activities=acts)
+                preferences=Preferences(pace=g["pace"] or "normal"), hotel_place_id=g["hotel_place_id"],
+                activities=[a for a in acts if a.category != "free_time"])
     res = validate(trip, world)
     row["hard_violations"] = len(res.hard_violations)
     row["violation_rules"] = ";".join(sorted({v.rule for v in res.hard_violations}))
@@ -414,8 +420,10 @@ def score_edit(e: dict, out: dict) -> dict:
                                   or a.place_id != base_by_id[a.activity_id].place_id]
 
     def option_ok(acts) -> dict:
-        trip = base.model_copy(update={"activities": acts})
-        res = validate(trip, world, None, base)
+        # free_time items ignored for feasibility, for every method (see score_setup)
+        trip = base.model_copy(update={"activities": [a for a in acts if a.category != "free_time"]})
+        res = validate(trip, world, None, base.model_copy(update={"activities": [a for a in base.activities
+                                                                                  if a.category != "free_time"]}))
         ids = {a.activity_id: a for a in acts}
         added = [p for p in new_place_ids(acts) if world.place(p)]
         added_visits = [p for p in added if world.place(p).category not in ("food", "airport", "hotel")]
