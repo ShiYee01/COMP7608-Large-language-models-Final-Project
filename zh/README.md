@@ -45,7 +45,7 @@
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 64 个单元测试，不需要 LLM
+python -m pytest -q                      # 69 个单元测试，不需要 LLM
 streamlit run app/streamlit_app.py       # 演示界面（没有 API key 也能用：mock 模式）
 python evaluation/run_eval.py --mock     # 评测流程测试（mock，不是真实结果）
 ```
@@ -129,14 +129,14 @@ python evaluation/run_eval.py --run-name my-model
 | direct | 0/8 | 4/8 | 0/5 | 4/5 | 25.6k / 27.4k | 47 秒 / 54 秒 |
 | structured | 0/8 | 8/8 | 0/5 | 5/5 | 29.2k / 28.4k | 118 秒 / 81 秒 |
 | planb | 2/8 | 8/8 | 4/5 | 5/5 | 4.6k / 3.5k | 14 秒 / 6 秒 |
-| planb_gold | 8/8 | 8/8 | — | — | 0 | <0.1 秒 |
+| planb_gold | 8/8 | 8/8 | 5/5 | 5/5 | 0 | <0.1 秒 |
 
 怎么解读：
 - **强模型：** 规则详细的提示词在新功能上的正确性和 PlanB 持平；去掉规则，一半的新建行程会失败（营业时间、交通时间、过度追问）。
   PlanB 的 token 少约 6–8 倍。
 - **小模型：** 两个基线 13 个案例一个都没做对。它们给出的计划只是碎片，丢了航班、违反营业时间，加规则也没用。
   - PlanB 的修改保持得不错（4/5），但新建行程降到 2/8。
-  - PlanB 的每一次失败都是读错了请求，最常见的是漏掉返程航班。请求正确时规划器 8/8。
+  - PlanB 的每一次失败都是读错了请求，最常见的是漏掉返程航班。请求正确时规划器 8/8、修改引擎 5/5。
   - 这就是应用在规划之前先把理解的内容复述给用户、让用户一句话更正的原因。
 
 ## 仓库结构

@@ -19,5 +19,12 @@
   "added_place": null,
   "must_not_use": [],
   "unknown_expected": false
+ },
+ "gold_edit": {
+  "kind": "recommend",
+  "day": "2026-12-12",
+  "add_interests": [
+   "anime"
+  ]
  }
 }

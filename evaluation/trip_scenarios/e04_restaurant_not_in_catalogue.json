@@ -27,5 +27,12 @@
    "ameyoko"
   ],
   "unknown_expected": true
+ },
+ "gold_edit": {
+  "kind": "set_meal",
+  "day": "2026-12-11",
+  "meal": "dinner",
+  "restaurant_name": "天妇罗店",
+  "area_hint": "浅草"
  }
 }

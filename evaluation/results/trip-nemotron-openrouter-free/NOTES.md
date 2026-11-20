@@ -35,7 +35,7 @@
 | direct | 4/8 | 0.969 | 3/5 plans | 0.73 | 4/5 | 25.6k / 27.4k | 47 s / 54 s |
 | structured | **8/8** | 0.984 | 7/7 | **0.83** | **5/5** | 29.2k / 28.4k | 118 s / 81 s |
 | planb | **8/8** | **1.000** | 7/7 | 0.79 | **5/5** | **4.6k / 3.5k** | **14 s / 6 s** |
-| planb_gold | 8/8 | — | 7/7 | 0.91 | — | 0 | <0.1 s |
+| planb_gold | 8/8 | — | 7/7 | 0.91 | 5/5 | 0 | <0.1 s |
 
 "Plans feasible" counts only the cases where a method returned a plan: 7 of the 8 setup cases need one; T08 is
 the missing-dates case.
@@ -87,3 +87,10 @@ preferences best of the three LLM-based methods (0.83).
 The 3B run found a planner bug that correct requests never trigger: a stop PlanB suggested just before a meal slot
 could leave too little travel time to an early flight. `drop_unfit_suggestions` now removes such suggestions.
 This run was re-scored from the cached replies afterwards; every number above is unchanged.
+
+## Gold edit requests added (2026-11-20, after the model runs)
+At first `planb_gold` covered trip setup only, because the edit scenarios had no hand-written structured reading
+of the request. A `gold_edit` (the correct `EditRequest`, written from the traveller's words only) was then added to
+each edit scenario in `scripts/build_trip_scenarios.py` and shown in `REVIEW.md`. It runs PlanB's edit engine with
+no LLM, so it needs no model calls and is the same for both models. **Result: 5/5.** No check was changed, and
+every other number in this run is unchanged. Test: `test_edit_engine_on_gold_edit_request_meets_every_check`.

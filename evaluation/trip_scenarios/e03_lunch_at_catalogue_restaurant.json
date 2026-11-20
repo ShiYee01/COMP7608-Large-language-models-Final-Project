@@ -28,5 +28,13 @@
   },
   "must_not_use": [],
   "unknown_expected": false
+ },
+ "gold_edit": {
+  "kind": "set_meal",
+  "place_ids": [
+   "tsukiji_outer_market"
+  ],
+  "day": "2026-12-12",
+  "meal": "lunch"
  }
 }

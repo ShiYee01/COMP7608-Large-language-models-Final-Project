@@ -220,6 +220,9 @@ EDIT_BASE = {
 #            added_place       a specific place that must be added, with its allowed window
 #            must_not_use      catalogue places that must NOT be used (substitutes for something else)
 #            unknown_expected  the answer must say the restaurant's hours/price are unknown (not claim them)
+# gold_edit: the correct structured reading of the request (planb.edits.EditRequest), written from the traveller's
+#            words only. Used by method planb_gold to test PlanB's edit engine without LLM understanding errors.
+#            Added on 2026-11-20, after the model runs; it does not change any check above.
 # status "ask_with_options": when it does not fit, ask the user with concrete options (swap X / move to another
 #            day or time); a bare "it does not fit" is wrong. Every option must be feasible.
 # Preferences (decided with the reviewer): a case is correct when all interests_required are extracted;
@@ -228,28 +231,33 @@ EDITS = [
     dict(id="e01_remove_with_preference", request="我不想去浅草寺了，换一个安静一点的地方。",
          why="删掉浅草寺；如果补一个地点，必须是“安静”的，并且放得下；其余项目（尤其已订的 teamLab 和航班）不动。",
          expected=dict(status="ok", removed=["e2"], must_keep=["e1", "e4", "e5", "e7", "e9", "e10"],
-                       added_tags_any=["quiet"], added_place=None, must_not_use=[], unknown_expected=False)),
+                       added_tags_any=["quiet"], added_place=None, must_not_use=[], unknown_expected=False),
+         gold_edit=dict(kind="remove_activity", place_ids=["senso_ji"], add_interests=["quiet"])),
     dict(id="e02_recommend_on_full_day", request="推荐一个二次元的地方加到12号。",
          why="12 号排满了（秋叶原、午餐、滨离宫、16:00 去机场）。不能只回答“放不下”：要给出具体选项询问用户，"
              "例如“把某某换成某个二次元地点”或“改到某天某时段去”。每个选项都必须可行，已订的 teamLab 和航班不能动。",
          expected=dict(status="ask_with_options", removed=[], must_keep=["e1", "e4", "e10"],
-                       added_tags_any=["anime"], added_place=None, must_not_use=[], unknown_expected=False)),
+                       added_tags_any=["anime"], added_place=None, must_not_use=[], unknown_expected=False),
+         gold_edit=dict(kind="recommend", day="2026-12-12", add_interests=["anime"])),
     dict(id="e03_lunch_at_catalogue_restaurant", request="12号午饭想去筑地吃。",
          why="12/12 周六筑地营业（06:00–14:00）。午餐要放在 11:30–13:30 之间、在筑地，其余项目不动。",
          expected=dict(status="ok", removed=["e8"], must_keep=["e1", "e4", "e7", "e9", "e10"], added_tags_any=[],
                        added_place={"place_id": "tsukiji_outer_market", "day": "2026-12-12",
                                     "window": ["11:30", "13:30"]},
-                       must_not_use=[], unknown_expected=False)),
+                       must_not_use=[], unknown_expected=False),
+         gold_edit=dict(kind="set_meal", place_ids=["tsukiji_outer_market"], day="2026-12-12", meal="lunch")),
     dict(id="e04_restaurant_not_in_catalogue", request="11号晚饭想去浅草那家天妇罗店。",
          why="这家店不在地点库里：不能换成库里的寿司店、思い出横丁或筑地；营业时间和价格未知，必须说明“无法确认”，不能编。",
          expected=dict(status="ok", removed=["e6"], must_keep=["e1", "e2", "e4", "e7", "e9", "e10"],
                        added_tags_any=[], added_place=None,
                        must_not_use=["sushi_ginza", "omoide_yokocho", "tsukiji_outer_market", "ameyoko"],
-                       unknown_expected=True)),
+                       unknown_expected=True),
+         gold_edit=dict(kind="set_meal", day="2026-12-11", meal="dinner", restaurant_name="天妇罗店", area_hint="浅草")),
     dict(id="e05_refuse_removing_booking", request="teamLab不想去了。",
          why="teamLab 是已预订、锁定的项目：不能自己删掉，应提示用户先确认/解锁（取消会涉及订单和费用）。",
          expected=dict(status="refused", removed=[], must_keep=["e1", "e2", "e4", "e5", "e7", "e9", "e10"],
-                       added_tags_any=[], added_place=None, must_not_use=[], unknown_expected=False)),
+                       added_tags_any=[], added_place=None, must_not_use=[], unknown_expected=False),
+         gold_edit=dict(kind="remove_activity", place_ids=["teamlab_planets"])),
 ]
 
 
@@ -341,6 +349,7 @@ def write_review():
             L.append("- 不能用来代替的库内地点：" + "、".join(n(p) for p in x["must_not_use"]))
         if x["unknown_expected"]:
             L.append("- 必须说明营业时间/价格未知（不能当作已确认）")
+        L.append("- 标准理解（`planb_gold` 用，2026-11-20 补充）：`" + json.dumps(e["gold_edit"], ensure_ascii=False) + "`")
         L.append("")
     L += ["## 三、已确认的评分规则（2026-11-19 核对）", "",
           "1. **喜好**：原文明确说的必须提取到；联想出来的额外喜好（如“历史 → 文化”）也算对，不扣分。",

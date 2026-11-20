@@ -87,3 +87,10 @@ def test_free_time_used_as_travel_is_not_penalised():
            "invented": invented, "unplaceable": [], "llm_calls": 1, "tokens": 0, "latency_s": 0.0, "world": world}
     row = score_setup(s, out)
     assert row["c_feasible"] and row["c_no_invented"] and row["success"], row
+
+
+@pytest.mark.parametrize("e", EDITS, ids=[e["id"] for e in EDITS])
+def test_edit_engine_on_gold_edit_request_meets_every_check(e):
+    # planb_gold for edits: with a correct reading of the request, PlanB's edit engine must pass every check
+    row = score_edit(e, run_edit(e, "planb_gold", None))
+    assert row["success"], row

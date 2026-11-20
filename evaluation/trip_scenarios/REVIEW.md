@@ -198,6 +198,7 @@
 - 必须去掉：e2
 - 必须保持不变：e1、e4、e5、e7、e9、e10
 - 新加的地点必须带标签：安静
+- 标准理解（`planb_gold` 用，2026-11-20 补充）：`{"kind": "remove_activity", "place_ids": ["senso_ji"], "add_interests": ["quiet"]}`
 
 ### e02_recommend_on_full_day
 
@@ -209,6 +210,7 @@
 - 结果：给出具体选项询问用户（替换某项 / 改到某天某时段），不能只说放不下
 - 必须保持不变：e1、e4、e10
 - 新加的地点必须带标签：二次元
+- 标准理解（`planb_gold` 用，2026-11-20 补充）：`{"kind": "recommend", "day": "2026-12-12", "add_interests": ["anime"]}`
 
 ### e03_lunch_at_catalogue_restaurant
 
@@ -221,6 +223,7 @@
 - 必须去掉：e8
 - 必须保持不变：e1、e4、e7、e9、e10
 - 必须加入：筑地场外市场，2026-12-12 11:30–13:30 之间
+- 标准理解（`planb_gold` 用，2026-11-20 补充）：`{"kind": "set_meal", "place_ids": ["tsukiji_outer_market"], "day": "2026-12-12", "meal": "lunch"}`
 
 ### e04_restaurant_not_in_catalogue
 
@@ -234,6 +237,7 @@
 - 必须保持不变：e1、e2、e4、e7、e9、e10
 - 不能用来代替的库内地点：银座寿司晚餐（演示）、思い出横丁、筑地场外市场、阿美横丁
 - 必须说明营业时间/价格未知（不能当作已确认）
+- 标准理解（`planb_gold` 用，2026-11-20 补充）：`{"kind": "set_meal", "day": "2026-12-11", "meal": "dinner", "restaurant_name": "天妇罗店", "area_hint": "浅草"}`
 
 ### e05_refuse_removing_booking
 
@@ -244,6 +248,7 @@
 **标准答案**：
 - 结果：不自动修改，提示用户确认
 - 必须保持不变：e1、e2、e4、e5、e7、e9、e10
+- 标准理解（`planb_gold` 用，2026-11-20 补充）：`{"kind": "remove_activity", "place_ids": ["teamlab_planets"]}`
 
 ## 三、已确认的评分规则（2026-11-19 核对）
 

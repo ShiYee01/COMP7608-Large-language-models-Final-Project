@@ -27,7 +27,7 @@ request ─► LLM parser ─► DisruptionEvent ─► impact analysis ─► l
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # 64 unit tests, no LLM needed
+python -m pytest -q                      # 69 unit tests, no LLM needed
 streamlit run app/streamlit_app.py       # demo UI (works without an API key: mock mode)
 python evaluation/run_eval.py --mock     # evaluation pipeline test (mock, NOT real results)
 ```
@@ -116,7 +116,7 @@ model, and one planner bug found by the 3B run, fixed and re-scored with no succ
 | direct | 0/8 | 4/8 | 0/5 | 4/5 | 25.6k / 27.4k | 47 s / 54 s |
 | structured | 0/8 | 8/8 | 0/5 | 5/5 | 29.2k / 28.4k | 118 s / 81 s |
 | planb | 2/8 | 8/8 | 4/5 | 5/5 | 4.6k / 3.5k | 14 s / 6 s |
-| planb_gold | 8/8 | 8/8 | — | — | 0 | <0.1 s |
+| planb_gold | 8/8 | 8/8 | 5/5 | 5/5 | 0 | <0.1 s |
 
 How to read this:
 - **Strong model:** a rule-heavy prompt matches PlanB's correctness on the new features. Without the rules, half
@@ -125,7 +125,7 @@ How to read this:
   opening hours, and the rules do not help.
   - PlanB's edits hold up (4/5), but setup drops to 2/8.
   - Every PlanB failure is a misread request, most often a missed departure flight. With the correct request the
-    planner gets 8/8.
+    planner gets 8/8 and the edit engine 5/5.
   - This is why the app reads the request back to the traveller for a one-sentence correction before planning.
 
 ## Repository layout

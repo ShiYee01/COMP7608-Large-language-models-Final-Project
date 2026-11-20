@@ -80,12 +80,12 @@ Talking points:
 | Direct LLM | 0/8 | 4/8 | 0/5 | 4/5 |
 | Constraint-prompted LLM | 0/8 | 8/8 | 0/5 | 5/5 |
 | **PlanB** | **2/8** | **8/8** | **4/5** | **5/5** |
-| PlanB + gold request | 8/8 | 8/8 | — | — |
+| PlanB + gold request | 8/8 | 8/8 | 5/5 | 5/5 |
 
 - Same pattern as the main evaluation: with the 3B model both baselines solve 0 of 13 (fragment plans, missing
   flights, opening-hour violations); with the 550B model the rule-heavy prompt catches up with PlanB.
 - Be honest: with 3B, PlanB's setup also drops (2/8). Every failure is a misread request (most often a missed
-  departure flight); the planner gets 8/8 with the correct request. That is why the app reads the request back
+  departure flight); with the correct request the planner gets 8/8 and the edit engine 5/5. That is why the app reads the request back
   for a one-sentence correction before planning.
 - Cost with the 550B model: about 4.6k tokens and 14 s vs about 29k and 118 s.
 - One planner bug was found by the 3B run (a suggestion before lunch left too little time for an early flight),

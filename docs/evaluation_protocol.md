@@ -43,7 +43,8 @@ one city; results depend on the model and its free-tier availability.
   hand-written from the request and catalogue facts and reviewed by the project owner (`REVIEW.md`).
 - Methods: `direct` and `structured` LLM baselines get the request, the full extended catalogue (hours, closing
   days, tags) and the travel matrix and return the plan / edited plan themselves; `planb` uses the LLM only to
-  extract the request; `planb_gold` (setup only) runs the planner on the gold request.
+  extract the request; `planb_gold` runs the planner (setup) or the edit engine (edits) on the gold request; the gold edit requests
+  (`gold_edit`) were added on 2026-11-20, after the model runs, and do not change any check.
 - Setup scoring: extraction accuracy (dates, must-visit, avoid, required interests, pace, hotel, bookings incl.
   prices, unknown places), plus plan checks judged by the shared validator: feasible, no invented places,
   must-include / must-exclude, day constraints, nothing on days without time, unplaceable must-visits reported,

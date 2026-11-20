@@ -36,7 +36,7 @@
 | direct | 0/8 | 0.66 | 1/7 plans | 0.56 | 0/5 | 20.0k / 21.7k | 182 s / 581 s |
 | structured | 0/8 | 0.63 | 0/7 plans | 0.38 | 0/5 | 20.6k / 21.7k | 333 s / 334 s |
 | planb | **2/8** | **0.75** | **4/6 plans** | **0.87** | **4/5** | **3.6k / 2.9k** | **54 s / 13 s** |
-| planb_gold | 8/8 | — | 7/7 | 0.91 | — | 0 | <0.1 s |
+| planb_gold | 8/8 | — | 7/7 | 0.91 | 5/5 | 0 | <0.1 s |
 
 "Plans feasible" counts the cases where the method returned a plan, judged against the true facts of the request.
 
@@ -73,7 +73,8 @@
     refusal to remove a booking.
   - E04 failed: the model mapped the traveller's own tempura restaurant to Senso-ji. PlanB then reported that
     Senso-ji is closed at 18:00 instead of planning the restaurant.
-- **`planb_gold` is 8/8.** With a correct request, the planner meets every check, as it did with Nemotron.
+- **`planb_gold` is 8/8 for setup and 5/5 for edits.** With a correct request, the planner and the edit engine
+  meet every check, as with Nemotron.
 
 **Cost:** PlanB used about 6× fewer tokens than a baseline for setup and about 7× fewer for edits, and was
 3–6× faster for setup and 25–45× faster for edits.
@@ -85,13 +86,13 @@
 | direct | 0/8 | 4/8 | 0/5 | 4/5 |
 | structured | 0/8 | 8/8 | 0/5 | 5/5 |
 | planb | 2/8 | 8/8 | 4/5 | 5/5 |
-| planb_gold | 8/8 | 8/8 | — | — |
+| planb_gold | 8/8 | 8/8 | 5/5 | 5/5 |
 
 - **The original finding repeats on the new features.** With a small model the baselines collapse (0/13) and the
   rule-heavy prompt does not save them. With a strong model the rule-heavy prompt catches up.
 - **PlanB degrades much less, but it degrades:** setup drops from 8/8 to 2/8 because extracting a long paragraph
   with several bookings is hard for a 3B model. Edits hold up (4/5) because an edit request is short.
-- **The planner is not the bottleneck:** the gold request gives 8/8 for both models. This supports the design
+- **The planner and edit engine are not the bottleneck:** the gold request gives 8/8 and 5/5 for both models. This supports the design
   choice of a read-back step: in the app the traveller sees what PlanB understood (dates, flights, hotel,
   must-visits) and corrects it in one sentence before the plan is made. That step is not part of this one-shot
   evaluation.
@@ -101,3 +102,10 @@
   extractor finds but the LLM leaves out, and ask the user to confirm it.
 - In chat edits, do not accept a catalogue place that the traveller never named (E04).
 - Evaluate both on a held-out set, not on these 13 cases.
+
+## Gold edit requests added (2026-11-20, after the model runs)
+At first `planb_gold` covered trip setup only, because the edit scenarios had no hand-written structured reading
+of the request. A `gold_edit` (the correct `EditRequest`, written from the traveller's words only) was then added to
+each edit scenario in `scripts/build_trip_scenarios.py` and shown in `REVIEW.md`. It runs PlanB's edit engine with
+no LLM, so it needs no model calls and is the same for both models. **Result: 5/5.** No check was changed, and
+every other number in this run is unchanged. Test: `test_edit_engine_on_gold_edit_request_meets_every_check`.

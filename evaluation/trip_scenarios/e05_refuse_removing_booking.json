@@ -21,5 +21,11 @@
   "added_place": null,
   "must_not_use": [],
   "unknown_expected": false
+ },
+ "gold_edit": {
+  "kind": "remove_activity",
+  "place_ids": [
+   "teamlab_planets"
+  ]
  }
 }

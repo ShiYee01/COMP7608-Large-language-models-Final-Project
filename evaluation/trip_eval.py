@@ -5,7 +5,8 @@ Methods (same model, temperature 0, same facts for the LLM baselines):
   structured  same, plus explicit rules (closing days, travel time, locked bookings, pace, avoid, no invented
               places, ask when dates are missing / when something does not fit, report unknowns) and a checklist
   planb       LLM only extracts the request; PlanB's planner / edit engine builds and validates everything
-  planb_gold  trip setup only: PlanB's planner on the hand-written gold request (isolates extraction errors)
+  planb_gold  PlanB's planner / edit engine on the hand-written gold request (isolates extraction errors);
+              for edits the gold request is the scenario's `gold_edit` (added after the model runs)
 
 Every itinerary is judged by the same validator and the hand-written checks in evaluation/trip_scenarios/.
 Scoring rules agreed with the reviewer: associated preferences are not penalised; on a full day the method
@@ -32,7 +33,7 @@ import pandas as pd  # noqa: E402
 
 from planb.agent import PlanBAgent  # noqa: E402
 from planb.data import World, load_world  # noqa: E402
-from planb.edits import add_user_restaurant  # noqa: E402
+from planb.edits import EditRequest, add_user_restaurant, apply_edit  # noqa: E402
 from planb.llm import LLMClient, LLMUsage, extract_json  # noqa: E402
 from planb.models import Activity, Booking, Preferences, Trip, new_id  # noqa: E402
 from planb.planner import plan_trip  # noqa: E402
@@ -282,6 +283,19 @@ def run_edit(e: dict, method: str, llm: Optional[LLMClient]) -> dict:
                    llm_calls=turn.usage.calls, tokens=turn.usage.prompt_tokens + turn.usage.completion_tokens)
         out["latency_s"] = turn.usage.latency_s if turn.usage.calls else time.perf_counter() - t0
         return out
+    if method == "planb_gold":
+        store = TripStore(base.model_copy(deep=True), bookings, world)
+        outcome = apply_edit(EditRequest.model_validate(e["gold_edit"]), store.trip, store.bookings, world, set())
+        for p in outcome.proposals:
+            store.add_proposal(p)
+        props = store.pending()
+        out.update(status={"WAITING_FOR_APPROVAL": "ok", "PREFERENCES_UPDATED": "ok"}.get(outcome.state, "refuse"),
+                   message=outcome.message, parse_method="gold",
+                   options=[p.proposed_trip.activities for p in props],
+                   unverified_flag=bool(any(p.validation.unknown_constraints for p in props))
+                   or bool(re.search(r"未知|无法验证|无法确认", outcome.message)))
+        out["latency_s"] = time.perf_counter() - t0
+        return out
     r = llm.chat(_edit_prompt(e, raw, world, method == "structured"), max_tokens=6000,
                  mock=lambda _m: json.dumps({"status": "refuse", "message": "mock", "options": []}))
     out["llm_calls"], out["tokens"] = 1, r.prompt_tokens + r.completion_tokens
@@ -511,8 +525,6 @@ def main() -> None:
     rows, raw = [], []
     for s in scen:
         for m in methods:
-            if s["type"] == "edit" and m == "planb_gold":
-                continue
             try:
                 out = run_setup(s, m, llm) if s["type"] == "trip_setup" else run_edit(s, m, llm)
             except Exception as ex:  # quota exhausted or provider error: stop cleanly, cached calls are kept

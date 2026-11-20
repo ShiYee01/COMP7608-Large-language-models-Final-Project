@@ -12,3 +12,4 @@
 | edit   | direct     |       5 |       0.8 |             1    |          nan     |      nan   |         nan     |      nan     |        27373 |            53.6 |               1 |                0.8 |
 | edit   | structured |       5 |       1   |             1    |          nan     |      nan   |         nan     |      nan     |        28378 |            80.8 |               1 |                0.8 |
 | edit   | planb      |       5 |       1   |             1    |          nan     |      nan   |         nan     |      nan     |         3477 |             5.9 |               1 |                1   |
+| edit   | planb_gold |       5 |       1   |             1    |          nan     |      nan   |         nan     |      nan     |            0 |             0   |               0 |                1   |
