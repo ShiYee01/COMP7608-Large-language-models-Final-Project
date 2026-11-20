@@ -1,6 +1,7 @@
 # Proposal presentation outline (Thu 2026-11-26)
 
-About 10 slides / 8–10 minutes. Adjust to the teacher's time limit. Only put real numbers from
+The slide deck has 21 main slides plus 2 backup slides (about 15 minutes in full; `zh/docs/presentation_script.md` has a
+10-minute version). Adjust to the teacher's time limit. Only put real numbers from
 `evaluation/results/<run>/summary.md` on the results slide.
 
 ## 1. Title
@@ -31,7 +32,10 @@ Key message: **the LLM understands and explains; Python checks and calculates; t
 - Preview → Approve → Commit with revision check; approval never changes real bookings.
 - Works with free/open models: one structured LLM call for parsing, the rest is deterministic.
 
-## 6. Live demo (≈3 min) — `streamlit run app/streamlit_app.py`
+## 6. Live demo (≈4 min) — `streamlit run app/streamlit_app.py`
+0a. Trip setup: the example paragraph → read-back (bookings locked, missing prices → "unknown") → optional one-sentence
+    correction → daily plan with free lunch/dinner slots, must-sees and preference-based suggestions.
+0b. Chat edit: "我不想去浅草寺了，我更喜欢有历史感的地方" → 3 validated options (Nezu Shrine, Rikugien, keep free).
 1. Story D: "多待一天，12月13日回来" → only the return flight moves; flight + hotel flagged;
    cost ¥200 + ¥350 + ¥600 = **¥1,150**; approve → revision 2, reminder to rebook externally.
 2. Rain on 12/11 morning → only the two outdoor activities change; teamLab and the locked dinner stay.
