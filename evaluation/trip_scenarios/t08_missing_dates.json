@@ -1,0 +1,31 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "needs_information",
+ "id": "t08_missing_dates",
+ "category": "needs_information",
+ "request": "下个月想去东京玩几天，喜欢二次元和热闹的地方，想去秋叶原。",
+ "why": "没有具体日期：正确做法是追问日期，而不是自己编一个日期去排行程。",
+ "gold_request": {
+  "start_date": null,
+  "end_date": null,
+  "must_visit": [
+   "akihabara"
+  ],
+  "must_visit_days": {},
+  "avoid": [],
+  "interests_required": [
+   "anime",
+   "lively"
+  ],
+  "interests_allowed": [
+   "shopping"
+  ],
+  "pace": null,
+  "hotel_place_id": null,
+  "bookings": [],
+  "unknown_places": []
+ },
+ "plan_checks": null
+}

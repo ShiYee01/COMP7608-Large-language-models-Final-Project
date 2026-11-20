@@ -1,0 +1,75 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "ok",
+ "id": "t02_anime_tuesday_closure",
+ "category": "closed_weekday",
+ "request": "我15号到17号在东京，酒店在池袋。我是动漫迷，一定要去吉卜力美术馆和中野百老汇，也想逛逛秋叶原。节奏可以紧凑一点。15号中午12点落地羽田，17号下午5点的飞机回去。",
+ "why": "“15号到17号”按今天（11/19）推断为 12 月。12/15 是周二，吉卜力美术馆周二闭馆；中野百老汇 12:00 才开门。",
+ "gold_request": {
+  "start_date": "2026-12-15",
+  "end_date": "2026-12-17",
+  "must_visit": [
+   "ghibli_museum",
+   "nakano_broadway",
+   "akihabara"
+  ],
+  "must_visit_days": {},
+  "avoid": [],
+  "interests_required": [
+   "anime"
+  ],
+  "interests_allowed": [
+   "shopping",
+   "lively"
+  ],
+  "pace": "packed",
+  "hotel_place_id": "hotel_ikebukuro",
+  "bookings": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-15T12:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-17T17:00:00+09:00"
+   }
+  ],
+  "unknown_places": []
+ },
+ "plan_checks": {
+  "must_include": [
+   "ghibli_museum",
+   "nakano_broadway",
+   "akihabara"
+  ],
+  "must_exclude": [],
+  "on_day": {},
+  "not_on_day": {
+   "ghibli_museum": [
+    "2026-12-15"
+   ]
+  },
+  "locked_at": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-15T12:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-17T17:00:00+09:00"
+   }
+  ],
+  "no_visits_on": [],
+  "expected_unplaceable": [],
+  "max_visits_per_day": 5,
+  "preference_tags": [
+   "anime"
+  ]
+ }
+}

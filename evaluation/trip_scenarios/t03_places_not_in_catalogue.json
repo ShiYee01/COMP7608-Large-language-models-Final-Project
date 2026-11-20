@@ -1,0 +1,49 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "ok",
+ "id": "t03_places_not_in_catalogue",
+ "category": "unknown_place",
+ "request": "12月10日到11日去东京，住银座。想去东京迪士尼乐园和筑地市场，还想去一趟横滨中华街。喜欢美食和购物。没有订机票，自己安排交通。",
+ "why": "迪士尼和横滨中华街不在地点库里：必须报告“没有”，不能换成别的地点，也不能编造。筑地周三、周日休息，10/11 号是周四、周五，可以去。",
+ "gold_request": {
+  "start_date": "2026-12-10",
+  "end_date": "2026-12-11",
+  "must_visit": [
+   "tsukiji_outer_market"
+  ],
+  "must_visit_days": {},
+  "avoid": [],
+  "interests_required": [
+   "food",
+   "shopping"
+  ],
+  "interests_allowed": [
+   "lively"
+  ],
+  "pace": null,
+  "hotel_place_id": "hotel_ginza",
+  "bookings": [],
+  "unknown_places": [
+   "东京迪士尼乐园",
+   "横滨中华街"
+  ]
+ },
+ "plan_checks": {
+  "must_include": [
+   "tsukiji_outer_market"
+  ],
+  "must_exclude": [],
+  "on_day": {},
+  "not_on_day": {},
+  "locked_at": [],
+  "no_visits_on": [],
+  "expected_unplaceable": [],
+  "max_visits_per_day": 4,
+  "preference_tags": [
+   "food",
+   "shopping"
+  ]
+ }
+}

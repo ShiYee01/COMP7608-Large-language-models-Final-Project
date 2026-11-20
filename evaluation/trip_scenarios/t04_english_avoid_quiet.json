@@ -1,0 +1,72 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "ok",
+ "id": "t04_english_avoid_quiet",
+ "category": "avoid_and_language",
+ "request": "We're in Tokyo from Dec 12 to Dec 13, staying in Shibuya. We love quiet gardens and art museums, and want a relaxed pace. Please avoid crowded spots like Shibuya Crossing and Takeshita Street. We land at Haneda at 9:00 on the 12th and fly out of Haneda at 21:00 on the 13th.",
+ "why": "英文请求。两处“不想去”必须避开；节奏轻松（每天最多 3 个景点）；推荐应偏向安静的庭园和美术馆。",
+ "gold_request": {
+  "start_date": "2026-12-12",
+  "end_date": "2026-12-13",
+  "must_visit": [],
+  "must_visit_days": {},
+  "avoid": [
+   "shibuya_crossing",
+   "harajuku_takeshita"
+  ],
+  "interests_required": [
+   "quiet",
+   "art"
+  ],
+  "interests_allowed": [
+   "nature",
+   "culture"
+  ],
+  "pace": "relaxed",
+  "hotel_place_id": "hotel_shibuya",
+  "bookings": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-12T09:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-13T21:00:00+09:00"
+   }
+  ],
+  "unknown_places": []
+ },
+ "plan_checks": {
+  "must_include": [],
+  "must_exclude": [
+   "shibuya_crossing",
+   "harajuku_takeshita"
+  ],
+  "on_day": {},
+  "not_on_day": {},
+  "locked_at": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "haneda_airport",
+    "start": "2026-12-12T09:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "haneda_airport",
+    "start": "2026-12-13T21:00:00+09:00"
+   }
+  ],
+  "no_visits_on": [],
+  "expected_unplaceable": [],
+  "max_visits_per_day": 3,
+  "preference_tags": [
+   "quiet",
+   "art",
+   "nature"
+  ]
+ }
+}

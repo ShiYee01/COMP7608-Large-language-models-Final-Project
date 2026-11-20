@@ -6,7 +6,7 @@ import pytest
 from planb.data import load_world
 from planb.llm import LLMClient
 from planb.planner import plan_trip
-from planb.trip_request import MustVisit, StatedBooking, TripRequest, extract_trip_request, sanitize, summarize
+from planb.trip_request import HotelStay, MustVisit, StatedBooking, TripRequest, extract_trip_request, sanitize, summarize
 
 TODAY = date(2026, 11, 19)
 DEMO = ("我12月10日到12日去东京玩，想去浅草寺和秋叶原，不想去涩谷十字路口。我喜欢安静的地方，也喜欢二次元，"
@@ -113,3 +113,31 @@ def test_generated_trip_supports_replanning_with_unknown_cost(xworld, mock):
     p = agent.store.pending()[0]
     # fees were never stated -> the extra cost must be unknown, not 0
     assert p.cost_estimate.total_additional_minor is None and p.cost_estimate.unknown_components
+
+
+def test_meal_slot_never_blocks_travel_to_the_airport(xworld):
+    # far-west sights on the last day + evening flight: the dinner slot must not eat the travel time
+    req = TripRequest(start_date=date(2026, 12, 13), end_date=date(2026, 12, 13), interests=["quiet"], pace="relaxed",
+                      must_visit=[MustVisit(place_id="jindaiji")],
+                      bookings=[StatedBooking(kind="flight_arrival", place_id="haneda_airport",
+                                              start="2026-12-13T09:00:00+09:00"),
+                                StatedBooking(kind="flight_departure", place_id="haneda_airport",
+                                              start="2026-12-13T21:00:00+09:00")])
+    plan = plan_trip(xworld, sanitize(req, xworld))
+    assert not plan.validation.hard_violations
+
+
+def test_suggestion_before_lunch_never_breaks_travel_to_an_early_flight(xworld):
+    # found by the 3B run: a suggestion placed just before the lunch slot left 60 of the 75 minutes needed
+    # to reach a 15:00 flight once the lunch slot was dropped; PlanB's own suggestions must never break a rule
+    req = TripRequest(start_date=date(2026, 11, 15), end_date=date(2026, 11, 17), interests=["anime"], pace="packed",
+                      hotel=HotelStay(place_id="hotel_ikebukuro"),
+                      must_visit=[MustVisit(place_id="ghibli_museum", day=date(2026, 11, 15)),
+                                  MustVisit(place_id="nakano_broadway", day=date(2026, 11, 15)),
+                                  MustVisit(place_id="akihabara", day=date(2026, 11, 15))],
+                      bookings=[StatedBooking(kind="flight_arrival", place_id="narita_airport",
+                                              start="2026-11-15T12:00:00+09:00"),
+                                StatedBooking(kind="flight_departure", place_id="haneda_airport",
+                                              start="2026-11-17T15:00:00+09:00")])
+    plan = plan_trip(xworld, sanitize(req, xworld))
+    assert not plan.validation.hard_violations

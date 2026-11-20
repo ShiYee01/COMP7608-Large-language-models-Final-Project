@@ -36,7 +36,7 @@ DISRUPTION_HINT = re.compile(r"关闭|闭馆|不开放|延误|晚点|堵车|暴�
                              r"提前.*回|早一天|缩短|改到|改期|航班|起飞|到不了")
 MEAL_HINT = re.compile(r"午饭|午餐|中饭|晚饭|晚餐|吃饭|(?:中午|晚上).{0,15}吃|找家.{0,10}吃|餐厅|饭店")
 REMOVE_HINT = re.compile(r"不想去|不去了|不要去|别去|删掉|去掉|取消掉|不去")
-RECOMMEND_HINT = re.compile(r"推荐|加一个|再加|多加|安排一个|还想去.*(地方|地点)|有什么.*(地方|好玩)")
+RECOMMEND_HINT = re.compile(r"推荐|加一个|再加|多加|加到|加进|加上|加入|放进|安排一个|还想去.*(地方|地点)|有什么.*(地方|好玩)")
 PREF_HINT = re.compile(r"喜欢|偏好|感兴趣|更想|不喜欢|节奏")
 SKIP_MEAL_HINT = re.compile(r"不用安排|不需要安排|不用留|自己解决|不吃|取消")
 
@@ -283,70 +283,96 @@ def _remove(req, trip, bookings, world, avoided, hotel, notes) -> EditOutcome:
     return EditOutcome(state="WAITING_FOR_APPROVAL", message="\n".join(lines), proposals=proposals)
 
 
+def _candidates(world: World, trip: Trip, gap, exclude: set[str], k: int, focus: list[str], wanted: list[str]):
+    """Best places for a gap: the specific places the user asked for, else ranked by focus/preferences."""
+    if wanted:
+        out = []
+        for pid in wanted:
+            r = _fit(world, EventContext(), pid, gap)
+            if r:
+                out.append((0, r[2], pid, r[0], r[1]))
+        return sorted(out)[:k]
+    return _rank_candidates(world, trip, gap, exclude, k, focus)
+
+
+def _all_days(trip: Trip) -> list[date]:
+    return [trip.start_date + timedelta(days=i) for i in range((trip.end_date - trip.start_date).days + 1)]
+
+
 def _recommend(req, trip, bookings, world, avoided, hotel, notes) -> EditOutcome:
-    days = [req.day] if req.day and trip.start_date <= req.day <= trip.end_date else \
-        [trip.start_date + timedelta(days=i) for i in range((trip.end_date - trip.start_date).days + 1)]
+    asked_day = req.day if req.day and trip.start_date <= req.day <= trip.end_date else None
+    days = [asked_day] if asked_day else _all_days(trip)
     exclude = {a.place_id for a in trip.activities if a.category != "free_time"} | avoided
     wanted = [p for p in req.place_ids if world.place(p) and world.place(p).category not in ("airport", "hotel")]
     focus = list(req.add_interests)
-    scored = []
-    for d in days:
-        for gap in _gaps(world, d, trip.activities, hotel):
-            if wanted:
-                for pid in wanted:
-                    r = _fit(world, EventContext(), pid, gap)
-                    if r:
-                        scored.append((0, r[2], pid, r[0], r[1]))
-            else:
-                scored += _rank_candidates(world, trip, gap, exclude, 3, focus)
-    seen, best = set(), []
-    for item in sorted(scored):
-        if item[2] not in seen:
-            seen.add(item[2])
-            best.append(item)
-    best = best[:3]
-    what = "、".join(TAG_LABELS[t] for t in focus) if focus else "你的喜好"
-    proposals = []
-    for _, _, pid, start, end in best:
-        cand = trip.model_copy(deep=True)
-        _add(cand, world, pid, start, end, "PlanB 推荐")
-        p = build_proposal(trip, cand, world, bookings, label=f"加入：{_name(world, pid)}")
-        p.explanation = (f"在 {start:%m-%d %H:%M}–{end:%H:%M} 加入「{_name(world, pid)}」"
-                         f"（{_tags_text(world, pid, focus or trip.preferences.interests)}）。")
-        proposals.append(p)
-    if not proposals and not wanted:
-        # No free slot: offer to swap out one of PlanB's own suggestions (never a must-visit or a booking).
+    what = ("、".join(_name(world, p) for p in wanted) if wanted else
+            "、".join(TAG_LABELS[t] for t in focus) if focus else "你的喜好")
+    tags_for = focus or trip.preferences.interests
+
+    def why(pid: str) -> str:
+        return "你点名的地点" if pid in wanted else _tags_text(world, pid, tags_for)
+
+    def options_in_free_time(day_list, k):
+        scored = []
+        for d in day_list:
+            for gap in _gaps(world, d, trip.activities, hotel):
+                scored += _candidates(world, trip, gap, exclude, 3, focus, wanted)
+        seen, best = set(), []
+        for item in sorted(scored):
+            if item[2] not in seen:
+                seen.add(item[2])
+                best.append(item)
+        out = []
+        for _, _, pid, start, end in best[:k]:
+            cand = trip.model_copy(deep=True)
+            _add(cand, world, pid, start, end, "PlanB 推荐")
+            p = build_proposal(trip, cand, world, bookings, label=f"加入：{_name(world, pid)}（{start:%m/%d %H:%M}）")
+            p.explanation = f"在 {start:%m月%d日 %H:%M}–{end:%H:%M} 加入「{_name(world, pid)}」（{why(pid)}）。"
+            out.append(p)
+        return out
+
+    def swap_options(day_list, k, which_notes):
+        out = []
         for a in trip.sorted_activities():
-            if a.notes != "PlanB 推荐" or a.is_locked or world.local(a.start_at).date() not in days:
+            if a.is_locked or a.notes not in which_notes or world.local(a.start_at).date() not in day_list:
                 continue
             base = trip.model_copy(deep=True)
             base.activities = [x for x in base.activities if x.activity_id != a.activity_id]
             d = world.local(a.start_at).date()
             gap = next((g for g in _gaps(world, d, base.activities, hotel) if g[0] <= a.start_at < g[1]), None)
-            for _, _, pid, start, end in (_rank_candidates(world, base, gap, exclude, 1, focus) if gap else []):
+            for _, _, pid, start, end in (_candidates(world, base, gap, exclude, 1, focus, wanted) if gap else []):
                 cand = base.model_copy(deep=True)
                 _add(cand, world, pid, start, end, "PlanB 推荐")
                 p = build_proposal(trip, cand, world, bookings, label=f"把「{a.title}」换成：{_name(world, pid)}",
                                    reasons={a.activity_id: "为你想要的地点腾出时间"})
-                p.explanation = (f"把「{a.title}」换成「{_name(world, pid)}」（{start:%m-%d %H:%M}–{end:%H:%M}，"
-                                 f"{_tags_text(world, pid, focus or trip.preferences.interests)}）。")
-                proposals.append(p)
-            if len(proposals) >= 3:
+                p.explanation = (f"把「{a.title}」换成「{_name(world, pid)}」（{start:%m月%d日 %H:%M}–{end:%H:%M}，"
+                                 f"{why(pid)}）。")
+                out.append(p)
+            if len(out) >= k:
                 break
-        if proposals:
-            where = f"{req.day:%m月%d日}" if req.day else "行程里"
-            lines = notes + [f"{where}已经没有空闲时间了，可以用一个符合「{what}」的地点替换掉 PlanB 之前推荐的项目"
-                             "（你想去的和已预订的不会动）："]
-            lines += [f"{i + 1}. {x.explanation}" for i, x in enumerate(proposals)]
-            lines.append("到「📋 方案对比与审批」选择一个批准即可。")
-            return EditOutcome(state="WAITING_FOR_APPROVAL", message="\n".join(lines), proposals=proposals)
+        return out
+
+    proposals = options_in_free_time(days, 3)
+    if proposals:
+        lines = notes + [f"找到 {len(proposals)} 个符合「{what}」、放得下的选择："]
+        lines += [f"{i + 1}. {x.explanation}" for i, x in enumerate(proposals)]
+        lines.append("到「📋 方案对比与审批」选择一个批准即可。")
+        return EditOutcome(state="WAITING_FOR_APPROVAL", message="\n".join(lines), proposals=proposals)
+
+    # No free time where it was asked: ASK the user with concrete options instead of just saying "no".
+    swaps = swap_options(days, 2, {"PlanB 推荐"})
+    if not swaps:  # only then offer to give up one of the user's own must-visits (never a booking)
+        swaps = swap_options(days, 1, {"你想去的地点"})
+    other_days = options_in_free_time([d for d in _all_days(trip) if d not in days], 2) if asked_day else []
+    proposals = swaps + other_days
+    where = f"{asked_day:%m月%d日}" if asked_day else "行程里"
     if not proposals:
-        where = f"{req.day:%m月%d日}" if req.day else "行程中"
         return EditOutcome(state="INFEASIBLE", message="\n".join(notes + [
-            f"{where}没有放得下、又符合「{what}」的地点（时间或营业时间不合适）。可以先删掉一个活动，或换一天试试。"]))
-    lines = notes + [f"找到 {len(proposals)} 个符合「{what}」、放得下的地点："]
+            f"{where}已经排满，而且整个行程里都找不到能放下「{what}」的时间（营业时间或交通时间不够）。"
+            "如果愿意，可以先删掉一个活动再试，或者告诉我想换掉哪一个。"]))
+    lines = notes + [f"{where}已经没有空闲时间放「{what}」了。你想怎么做？"]
     lines += [f"{i + 1}. {x.explanation}" for i, x in enumerate(proposals)]
-    lines.append("到「📋 方案对比与审批」选择一个批准即可。")
+    lines.append("到「📋 方案对比与审批」选一个批准；都不想要的话全部拒绝即可，行程不会变。")
     return EditOutcome(state="WAITING_FOR_APPROVAL", message="\n".join(lines), proposals=proposals)
 
 

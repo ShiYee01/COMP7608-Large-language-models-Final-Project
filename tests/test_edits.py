@@ -40,6 +40,7 @@ def test_routing_keeps_disruptions_on_the_evaluated_path():
     assert detect_edit("11号晚上想在浅草找家天妇罗吃") == "set_meal"
     assert detect_edit("teamLab 通知我12月11日的入场时间被改到了晚上18:00，而且不能再改。但我18:30在银座订了寿司，这个不能动。") is None
     assert detect_edit("推荐一个二次元的地方") == "recommend"
+    assert detect_edit("把高达加到12号") == "recommend"
     assert detect_edit("我更喜欢安静的地方") == "update_preferences"
 
 
@@ -125,3 +126,23 @@ def test_skip_meal_and_preferences(setup):
     assert not [a for a in _meals(world, p.proposed_trip, date(2026, 12, 12)) if "午餐" in a.title]
     turn = agent.handle("我喜欢热闹一点的地方")
     assert turn.state == "PREFERENCES_UPDATED" and "lively" in agent.store.trip.preferences.interests
+
+
+def test_full_day_asks_with_options_instead_of_refusing():
+    import json
+    from pathlib import Path
+
+    from planb.models import Booking, Trip
+
+    world = load_world(extended=True)
+    base = json.loads((Path(__file__).resolve().parents[1] / "evaluation/trip_scenarios/edit_base.json").read_text())
+    agent = PlanBAgent(TripStore(Trip.model_validate(base["trip"]), [Booking.model_validate(b) for b in base["bookings"]],
+                                 world), LLMClient(provider="mock"))
+    for text in ("推荐一个二次元的地方加到12号。", "把高达加到12号"):
+        turn = agent.handle(text)
+        assert turn.state == "WAITING_FOR_APPROVAL" and "你想怎么做" in turn.message
+        for p in agent.store.pending():
+            assert not p.validation.hard_violations
+            ids = {a.activity_id for a in p.proposed_trip.activities}
+            assert {"e1", "e4", "e7", "e10"} <= ids  # bookings, flights and the must-visit stay
+            agent.store.reject(p.proposal_id)

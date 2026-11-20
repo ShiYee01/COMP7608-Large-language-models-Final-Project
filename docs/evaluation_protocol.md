@@ -37,3 +37,22 @@ PlanB's LLM sees only the trip/booking/place ids, not the matrix — it does not
 ## Limitations to state
 Small pilot set; simulated data; hand-written ground truth by the system author; travel times synthetic;
 one city; results depend on the model and its free-tier availability.
+
+## New features: trip setup and chat edits (`evaluation/trip_eval.py`)
+- Scenarios: `evaluation/trip_scenarios/` — 8 trip-setup (T01–T08) and 5 chat-edit (E01–E05) cases, ground truth
+  hand-written from the request and catalogue facts and reviewed by the project owner (`REVIEW.md`).
+- Methods: `direct` and `structured` LLM baselines get the request, the full extended catalogue (hours, closing
+  days, tags) and the travel matrix and return the plan / edited plan themselves; `planb` uses the LLM only to
+  extract the request; `planb_gold` runs the planner (setup) or the edit engine (edits) on the gold request; the gold edit requests
+  (`gold_edit`) were added on 2026-11-20, after the model runs, and do not change any check.
+- Setup scoring: extraction accuracy (dates, must-visit, avoid, required interests, pace, hotel, bookings incl.
+  prices, unknown places), plus plan checks judged by the shared validator: feasible, no invented places,
+  must-include / must-exclude, day constraints, nothing on days without time, unplaceable must-visits reported,
+  bookings at their stated times, pace. Success = every check passes.
+- Edit scoring: every option must be feasible and keep the locked items; at least one option must do what was
+  asked; restaurants outside the catalogue must not be substituted and their unknowns must be stated; on a full
+  day the method must ask with concrete options (a bare refusal is wrong); a booked item must not be removed.
+- Agreed with the reviewer: associated preferences are not penalised.
+- Scorer fairness is tested (`tests/test_trip_eval.py`): a correct answer in the baseline format scores as a success.
+- Found while building this evaluation (mock run, no LLM) and fixed before any real run: a dinner slot on the
+  departure day could take the travel time to the airport (`settle_meal_slots`).

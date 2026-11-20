@@ -105,7 +105,9 @@ class LLMClient:
             from openai import OpenAI
 
             # max_retries=0: retries are handled below, so free-tier request quotas are not spent silently
-            self._client = OpenAI(base_url=self.base_url, api_key=self.api_key or "not-needed", max_retries=0)
+            # LLM_TIMEOUT (seconds): slow local CPU models can need more than the default 600 s for a long answer
+            self._client = OpenAI(base_url=self.base_url, api_key=self.api_key or "not-needed", max_retries=0,
+                                  timeout=float(os.getenv("LLM_TIMEOUT", "600") or 600))
         last_err: Exception | None = None
         for attempt in range(self.max_retries):
             try:

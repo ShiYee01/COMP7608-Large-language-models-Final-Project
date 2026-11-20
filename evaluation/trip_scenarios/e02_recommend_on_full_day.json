@@ -1,0 +1,30 @@
+{
+ "type": "edit",
+ "base": "edit_base.json",
+ "split": "pilot",
+ "id": "e02_recommend_on_full_day",
+ "request": "推荐一个二次元的地方加到12号。",
+ "why": "12 号排满了（秋叶原、午餐、滨离宫、16:00 去机场）。不能只回答“放不下”：要给出具体选项询问用户，例如“把某某换成某个二次元地点”或“改到某天某时段去”。每个选项都必须可行，已订的 teamLab 和航班不能动。",
+ "expected": {
+  "status": "ask_with_options",
+  "removed": [],
+  "must_keep": [
+   "e1",
+   "e4",
+   "e10"
+  ],
+  "added_tags_any": [
+   "anime"
+  ],
+  "added_place": null,
+  "must_not_use": [],
+  "unknown_expected": false
+ },
+ "gold_edit": {
+  "kind": "recommend",
+  "day": "2026-12-12",
+  "add_interests": [
+   "anime"
+  ]
+ }
+}

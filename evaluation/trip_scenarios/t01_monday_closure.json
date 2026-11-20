@@ -1,0 +1,76 @@
+{
+ "type": "trip_setup",
+ "today": "2026-11-19",
+ "split": "pilot",
+ "expected_status": "ok",
+ "id": "t01_monday_closure",
+ "category": "closed_weekday",
+ "request": "12月14日到16日去东京，住上野那边。想去东京国立博物馆和上野公园，喜欢自然和历史，节奏适中。14号上午10点到成田，16号晚上8点从成田起飞回国。",
+ "why": "12/14 是周一，东京国立博物馆周一闭馆：必须排在 15 或 16 号。成田机场离市区远，返程当天要预留交通时间。",
+ "gold_request": {
+  "start_date": "2026-12-14",
+  "end_date": "2026-12-16",
+  "must_visit": [
+   "tokyo_national_museum",
+   "ueno_park"
+  ],
+  "must_visit_days": {},
+  "avoid": [],
+  "interests_required": [
+   "nature",
+   "history"
+  ],
+  "interests_allowed": [
+   "culture",
+   "quiet",
+   "photography"
+  ],
+  "pace": "normal",
+  "hotel_place_id": "hotel_ueno",
+  "bookings": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "narita_airport",
+    "start": "2026-12-14T10:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "narita_airport",
+    "start": "2026-12-16T20:00:00+09:00"
+   }
+  ],
+  "unknown_places": []
+ },
+ "plan_checks": {
+  "must_include": [
+   "tokyo_national_museum",
+   "ueno_park"
+  ],
+  "must_exclude": [],
+  "on_day": {},
+  "not_on_day": {
+   "tokyo_national_museum": [
+    "2026-12-14"
+   ]
+  },
+  "locked_at": [
+   {
+    "kind": "flight_arrival",
+    "place_id": "narita_airport",
+    "start": "2026-12-14T10:00:00+09:00"
+   },
+   {
+    "kind": "flight_departure",
+    "place_id": "narita_airport",
+    "start": "2026-12-16T20:00:00+09:00"
+   }
+  ],
+  "no_visits_on": [],
+  "expected_unplaceable": [],
+  "max_visits_per_day": 4,
+  "preference_tags": [
+   "nature",
+   "history"
+  ]
+ }
+}

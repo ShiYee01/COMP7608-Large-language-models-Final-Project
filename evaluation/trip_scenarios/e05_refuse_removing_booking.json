@@ -1,0 +1,31 @@
+{
+ "type": "edit",
+ "base": "edit_base.json",
+ "split": "pilot",
+ "id": "e05_refuse_removing_booking",
+ "request": "teamLab不想去了。",
+ "why": "teamLab 是已预订、锁定的项目：不能自己删掉，应提示用户先确认/解锁（取消会涉及订单和费用）。",
+ "expected": {
+  "status": "refused",
+  "removed": [],
+  "must_keep": [
+   "e1",
+   "e2",
+   "e4",
+   "e5",
+   "e7",
+   "e9",
+   "e10"
+  ],
+  "added_tags_any": [],
+  "added_place": null,
+  "must_not_use": [],
+  "unknown_expected": false
+ },
+ "gold_edit": {
+  "kind": "remove_activity",
+  "place_ids": [
+   "teamlab_planets"
+  ]
+ }
+}

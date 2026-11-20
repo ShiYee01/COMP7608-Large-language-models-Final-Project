@@ -73,6 +73,24 @@ Talking points:
 - **Honesty.** This is a small pilot set written by the author, so a difference of 1–2 cases is not significant.
   The scoring fixes are documented in each run's `NOTES.md`.
 
+**New features (trip setup + chat edits, 13 pilot scenarios, both models; optional slide):**
+
+| method | setup: 3B | setup: 550B | edits: 3B | edits: 550B |
+|---|---|---|---|---|
+| Direct LLM | 0/8 | 4/8 | 0/5 | 4/5 |
+| Constraint-prompted LLM | 0/8 | 8/8 | 0/5 | 5/5 |
+| **PlanB** | **2/8** | **8/8** | **4/5** | **5/5** |
+| PlanB + gold request | 8/8 | 8/8 | 5/5 | 5/5 |
+
+- Same pattern as the main evaluation: with the 3B model both baselines solve 0 of 13 (fragment plans, missing
+  flights, opening-hour violations); with the 550B model the rule-heavy prompt catches up with PlanB.
+- Be honest: with 3B, PlanB's setup also drops (2/8). Every failure is a misread request (most often a missed
+  departure flight); with the correct request the planner gets 8/8 and the edit engine 5/5. That is why the app reads the request back
+  for a one-sentence correction before planning.
+- Cost with the 550B model: about 4.6k tokens and 14 s vs about 29k and 118 s.
+- One planner bug was found by the 3B run (a suggestion before lunch left too little time for an early flight),
+  fixed and re-scored; no success count changed. See the two runs' `NOTES.md`.
+
 **Refined claim:** the LLM is good at understanding and, when strong, at planning. Exact money calculation and
 guaranteed constraint satisfaction should come from code. PlanB makes a small free model usable.
 
@@ -106,3 +124,7 @@ Reliability comes from splitting responsibilities: language → LLM, constraints
   - Money is still wrong (cost exact 3/7 and 6/7 vs 7/7).
   - PlanB's output is checked by construction, not by trust.
   - PlanB costs about 5× fewer tokens and works with a 3B model.
+- *Why does PlanB get only 2/8 trip setups with the 3B model?* The 3B model misreads long paragraphs with several
+  bookings, most often leaving out the departure flight. The planner is not the problem (8/8 with the correct
+  request). In the app the traveller sees the read-back and corrects it before planning; this one-shot evaluation
+  does not include that step. A cross-check against the rule extractor is the planned next step.
