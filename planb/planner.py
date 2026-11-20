@@ -256,6 +256,22 @@ def settle_meal_slots(world: World, trip: Trip) -> list[str]:
     return notes
 
 
+def drop_unfit_suggestions(world: World, trip: Trip) -> list[Activity]:
+    """Last safety net: a stop PlanB itself suggested must never cause a hard violation (e.g. it was placed
+    right before a meal slot and the onward travel to the airport no longer fits once that slot is settled).
+    Remove such suggestions; the user's own places and bookings are never removed here."""
+    dropped: list[Activity] = []
+    for _ in range(20):
+        ids = {i for v in validate(trip, world).hard_violations for i in v.activity_ids}
+        bad = [a for a in trip.sorted_activities()
+               if a.activity_id in ids and a.category == "visit" and not a.is_locked and a.notes == "PlanB 推荐"]
+        if not bad:
+            break
+        trip.activities = [x for x in trip.activities if x is not bad[-1]]
+        dropped.append(bad[-1])
+    return dropped
+
+
 def place_meal_slots(world: World, trip: Trip) -> None:
     """Label each free meal slot with the place it follows (shown as 'nearby'; it adds no travel)."""
     by_day: dict = {}
@@ -409,6 +425,11 @@ def plan_trip(world: World, req: "TripRequest") -> TripPlan:
     place_meal_slots(world, trip)
     report += settle_meal_slots(world, trip)
     trip.activities = sorted(trip.activities, key=lambda a: a.start_at)
+    dropped = drop_unfit_suggestions(world, trip)
+    for a in dropped:
+        count[world.local(a.start_at).date()] -= 1
+        recommended -= 1
+        report.append(f"去掉了推荐的「{a.title}」：{world.local(a.start_at):%m月%d日}之后赶下一站的交通时间不够")
     validation = validate(trip, world)
     n_booked = sum(1 for b in bookings if b.linked_activity_ids)
     n_meals = sum(1 for a in trip.activities if a.category == "free_time")

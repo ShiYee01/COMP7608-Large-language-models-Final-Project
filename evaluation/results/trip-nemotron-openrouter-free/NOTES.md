@@ -78,6 +78,12 @@ preferences best of the three LLM-based methods (0.83).
   by code, the baseline's are only asked for in the prompt.
 - **Without the rules, the same model fails half of the setup cases** (opening hours, travel time, over-asking).
 - These results come from the strong 550B model only. The original evaluation showed that small models fail far
-  more often. Running the new scenarios with a small model would test whether "prompt rules are enough" holds
-  there too; that is not done yet.
+  more often. The same scenarios have since been run with Qwen2.5-3B (`trip-qwen2.5-3b-local-cpu`): there both
+  baselines solve 0 of 13 cases, the rule-heavy prompt does not help, and PlanB solves 2/8 setup and 4/5 edit
+  cases (every PlanB failure is a request-understanding error).
 - 13 hand-written cases are a pilot. The final report needs a held-out set.
+
+## Later change (re-scored from the cache, numbers unchanged)
+The 3B run found a planner bug that correct requests never trigger: a stop PlanB suggested just before a meal slot
+could leave too little travel time to an early flight. `drop_unfit_suggestions` now removes such suggestions.
+This run was re-scored from the cached replies afterwards; every number above is unchanged.
