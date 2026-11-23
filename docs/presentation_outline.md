@@ -1,7 +1,9 @@
 # Proposal presentation outline (Thu 2026-11-26)
 
-The slide deck has 21 main slides plus 2 backup slides (about 15 minutes in full; `zh/docs/presentation_script.md` has a
-10-minute version). Adjust to the teacher's time limit. Only put real numbers from
+The teacher confirmed **4–5 minutes per presentation** (Thu/Fri 26–27 Nov, in the order of the Group Registration file).
+The deck therefore has 8 main slides (about 4.5 minutes: cover, the ¥950 vs ¥1,150 failure, method, two demo
+screenshots, two results slides, summary) followed by 15 appendix slides for Q&A. There is no live demo in the talk.
+The sections below are the full material; the 8-slide talk uses a subset of them (see `zh/docs/presentation_script.md`). Only put real numbers from
 `evaluation/results/<run>/summary.md` on the results slide.
 
 ## 1. Title

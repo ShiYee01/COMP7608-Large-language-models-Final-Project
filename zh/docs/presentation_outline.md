@@ -2,7 +2,7 @@
 
 > 原文：`docs/presentation_outline.md`。presentation 本身如果用英文讲，可以把本文件当作理解和准备讲稿的参考。
 
-slides 共 21 页正文加 2 页备用（完整讲约 15 分钟；`zh/docs/presentation_script.md` 里有 10 分钟版本），按老师的时间要求调整。结果页只放 `evaluation/results/<run>/summary.md` 里的真实数字。
+老师已确认**每人 4–5 分钟**（11 月 26–27 日周四、周五，按 Group Registration 表的顺序）。因此 slides 正文只有 8 页（约 4 分 30 秒：封面、¥950 对 ¥1,150 的失败例子、方法、两张演示截图、两页结果、总结），后面 15 页是答疑用的附录。演讲中不做现场演示。下面各节是完整素材，8 页的演讲只用其中一部分（见 `zh/docs/presentation_script.md`）。结果页只放 `evaluation/results/<run>/summary.md` 里的真实数字。
 
 ## 1. 标题
 **PlanB：一个能感知约束、重规划行程并分析订单费用影响的 AI 旅行副驾驶**
