@@ -79,7 +79,7 @@ Talking points:
 - **Honesty.** This is a small pilot set written by the author, so a difference of 1–2 cases is not significant.
   The scoring fixes are documented in each run's `NOTES.md`.
 
-**New features (trip setup + chat edits, 13 pilot scenarios, both models; optional slide):**
+**Trip planning and chat edits (13 pilot scenarios, both models):**
 
 | method | setup: 3B | setup: 550B | edits: 3B | edits: 550B |
 |---|---|---|---|---|

@@ -93,14 +93,14 @@ slides：https://claude.ai/artifact/W6BqH2EQvtxhDh4uFE4Pfh
 
 ---
 
-## 第 7 页　结果 2：新功能（30 秒）
+## 第 7 页　结果 2：新建行程和聊天修改（30 秒）
 
 记住这句：小模型读长段落会读漏，读对了就全对。
 
-中文意思：新建行程和聊天修改这两个新功能，我们又测了 13 个场景，规律一样。PlanB 的弱点是小模型读长段落时会读漏，比如漏掉返程航班。但只要读对了，PlanB 就全部做对。所以它在排行程之前，会先把理解的内容给你看一遍。
+中文意思：新建行程和聊天修改，我们又测了 13 个场景，规律一样。PlanB 的弱点是小模型读长段落时会读漏，比如漏掉返程航班。但只要读对了，PlanB 就全部做对。所以它在排行程之前，会先把理解的内容给你看一遍。
 
 英文这样说：
-> We also tested the new features, trip setup and chat edits, on 13 more scenarios. The pattern is the same.
+> We also tested trip planning and chat edits on 13 more scenarios. The pattern is the same.
 > PlanB's weak point is reading a long request with a small model, for example missing a flight.
 > But when the request is read correctly, PlanB gets everything right. That's why it shows you what it understood before it plans.
 
