@@ -124,15 +124,15 @@
 
 ## 第 8 页　What I learned（35 秒）
 
-记住这句：LLM 不是完全可靠的；让它和代码各做擅长的事；让用户来确认。
+记住这句：LLM 不一定靠谱；规则写在提示词里不够，要写进代码；只给 LLM 一个小任务，小模型也能用。
 
-中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，最好的方式是让每一部分做自己擅长的事：LLM 擅长听懂人在说什么，代码擅长检查和计算，两者结合起来，比只用 LLM 可靠得多，连便宜的小模型都能用得上。第三，LLM 还是有可能理解错，所以要让用户参与进来：PlanB 会先把它理解的内容给用户看，用户确认了再往下走。接下来，我会为期末报告加更多测试案例，也会用更多模型来测试。今天的展示就到这里，谢谢大家！
+中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，把规则写进提示词里是不够的。我们给小模型一整套规则，它还是几乎全错；同样的规则写进代码里，效果就好得多。第三，如果只让 LLM 做一件小事，比如只负责读懂用户的请求，那就算是免费的小模型也能用起来，而且成本低很多。接下来，我会为期末报告加更多测试案例，也会用更多模型来测试。今天的展示就到这里，谢谢大家！
 
 英文这样说：
-> So what did I learn from these experiments?
+> So what did I learn from this project?
 > First, LLMs are not always right. Even a very big model forgot a fee. For hard numbers and rules, code is more precise.
-> Second, it works best when each part does what it's good at. The LLM understands what users mean, and the code checks and calculates. Together, they're more reliable than the LLM alone, and even a small, cheap model becomes useful.
-> And third, the LLM can still misunderstand, so keep the user in the loop. PlanB shows what it understood, and the user confirms.
+> Second, writing the rules in the prompt is not enough. Even with a full list of rules, the small model still got almost every case wrong. The same rules work much better in code.
+> And third, if the LLM only has a small job, like understanding the request, even a small free model becomes useful, and it costs much less.
 > Next, I'll add more test cases and test with more models for the final report. So that's all for today's presentation, thank you!
 
 这页是老师特别想听的"insights 和 lessons learned"，时间再紧也要讲到。

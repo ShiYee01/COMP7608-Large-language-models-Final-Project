@@ -30,8 +30,8 @@ With the big model, they plan well, but still get the money wrong.
 And when PlanB gets the correct request, it solves every case. So its mistakes come from the reading, not from our code.  
 This also matters for cost. With the small model, PlanB uses about five to seven times fewer tokens, and on a CPU it answers in under a minute, not several minutes. So even a small free model becomes really useful.
 
-So what did I learn from these experiments?  
+So what did I learn from this project?  
 First, LLMs are not always right. Even a very big model forgot a fee. For hard numbers and rules, code is more precise.  
-Second, it works best when each part does what it's good at. The LLM understands what users mean, and the code checks and calculates. Together, they're more reliable than the LLM alone, and even a small, cheap model becomes useful.  
-And third, the LLM can still misunderstand, so keep the user in the loop. PlanB shows what it understood, and the user confirms.  
+Second, writing the rules in the prompt is not enough. Even with a full list of rules, the small model still got almost every case wrong. The same rules work much better in code.  
+And third, if the LLM only has a small job, like understanding the request, even a small free model becomes useful, and it costs much less.  
 Next, I'll add more test cases and test with more models for the final report. So that's all for today's presentation, thank you!
