@@ -2,7 +2,7 @@
 
 对应文件：`PlanB_Proposal_Presentation.pptx`（正文 8 页，第 9 页起是附录）。
 
-老师的安排：每组 **4 分钟**，剩 1 分钟时老师会举手。下面这版照着讲大约 3 分 45 秒。语气就像跟同学聊天，英文都是简单的词，说错一两个字没关系。
+老师的安排：每组 **4 分钟**，剩 1 分钟时老师会举手。下面这版照着讲大约 3 分 30 秒。语气就像跟同学聊天，英文都是简单的词，说错一两个字没关系。
 
 每页三块："记住这句"是这页的核心；"中文意思"帮你理解；"英文这样说"就是上台要说的话，pptx 里每页的演讲者备注也是这段英文。每页开头那句是过渡句，最好背熟。
 
@@ -25,10 +25,10 @@
 
 记住这句：LLM 负责听懂，代码负责检查和算钱，你来决定。
 
-中文意思：大家好，我是 Zhang Yupeng，我的项目叫 PlanB，是一个帮你做旅行计划的 AI 助手。思路很简单：LLM 负责听懂，代码负责检查和算账，最后你来做决定。
+中文意思：大家早上好，我们是第 7 组，我的项目叫 PlanB，是一个帮你做旅行计划的 AI 助手。思路很简单：LLM 负责听懂，代码负责检查和算账，最后你来做决定。
 
 英文这样说：
-> Hi everyone, I'm Zhang Yupeng, and my project is PlanB, an AI helper for travel plans.
+> Good morning, this is Group 7. And my project is called PlanB. It is an AI helper for travel plans.
 > The idea is simple: the LLM understands, the code checks and does the math, and you decide.
 
 ---
@@ -37,27 +37,26 @@
 
 记住这句：你告诉它订了什么，它围绕这些订单排行程；还能聊天改、出状况重新安排。
 
-中文意思：那 PlanB 能做什么呢？三件事。第一，你用一段话告诉 PlanB 你的旅行：日期、想去哪、喜欢什么，还有你已经订好的东西，比如机票和酒店。PlanB 不会去网上搜，也不会帮你订，它只是围绕你说的这些订单来排每天的行程。第二，你可以聊天改行程，比如"我不想去浅草寺了"，它会给你几个选项。第三，如果出了状况，比如下雨或者多待一天，它只改受影响的部分，还告诉你要多花多少钱。
+中文意思：那 PlanB 能做什么呢？三件事。第一，你用一段话告诉 PlanB 你的旅行：日期、想去哪、喜欢什么，还有你已经订好的东西，比如机票和酒店。然后它就围绕你想去的地方和你订好的东西，排出每天的行程。第二，你可以聊天改行程，比如"我不想去这个地方了"，它会给你其他的选项。第三，如果出了状况，比如下雨或者多待一天，它只改受影响的部分，还告诉你要多花多少钱。
 
 英文这样说：
-> So what can PlanB do? Three things.
-> First, you tell PlanB about your trip in one paragraph: your dates, where you want to go, what you like, and what you've already booked, like your flight and hotel. PlanB doesn't search or book anything. It just plans your days around those bookings.
-> Second, you can change the plan by chat, like "I don't want to go to Senso-ji", and it gives you options.
+> So what can PlanB do?
+> First, you tell PlanB about your trip in one paragraph: your dates, where you want to go, what you like, and what you've already booked, like your flight and hotel. Then it plans your days around what you want and what you've booked.
+> Second, you can change the plan by chat, like "I don't want to go to this place", and it will give you other options.
 > And third, if something changes, like rain or an extra day, it only changes what's affected and tells you the extra cost.
 
 ---
 
 ## 第 3 页　Even a 550B model gets the price wrong（30 秒）
 
-记住这句：大模型漏了改签费，说 950，其实是 1150。
+记住这句：大模型漏了改签费，总价错了，4 次里错了 3 次。
 
-中文意思：那为什么不直接让 LLM 来做？我们试过。我们让一个 5500 亿参数的模型帮忙多加一天。订单找对了，听起来也不错。但你看价格，它漏了改签费，说 950 块，正确答案是 1150。小模型就更糟了。
+中文意思：那为什么不直接让 LLM 来做？我们让一个 5500 亿参数的模型帮忙多加一天。订单找对了，行程看起来也不错。但你看价格，它漏了机票的改签费，所以总价是错的。而且同样的错误，4 次里出现了 3 次。
 
 英文这样说：
-> Now, why not just ask an LLM to do all this? Well, we tried.
-> We asked a 550-billion-parameter model to add one more day. It found the right bookings, and it sounds good.
-> But look at the price: it forgot the change fee. It said 950 yuan, but the right answer is 1,150.
-> And small models are even worse.
+> So, why not just ask an LLM to do all this?
+> We asked a 550-billion-parameter model to add one more day. It found the right bookings, and the plan looks good.
+> But look at the price: it forgot the flight change fee, so the total is wrong. And it made this mistake 3 out of 4 times.
 
 说到 "But look at the price" 时停一下，指一下 ¥950。
 
@@ -67,25 +66,25 @@
 
 记住这句：LLM 只负责听懂，剩下的交给代码。
 
-中文意思：所以 PlanB 把活分开。LLM 只负责搞清楚你想要什么。之后交给普通代码：检查规则，只改受影响的部分，再把钱算出来。不知道的就说"不知道"，不会当成 0。最后 LLM 解释结果，你来决定。
+中文意思：所以 PlanB 把活分开。LLM 只负责搞清楚用户想要什么。之后交给代码：检查规则，只改受影响的部分，再把钱算出来。最后 LLM 解释结果，把方案交给用户确认。
 
 英文这样说：
 > So PlanB splits the work.
-> The LLM just figures out what you want.
-> Then normal code takes over: it checks the rules, changes only what's affected, and does the math. If it doesn't know something, it says "unknown", not zero.
-> At the end, the LLM explains, and you decide.
+> The LLM just figures out what the user wants.
+> Then the code takes over: it checks the rules, changes only what's affected, and does the math.
+> At the end, the LLM explains, and gives the plan to the user to approve.
 
 ---
 
 ## 第 5 页　Demo: stay one more day（15 秒）
 
-记住这句：只动机票和酒店，多花 1150，每一笔都有依据。
+记住这句：只动机票和酒店，费用算对了，每一笔都有依据。
 
-中文意思：这是同一个请求在 PlanB 里的结果。只有机票和酒店受影响，多花 1150 块，而且每一部分都来自订单规则。
+中文意思：这是同一个请求在 PlanB 里的结果。只有机票和酒店受影响，算出来的额外费用是对的，而且每一部分都来自订单规则。
 
 英文这样说：
 > Here's the same request in PlanB.
-> Only the flight and the hotel are affected, and the extra cost is 1,150 yuan. Every part of it comes from a booking rule.
+> Only the flight and the hotel are affected, and the extra cost is correct. Every part of it comes from a booking rule.
 
 ---
 
@@ -126,14 +125,14 @@
 
 记住这句：LLM 不是完全可靠的；让它和代码各做擅长的事；让用户来确认。
 
-中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，最好的方式是让每一部分做自己擅长的事：LLM 擅长听懂人在说什么，代码擅长检查和计算，两者结合起来，比只用 LLM 可靠得多。第三，LLM 还是有可能理解错，所以要让用户参与进来：PlanB 会先把它理解的内容给用户看，用户确认了再往下走。接下来，我会为期末报告加更多测试。谢谢大家！
+中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，最好的方式是让每一部分做自己擅长的事：LLM 擅长听懂人在说什么，代码擅长检查和计算，两者结合起来，比只用 LLM 可靠得多。第三，LLM 还是有可能理解错，所以要让用户参与进来：PlanB 会先把它理解的内容给用户看，用户确认了再往下走。接下来，我会为期末报告加更多测试案例，也会用更多模型来测试。今天的展示就到这里，谢谢大家！
 
 英文这样说：
-> So what did I learn?
+> So what did I learn from these experiments?
 > First, LLMs are not always right. Even a very big model forgot a fee. For hard numbers and rules, code is more precise.
-> Second, it works best when each part does what it's good at. The LLM understands what people mean, and the code checks and calculates. Together, they're more reliable than the LLM alone.
+> Second, it works best when each part does what it's good at. The LLM understands what users mean, and the code checks and calculates. Together, they're more reliable than the LLM alone.
 > And third, the LLM can still misunderstand, so keep the user in the loop. PlanB shows what it understood, and the user confirms.
-> Next, I'll add more test cases for the final report. Thank you!
+> Next, I'll add more test cases and test with more models for the final report. So that's all for today's presentation, thank you!
 
 这页是老师特别想听的"insights 和 lessons learned"，时间再紧也要讲到。
 
