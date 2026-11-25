@@ -35,15 +35,15 @@
 
 ## 第 2 页　What PlanB does（35 秒）
 
-记住这句：你告诉它订了什么，它围绕这些订单排行程；还能聊天改、出状况重新安排。
+记住这句：你告诉它订了什么，它围绕这些订单排行程；还能聊天改、遇到突发情况重新安排。
 
-中文意思：那 PlanB 能做什么呢？三件事。第一，你用一段话告诉 PlanB 你的旅行：日期、想去哪、喜欢什么，还有你已经订好的东西，比如机票和酒店。然后它就围绕你想去的地方和你订好的东西，排出每天的行程。第二，你可以聊天改行程，比如"我不想去这个地方了"，它会给你其他的选项。第三，如果出了状况，比如下雨或者多待一天，它只改受影响的部分，还告诉你要多花多少钱。
+中文意思：那 PlanB 能做什么呢？三件事。第一，你用一段话告诉 PlanB 你的旅行：日期、想去哪、喜欢什么，还有你已经订好的东西，比如机票和酒店。然后它就围绕你想去的地方和你订好的东西，排出每天的行程。第二，你可以聊天改行程，比如"我不想去这个地方了"，它会给你其他的选项。第三，如果旅途中遇到突发情况打乱了计划，比如下大雨、博物馆临时关门、火车晚点，PlanB 只改受影响的那部分，还会告诉你需不需要多花钱。
 
 英文这样说：
 > So what can PlanB do?
 > First, you tell PlanB about your trip in one paragraph: your dates, where you want to go, what you like, and what you've already booked, like your flight and hotel. Then it plans your days around what you want and what you've booked.
 > Second, you can change the plan by chat, like "I don't want to go to this place", and it will give you other options.
-> And third, if something changes, like rain or an extra day, it only changes what's affected and tells you the extra cost.
+> And third, if something unexpected gets in the way, like heavy rain, a closed museum or a delayed train, PlanB only changes the part that's affected, and tells you if it costs anything extra.
 
 ---
 

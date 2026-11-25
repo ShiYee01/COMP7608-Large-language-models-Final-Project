@@ -4,7 +4,7 @@ The idea is simple: the LLM understands, the code checks and does the math, and 
 So what can PlanB do?  
 First, you tell PlanB about your trip in one paragraph: your dates, where you want to go, what you like, and what you've already booked, like your flight and hotel. Then it plans your days around what you want and what you've booked.  
 Second, you can change the plan by chat, like "I don't want to go to this place", and it will give you other options.  
-And third, if something changes, like rain or an extra day, it only changes what's affected and tells you the extra cost.
+And third, if something unexpected gets in the way, like heavy rain, a closed museum or a delayed train, PlanB only changes the part that's affected, and tells you if it costs anything extra.
 
 So, why not just ask an LLM to do all this?  
 We asked a 550-billion-parameter model to add one more day. It found the right bookings, and the plan looks good.  
