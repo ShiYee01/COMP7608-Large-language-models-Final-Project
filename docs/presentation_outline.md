@@ -1,7 +1,10 @@
 # Proposal presentation outline (Thu 2026-11-26)
 
-The slide deck has 21 main slides plus 2 backup slides (about 15 minutes in full; `zh/docs/presentation_script.md` has a
-10-minute version). Adjust to the teacher's time limit. Only put real numbers from
+The teacher's final arrangement: **4 minutes per group** (26–27 Nov, order in the course Google Sheet); the teacher
+raises a hand when 1 minute remains, and wants key insights and lessons learned. The pptx therefore has 8 main slides
+(about 3.5 minutes: cover, what PlanB does, the ¥950 vs ¥1,150 failure, how PlanB splits the work, one demo
+screenshot, how we test, one results table, what I learned) followed by appendix slides for Q&A. No live demo.
+The sections below are the full material; the 8-slide talk uses a subset of them (see `zh/docs/presentation_script.md`). Only put real numbers from
 `evaluation/results/<run>/summary.md` on the results slide.
 
 ## 1. Title
@@ -77,7 +80,7 @@ Talking points:
 - **Honesty.** This is a small pilot set written by the author, so a difference of 1–2 cases is not significant.
   The scoring fixes are documented in each run's `NOTES.md`.
 
-**New features (trip setup + chat edits, 13 pilot scenarios, both models; optional slide):**
+**Trip planning and chat edits (13 pilot scenarios, both models):**
 
 | method | setup: 3B | setup: 550B | edits: 3B | edits: 550B |
 |---|---|---|---|---|

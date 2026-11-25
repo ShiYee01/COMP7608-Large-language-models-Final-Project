@@ -1,529 +1,189 @@
-# Presentation 中文讲稿（对照 slides 使用）
+# Presentation 讲稿（4 分钟版，对应 pptx）
 
-> 对应 slides：https://claude.ai/artifact/W6BqH2EQvtxhDh4uFE4Pfh （共 23 页，演讲者备注是英文）
-> 本讲稿逐页翻译并整理了英文备注，口语化，方便对照学习。每页后面附「关键表达」中英对照，正式讲的时候可以直接用英文说法。
-> 所有数字都来自 `evaluation/results/` 里的真实评测结果。
-> 最后更新：2026-11-20（加入对话式新建行程、聊天修改，以及第二个评测）。
+对应文件：`PlanB_Proposal_Presentation.pptx`（正文 8 页，第 9 页起是附录）。
 
-## 时间安排
+老师的安排：每组 **4 分钟**，剩 1 分钟时老师会举手。下面这版照着讲大约 3 分 45 秒。语气就像跟同学聊天，英文都是简单的词，说错一两个字没关系。
 
-完整讲一遍约 15–16 分钟（不含答疑）。老师的时间要求还没公布；如果只有 10 分钟左右，建议这样压缩：
+每页三块："记住这句"是这页的核心；"中文意思"帮你理解；"英文这样说"就是上台要说的话，pptx 里每页的演讲者备注也是这段英文。每页开头那句是过渡句，最好背熟。
 
-| 页 | 完整版 | 10 分钟版 |
-|---|---|---|
-| 1–5 动机、研究问题、架构 | 约 3.5 分钟 | 约 3 分钟（第 2 页只讲失败 3） |
-| 6–7 新功能流程、设计原则 | 约 1.5 分钟 | 第 6 页 30 秒；第 7 页跳过或一句话带过 |
-| 8–12 五个演示 | 约 4 分钟 | 演示 1、2、3 各 40 秒；演示 4、5 各一句话 |
-| 13–16 评测 1 | 约 3 分钟 | 第 13、14 页；第 15 页跳过；第 16 页一句话 |
-| 17–18 评测 2 | 约 1.5 分钟 | 第 17 页讲完；第 18 页只讲右边那张卡 |
-| 19–21 结论、局限、总结 | 约 1.5 分钟 | 约 1 分钟 |
-| 22–23 备用答疑 | 只在被问到时翻 | 同左 |
+**时间检查点**
 
----
-
-## 第 1 页 · 封面（约 20 秒）
-
-大家好，我是 [你的名字]，这是一个个人项目。
-
-我的项目叫 PlanB，是一个旅行助手。你用一段话描述旅行，它帮你生成每日行程；之后可以用聊天的方式修改；旅途中情况有变时，它会重新规划，并且准确告诉你哪些订单受影响、要多花多少钱。
-
-核心思路就是标题下面这句话：**LLM 负责理解和解释，代码负责检查和计算，用户负责做决定。**
-
-今天我会依次讲：问题、方法、一个简短的演示，以及两个评测（一共 23 个试点场景）在两个免费开源模型上的初步结果。
-
-**关键表达**
-| 中文 | 英文 |
+| 讲完第几页 | 大约用时 |
 |---|---|
-| 个人项目 | individual project |
-| 重新规划行程 | replan the itinerary |
-| 受影响的订单 | affected bookings |
-| 初步结果 | preliminary results |
-| 开源权重模型 | open-weights model |
+| 第 3 页 | 1 分 10 秒 |
+| 第 5 页 | 1 分 45 秒 |
+| 第 7 页 | 3 分 10 秒 |
+| 第 8 页 | 3 分 45 秒 |
+
+**老师举手（还剩 1 分钟）时，你应该正在讲第 7 页。** 如果那时还在第 6 页，就直接说 "In short, PlanB did much better, especially on money"，然后翻到第 8 页讲完体会。
+
+整个故事：PlanB 能做三件事 → 但直接用 LLM 会算错钱 → 所以分工 → 演示 → 怎么测 → 结果 → 我学到了什么。
 
 ---
 
-## 第 2 页 · 问题：LLM 改行程不可靠（约 1 分钟）
+## 第 1 页　封面（10 秒）
 
-旅行计划经常会变：下雨、景点关门、交通延误，或者想多玩一天、提前回家。
+记住这句：LLM 负责听懂，代码负责检查和算钱，你来决定。
 
-最直接的办法就是让 LLM“帮我改一下行程”。我们正是把这个当作基线来测试的。这三类失败都**来自我们自己的实验结果，不是想象出来的**。
+中文意思：大家早上好，我们是第 7 组，我的项目叫 PlanB，是一个帮你做旅行计划的 AI 助手。思路很简单：LLM 负责听懂，代码负责检查和算账，最后你来做决定。
 
-- **失败 1：把整个行程重写。** 用 3B 小模型处理下雨的请求时，本来不该动的活动只保留了 40%。
-- **失败 2：违反硬约束。** 在同一个回答里，模型把已经锁定、提前订好的 18:30 晚餐挪到了 14:30。可是那个预约在 14:30 根本不存在。
-- **失败 3 是最重要的：算错钱。** 即使是 5500 亿参数的大模型，也给出了一个很自信、但是错误的价格。下一页具体看。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 旅行计划会变 | travel plans change |
-| 基线 | baseline |
-| 违反硬约束 | break hard constraints |
-| 锁定的、提前订好的晚餐 | a locked, pre-booked dinner |
-| 很自信但错误的价格 | a confident but wrong price |
+英文这样说：
+> Good morning, this is Group 7. And my project is called PlanB. It is an AI helper for travel plans.
+> The idea is simple: the LLM understands, the code checks and does the math, and you decide.
 
 ---
 
-## 第 3 页 · 证据：550B 模型也算错钱（约 45 秒）
+## 第 2 页　What PlanB does（35 秒）
 
-这个请求就是 Story D：多待一天，12 月 13 日再回来。
+记住这句：你告诉它订了什么，它围绕这些订单排行程；还能聊天改、遇到突发情况重新安排。
 
-左边是大模型的真实输出。它找对了受影响的订单：返程航班和酒店，解释也写得很有说服力。
+中文意思：那 PlanB 能做什么呢？三件事。第一，你用一段话告诉 PlanB 你的旅行：日期、想去哪、喜欢什么，还有你已经订好的东西，比如机票和酒店。然后它就围绕你想去的地方和你订好的东西，排出每天的行程。第二，你可以聊天改行程，比如"我不想去这个地方了"，它会给你其他的选项。第三，如果旅途中遇到突发情况打乱了计划，比如下大雨、博物馆临时关门、火车晚点，PlanB 只改受影响的那部分，还会告诉你需不需要多花钱。
 
-右边是根据订单规则算出来的正确明细。模型算了 ¥350 的机票差价和 ¥600 多住一晚的费用，但是**漏掉了 ¥200 的改签费**。所以它告诉旅客要多付 ¥950，而正确答案是 ¥1,150。
-
-这不是偶然：在大模型的两种基线提示里，凡是需要算改签费的 4 次输出中，有 3 次都漏掉了。
-
-我想强调的一点是：**一个很自信的错误价格，比一句“我不知道”更糟糕。** 这就是为什么要把算钱这件事从 LLM 手里拿出来。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 改签费 | change fee |
-| 票价差 | fare difference |
-| 多住一晚 | extra hotel night |
-| 正确的费用明细 | the correct breakdown |
-| 很有说服力的解释 | a convincing explanation |
+英文这样说：
+> So what can PlanB do?
+> First, you tell PlanB about your trip in one paragraph: your dates, where you want to go, what you like, and what you've already booked, like your flight and hotel. Then it plans your days around what you want and what you've booked.
+> Second, you can change the plan by chat, like "I don't want to go to this place", and it will give you other options.
+> And third, if something unexpected gets in the way, like heavy rain, a closed museum or a delayed train, PlanB only changes the part that's affected, and tells you if it costs anything extra.
 
 ---
 
-## 第 4 页 · 研究问题（约 20 秒）
+## 第 3 页　Even a 550B model gets the price wrong（30 秒）
 
-（慢慢读一遍问题）
+记住这句：大模型漏了改签费，总价错了，4 次里错了 3 次。
 
-“结构化的行程状态、确定性的约束校验、局部修复，再加上订单费用引擎，能不能比让 LLM 直接改行程，更可靠地处理旅行中的变化？”
+中文意思：那为什么不直接让 LLM 来做？我们让一个 5500 亿参数的模型帮忙多加一天。订单找对了，行程看起来也不错。但你看价格，它漏了机票的改签费，所以总价是错的。而且同样的错误，4 次里出现了 3 次。
 
-接着定义什么叫“可靠”，因为这正是我们要测量的：
-- 行程满足所有硬约束；
-- 不需要改的地方保持不变；
-- 正确标出受影响的订单；
-- 给出准确的额外费用；
-- 数据缺失时说“未知”，没有可行方案时说“无解”，而不是编一个出来。
+英文这样说：
+> So, why not just ask an LLM to do all this?
+> We asked a 550-billion-parameter model to add one more day. It found the right bookings, and the plan looks good.
+> But look at the price: it forgot the flight change fee, so the total is wrong. And it made this mistake 3 out of 4 times.
 
-这些每一条都对应评测里的一个指标。
-
-之后我会把同一个问题用在两个新功能上：**用一段话新建行程**，和**用聊天修改行程**。同样的分工，能不能胜过让 LLM 自己规划或修改？
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 研究问题 | research question |
-| 确定性的约束校验 | deterministic constraint validation |
-| 局部修复 | local repair |
-| 更可靠地 | more reliably |
-| 无解 | infeasible |
+说到 "But look at the price" 时停一下，指一下 ¥950。
 
 ---
 
-## 第 5 页 · 架构（约 1 分钟）
+## 第 4 页　How PlanB splits the work（25 秒）
 
-（按“U”字形顺着图讲）
+记住这句：LLM 只负责听懂，剩下的交给代码。
 
-1. 旅客用自然语言提出请求。
-2. LLM 在这里只做一件事：把请求转成一个结构化事件，比如“延长行程，新的结束日期是 12 月 13 日”。输出会按固定格式校验。
-3. 从这里开始全部是**确定性的 Python 代码**。局部修复用束搜索，在“保留、平移、换一天、替换、删除”这些小改动里找方案。每个候选方案都要经过约束校验器：时间重叠、交通时间、营业时间、关闭、天气时段、锁定、行程日期。
-4. 然后找出哪些订单受影响，并根据用户自己的订单规则计算额外费用。**未知的值永远不当作 0。**
-5. 最后 LLM 再出场，只负责用通俗的话解释结果，而且它写出的任何金额都会和计算结果核对。
-6. 用户批准或拒绝。批准只会更新 PlanB 里的行程，**绝不会改动真实的订单**。
+中文意思：所以 PlanB 把活分开。LLM 只负责搞清楚用户想要什么。之后交给代码：检查规则，只改受影响的部分，再把钱算出来。最后 LLM 解释结果，把方案交给用户确认。
 
-这张图是“重新规划”的流程。下一页是新建和修改行程，用的是同样的分工。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 结构化事件 | structured event |
-| 束搜索 | beam search |
-| 约束校验器 | constraint validator |
-| 未知不等于零 | unknown is not zero |
-| 批准 / 拒绝 | approve / reject |
+英文这样说：
+> So PlanB splits the work.
+> The LLM just figures out what the user wants.
+> Then the code takes over: it checks the rules, changes only what's affected, and does the math.
+> At the end, the LLM explains, and gives the plan to the user to approve.
 
 ---
 
-## 第 6 页 · 新功能：同样的分工用在新建和修改行程上（约 40 秒）（新增）
+## 第 5 页　Demo: stay one more day（15 秒）
 
-重新规划的前提是已经有一份行程。所以 PlanB 现在也能**新建行程**，并且能**用聊天修改**。
+记住这句：只动机票和酒店，费用算对了，每一笔都有依据。
 
-**上面一行，用一段话新建行程：**
-- 用户写一段话：日期、想去和不想去的地方、喜好（比如“安静”“二次元”），以及已经订好的航班、酒店、门票，**用文字说出来就行**，不用上传凭证。
-- LLM 把这段话转成结构化的请求。
-- PlanB 把理解的内容复述给用户，用户可以用一句话更正。
-- 然后由代码生成每日计划：已订的项目锁定，每天留出午餐和晚餐的自由时间，先排用户想去的地方，再按喜好补充推荐，最后全部经过校验。
+中文意思：这是同一个请求在 PlanB 里的结果。只有机票和酒店受影响，算出来的额外费用是对的，而且每一部分都来自订单规则。
 
-**下面一行，聊天修改：**
-- 比如“我不想去浅草寺了”“推荐一个二次元的地方”“12 号午饭想去筑地”。
-- LLM 只负责识别用户想做哪种修改。
-- 代码生成候选方案并逐一校验。如果那天已经排满，PlanB 不会只说“放不下”，而是带着具体选项来问用户；已预订的项目绝不会被自动删除。
-- 用户选一个方案并批准。
-
-还是同一条原则：语言交给 LLM，约束交给代码，决定交给用户。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 新建行程 | trip setup |
-| 聊天修改 | chat edits |
-| 复述 / 一句话更正 | read-back / correct it in one sentence |
-| 用文字说出来的订单 | bookings stated in words |
-| 带着选项来问 | ask with concrete options |
+英文这样说：
+> Here's the same request in PlanB.
+> Only the flight and the hotel are affected, and the extra cost is correct. Every part of it comes from a booking rule.
 
 ---
 
-## 第 7 页 · 四条设计原则（约 40 秒）
+## 第 6 页　How we test（45 秒）
 
-每条原则下面都有一条在原型里验证过的证据。
+记住这句：最后一种方法是给我们自己做检查的，用来分清是 LLM 读错了，还是代码错了。
 
-- **未知 ≠ 0：** 缺少某项费用或报价时，PlanB 会说总额未知，并列出缺了什么。场景 s02 专门测这个。
-- **锁定不动，冲突要说出来：** 用户锁定的东西，比如订好的晚餐，绝不会被悄悄挪走。如果找不到可行方案，PlanB 会说“无解”，并告诉用户可以解除哪个锁定。
-- **预览 → 批准 → 提交：** 方案只是预览。批准时会检查版本号，然后更新行程，并提醒用户自己去改真实的订单。PlanB 从不订票、不付款。
-- **只调用一次小的 LLM：** 这就是它能用免费模型的原因，后面的结果会证明这一点。
+中文意思：那怎么知道它真的管用？我们手写了两组测试：10 个是旅途中出状况，13 个是新建和修改行程。我们比较了四种方法。前两种是让 LLM 全包，一种只给普通提示，一种给一串规则。然后是 PlanB。最后一种是给我们自己做检查用的：我们手动把请求正确地填好，再交给 PlanB。这样如果 PlanB 还是做错，说明是我们的代码有问题；如果做对了，说明之前的错误是 LLM 读请求时读错了。我们用了一小一大两个免费模型，而且一个案例要全对，包括钱，才算做对。
 
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 设计原则 | design rules |
-| 悄悄挪走 | move silently |
-| 解除锁定 | release / unlock a lock |
-| 版本号 | revision number |
-| 自行改签 | rebook externally |
+英文这样说：
+> So how do we know it works?
+> We wrote two test sets by hand: 10 cases where the trip changes, and 13 about planning and editing a trip.
+> We compared four methods. In the first two, the LLM does everything: one with a simple prompt, and one with a list of rules. Then there's PlanB.
+> And the last one is a check for ourselves: we fill in the request correctly by hand and give it to PlanB. So if PlanB still fails, the problem is in our code. If it works, then the mistakes came from the LLM reading the request.
+> We used a small and a big free model, and a case only counts if everything is right, including the money.
+
+讲到第 4 种方法时，可以指着屏幕右边的第 4 条。
 
 ---
 
-## 第 8 页 · 演示 1：用一段话新建行程（约 1 分钟）（新增）
+## 第 7 页　Results: number of cases solved（40 秒）
 
-（尽量现场演示；如果网络或电脑有问题，就讲截图）
+记住这句：小模型下别人几乎全错，大模型下别人算错钱，读对了 PlanB 就全对；而且小模型用 PlanB 又省又快。
 
-- 示例这段话是：12 月 10 日到 12 日去东京，想去浅草寺和秋叶原，不想去涩谷十字路口；喜欢安静的地方，也喜欢二次元，节奏轻松一点；订了 10 号 11:30 到羽田的航班、12 号 18:00 起飞的返程，酒店在新宿，11 号下午 2 点有 teamLab 的门票。
-- 点“理解我的需求”。**左边**是 PlanB 复述的理解。三个订单都列为“会被锁定”。用户没有给价格，所以 PlanB 说明：之后如果行程有变，相关费用会显示为“未知”，**不会当作 0**。
-- 如果哪里不对，就用一句话更正，比如“酒店其实在浅草”，复述会马上更新。
-- 点确认。**右边**是生成的每日计划：到达航班锁定；午餐、晚餐是自由时间；浅草寺排进去了，因为用户点名要去；teamLab 保持在 14:00；空档按喜好补充了二次元的地方，比如高达立像和吉卜力美术馆。顶部横幅显示：已知的硬约束全部通过。
-- 补充一句：截图来自离线模式，用规则解析器代替 LLM，规划器是同一个。
+中文意思：来看结果。用小模型时，LLM 全包的方法几乎全错，PlanB 还能做对一半以上。用大模型时，它们行程排得不错，但钱还是算错。而只要给 PlanB 正确的请求，它每个案例都做对了。所以 PlanB 的错误出在"读"这一步，不在我们的代码。这一点对成本也很重要：用小模型时，PlanB 用的 token 少 5 到 7 倍，在普通 CPU 上不到一分钟就能出结果，而不是好几分钟。所以就算是一个免费的小模型，也真的能用起来。
 
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 理解我的需求 | understand my request |
-| 会被锁定 | will be locked |
-| 自由时间（用餐） | free meal slot |
-| 按喜好补充 | filled by preference |
-| 离线模式 | offline mode |
+英文这样说：
+> And here's what we found.
+> With the small model, the LLM-only methods almost always fail, while PlanB still solves more than half.
+> With the big model, they plan well, but still get the money wrong.
+> And when PlanB gets the correct request, it solves every case. So its mistakes come from the reading, not from our code.
+> This also matters for cost. With the small model, PlanB uses about five to seven times fewer tokens, and on a CPU it answers in under a minute, not several minutes. So even a small free model becomes really useful.
+
+先指加粗的 PlanB 那一行，再指最后一行，讲到成本时指最下面那条 "Cheaper and faster"。
 
 ---
 
-## 第 9 页 · 演示 2：用聊天修改行程（约 40 秒）（新增）
+## 第 8 页　What I learned（35 秒）
 
-- 在刚生成的行程上，点“我不想去浅草寺了，我更喜欢有历史感的地方”。
-- PlanB 记住了新的喜好，并给出 3 个选择：把浅草寺换成根津神社、换成六义园（都是安静、有历史感的地方），或者只删除、留作自由时间。**每个选项在展示之前都已经校验过**；用户批准之前，行程不会变。
-- 右边三张卡是另外三种情况，评测里也都测了：
-  - **那天已经排满：** PlanB 不会只说“放不下”，而是问用户要不要把它自己推荐的某一项换掉，或者改到另一天。
-  - **餐厅不在地点库里：** 按用户说的安排，营业时间和价格标为“未知”，**绝不编造**。
-  - **已预订的项目：** 比如 teamLab 门票，绝不会被自动删除，要用户先解锁。
+记住这句：LLM 不一定靠谱；规则写在提示词里不够，要写进代码；只给 LLM 一个小任务，小模型也能用。
 
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 记住喜好 | remember the preference |
-| 只删除，留作自由时间 | just remove it and keep the time free |
-| 排满了 | the day is full |
-| 不在地点库里 | not in the catalogue |
-| 自动删除 | remove automatically |
+中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，把规则写进提示词里是不够的。我们给小模型一整套规则，它还是几乎全错；同样的规则写进代码里，效果就好得多。第三，如果只让 LLM 做一件小事，比如只负责读懂用户的请求，那就算是免费的小模型也能用起来，而且成本低很多。接下来，我会为期末报告加更多测试案例，也会用更多模型来测试。今天的展示就到这里，谢谢大家！
+
+英文这样说：
+> So what did I learn from this project?
+> First, LLMs are not always right. Even a very big model forgot a fee. For hard numbers and rules, code is more precise.
+> Second, writing the rules in the prompt is not enough. Even with a full list of rules, the small model still got almost every case wrong. The same rules work much better in code.
+> And third, if the LLM only has a small job, like understanding the request, even a small free model becomes useful, and it costs much less.
+> Next, I'll add more test cases and test with more models for the final report. So that's all for today's presentation, thank you!
+
+这页是老师特别想听的"insights 和 lessons learned"，时间再紧也要讲到。
 
 ---
 
-## 第 10 页 · 演示 3：多待一天（约 1 分钟）
+## 答疑小抄
 
-- 输入或点击预设：“我想在东京多待一天，12 月 13 日再回来。”
-- 指着上面的表：五个订单里，只有返程航班和酒店需要处理；去程航班、teamLab 门票和寿司订位都不受影响。
-- 指着费用表：¥200 改签费 + ¥350 票价差 + ¥600 多住一晚 = **¥1,150**。每一行都写明了来自哪条订单规则或报价。可以和前面大模型算出的 ¥950 对比一下。
-- 只改动了一个活动：返程机场的安排移到了 13 号，其他什么都没重写。
-- 点批准：行程更新到版本 2，并提醒用户：真实的机票和酒店还需要自己去找商家改。
-- 补充一句：截图来自离线演示模式（用规则解析器），但引擎和数字与使用 LLM 解析时完全相同。
+被问到时先用一句话回答，需要的话再翻到对应的附录页。听不清可以说 "Sorry, could you say that again?"。
 
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 预设 | preset |
-| 不受影响 | unaffected |
-| 每一行都写明了依据 | each line cites its source |
-| 版本 2 | revision 2 |
-| 离线演示模式 | offline demo mode |
+**问：用户要上传订单截图或者凭证吗？PlanB 会自己去查订单吗？**
+> No. You just tell PlanB in words what you booked. It doesn't search, check or book anything. It only plans around what you told it.
 
----
+（不用。用户用文字告诉 PlanB 订了什么就行，PlanB 不查、不核对、也不订，只是围绕这些信息排行程。）
 
-## 第 11 页 · 演示 4：12/11 上午暴雨（约 40 秒）
+**问：为什么要测"PlanB + correct request"？**
+> To find out where the mistakes come from. If PlanB still fails with the correct request, our code is wrong. It never failed, so all the mistakes came from the LLM reading the request.
 
-- 左边是 12 月 11 日的原计划，右边是 PlanB 的方案。高亮的行就是唯一的改动。
-- 雨中时段里的两个户外活动都处理了：明治神宫换成了室内景点东京塔，竹下通挪到了下午晚些时候，雨停之后。
-- teamLab 保留了门票时段，锁定的 18:30 寿司晚餐也没动。没有订单受影响，所以额外费用是 0。
-- 对比一下 3B 基线在同一个请求上的表现：它把锁定的晚餐挪到了 14:30，该保留的只保留了 40%。
-- 第 1 天和第 3 天没有变化（截图里裁掉了）。
+（用来找出错误出在哪里。给了正确请求还错，就是代码的问题；它一次都没错，所以错误都是 LLM 读请求时产生的。）
 
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 户外 / 室内 | outdoor / indoor |
-| 雨停之后 | after the rain |
-| 高亮的行 | highlighted rows |
-| 门票时段 | ticket time slot |
-| 额外费用为零 | zero extra cost |
+**问：评测是不是偏向你自己的方法？**
+> Not really. I wrote the right answers by hand from the booking rules, and the same checker scores every method. The "LLM + rules" method even gets an extra list of rules.
 
----
+（标准答案按订单规则手写，所有方法用同一个检查器，"LLM + rules"还多给了一份规则。）
 
-## 第 12 页 · 演示 5：PlanB 不会隐瞒冲突（约 30 秒）
+**问：大模型已经很接近了，为什么还要 PlanB？**
+> Good question. The big model still gets the money wrong, and it uses five to eight times more tokens. PlanB's answers are checked by code, and it also works with a small model.
 
-- 商家把 teamLab 的入场时间改到了 18:00，而且不能再改；但用户在 18:30 还有一个锁定的寿司晚餐。两个都固定不动，而且时间重叠。
-- PlanB 不会编一个方案出来。它回答“无法在硬约束内完成”，指出是哪两个活动冲突，并建议用户可以放宽的那一项：解除寿司晚餐的锁定。
-- 评测里有两个这类场景（s08 和 s10）。两个模型下，PlanB 都正确回答了“无解”。
+（大模型还是算错钱，token 多 5 到 8 倍；PlanB 有代码检查，小模型也能用。）
 
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 时间重叠 | overlap |
-| 编一个方案 | invent a plan |
-| 放宽 | relax |
-| 无法在硬约束内完成 | cannot be done within the hard constraints |
+**问：为什么小模型新建行程只有 2/8？**
+> Yeah, that's the weak point. The small model misses things in long paragraphs, usually the return flight. That's why PlanB shows you what it understood first, so you can fix it.
 
----
-
-## 第 13 页 · 评测 1（重新规划）：设置（约 45 秒）
-
-- 10 个试点场景，覆盖 6 种事件类型，其中两个数据缺失，两个没有可行解。
-- 标准答案是我根据订单规则**手工写的**，不是 PlanB 生成的，这样就不会用引擎去给自己打分。
-- 四种方法：
-  - **A**：把所有事实信息给 LLM，让它自己改行程、自己算费用；
-  - **B**：同上，再加上明确的约束规则、费用规则和检查清单；
-  - **PlanB**；
-  - **PlanB + 正确事件**：用来看有多少错误来自“理解请求”这一步。
-- 每种方法用相同的模型、相同的事实信息、相同的输出格式，并由**同一个校验器**打分。
-- 指标包括：任务成功率、可行性、订单 F1、费用完全正确率、无解识别、延迟和 token 数。只有所有方面都对，一个案例才算成功。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 试点场景 | pilot scenarios |
-| 标准答案 | ground truth |
-| 手工编写 | written by hand |
-| 公平性 | fairness |
-| 同一个校验器打分 | one shared validator scores everything |
-
----
-
-## 第 14 页 · 评测 1 结果：任务成功率（约 1 分钟）
-
-同样的 10 个场景、同样的提示，换两个规模差别很大的免费开源模型。
-
-- **左边，3B 小模型：** 两个基线基本全部失败。8 个有解的场景一个都没解决，它们仅有的“成功”是在两个无解场景里拒绝回答。同样用这个小模型，PlanB 达到了 10 个里成功 8 个。
-- **右边，550B 大模型：** 基线进步很大，这一点我要坦白说：给了全部事实信息之后，强模型是一个很好的规划者，硬约束违规为 0。但它仍然失败了 2 到 4 个案例，而且失败都和钱有关。PlanB 是 10 个全对。
-- **浅蓝色那条**是“PlanB + 正确事件”，两个模型下都是 10/10。说明确定性引擎在这组数据上没有出错，PlanB 的所有失败都来自理解请求。
-- 需要说明：每条柱子只有 10 个案例，相差一两个案例不具有统计显著性。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 有解的场景 | solvable cases |
-| 拒绝回答 | refusals |
-| 坦白说 | to be honest |
-| 规划者 | planner |
-| 统计显著 | statistically significant |
-
----
-
-## 第 15 页 · 评测 1 细项：费用准确率与效率（约 45 秒；时间紧可以跳过）
-
-重点讲两行。
-
-- **费用完全正确**（在 7 个真实费用已知的场景上）：
-  - 小模型：基线一次都没给出费用，每次都是 null，尽管所有费用和报价都在提示里。
-  - 大模型：基线分别是 3/7 和 6/7。
-  - PlanB：6/7 和 7/7。3B 模型下 PlanB 唯一没算对的是**延误场景 s07**，因为它没能解析出延误结束的时间，选择了追问而不是回答。
-- **Token 数：** 基线必须读完整个行程、所有订单、营业时间和完整的交通时间矩阵，然后写出一整份行程。PlanB 的 LLM 只读编号、只写一个小小的 JSON 事件，所以 token 少大约 5 倍，速度快大约 10 倍。
-- 两张表的延迟不能直接比较：3B 模型跑在 4 核 CPU 上，550B 模型是通过免费 API 调用的。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 费用完全正确 | cost exact match |
-| 追问 | ask a follow-up question |
-| 交通时间矩阵 | travel-time matrix |
-| 少大约 5 倍 | about five times fewer |
-| 不能直接比较 | not directly comparable |
-
----
-
-## 第 16 页 · 评测 1 错误分析（约 45 秒）
-
-- **左边：** 用大模型时，基线的错误几乎都和钱有关。改签费是最典型的。另外还有两种：没有订单受影响、答案明明就是 0 的时候，却说“未知”；以及没发现提前离开会影响酒店订单。
-- **右边：** PlanB 的两次失败只出现在 3B 模型上，而且都出在理解请求这一步：
-  - s03：把“下午1点”理解成了中午 12 点，结果有一个活动还留在最后一小时的雨里；
-  - s07：没有解析出延误什么时候结束，所以 PlanB 选择追问而不是瞎猜。这样做是安全的，但我们仍然把它算作失败。
-- 因为“PlanB + 正确事件”在两个模型下都是 10/10，改进方向很清楚：加强解析，比如和规则解析器交叉检查，或者用更强的模型来解析。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 错误分析 | error analysis |
-| 最典型的 | the classic one |
-| 提前退房 | early checkout |
-| 瞎猜 | guess |
-| 交叉检查 | cross-check |
-
----
-
-## 第 17 页 · 评测 2（新建行程与聊天修改）：同样的规律（约 50 秒）（新增）
-
-- 为两个新功能另外写了 13 个试点场景，**在调用任何模型之前**就核对过：8 个新建行程（休息日、带价格的订单、地点库里没有的地方、英文请求、排不进去的地点、没给日期），5 个聊天修改（按喜好删除、排满时推荐、两个用餐、已预订的项目）。同样四种方法、同样两个模型、同一个评判器。
-- 按列看这张表：
-  - **3B 模型：** 两个基线一个都没做对，13 个全错。
-  - **550B 模型：** 规则详细的提示词追上了 PlanB，新建 8/8、修改 5/5。和评测 1 的规律一样。
-- **PlanB 用 3B：** 修改保持得不错（4/5），但新建行程降到 2/8，原因下一页讲。
-- **最后一行最重要：** 给 PlanB 正确的请求，两个模型下所有场景全对。规划器和修改引擎都没出错。
-- **成本：** 用大模型时，PlanB 的 token 少大约 6 倍。
-- **如实说明：** 5 个修改场景的标准理解是在模型跑完之后才补写的，只依据用户原话；这一点和其他所有事后修改都记录在说明文件里。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 在调用模型之前核对过 | reviewed before any model was run |
-| 按列看 | read the table by column |
-| 追上了 | catches up with |
-| 同样的规律 | the same pattern |
-| 正确的请求 | the correct (gold) request |
-
----
-
-## 第 18 页 · 评测 2 错误分析：失败来自哪里（约 45 秒）（新增）
-
-- **左边，3B 基线：** 给出的只是碎片，3 天的行程常常只有 1–3 项；航班丢了，14 个计划里有 13 个违反营业时间；有一个修改场景里，它们直接把已预订的门票删掉了。
-- **中间，550B 基线：** 加上详细规则后是对的；去掉规则，一半的新建行程会失败。不管哪种，它读的 token 都是 PlanB 的大约 6 倍。
-- **右边，PlanB 用 3B：** 失败全部是**读错了请求**。最常见的是在一大段话里漏掉返程航班（8 个里有 4 个）；有一个修改里，它把用户自己选的天妇罗店理解成了浅草寺。
-- 给正确请求时，PlanB 是 8/8 和 5/5。所以弱点在于**小模型读长请求**，这正是应用里“先复述、让用户更正、再规划”这一步存在的原因。这次的一次性评测不包括这一步。
-- 再如实说一点：3B 的运行还发现了一个规划器的 bug：午饭前的推荐景点让赶早班飞机的时间不够。已经修好，两次运行都重新评分，没有任何成功数改变。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 碎片 | fragments |
-| 漏掉返程航班 | missed the departure flight |
-| 读错了请求 | a misread request |
-| 瓶颈 | bottleneck |
-| 一次性评测 | one-shot evaluation |
-
----
-
-## 第 19 页 · 结论（约 30 秒）
-
-这个结论比“LLM 不会规划”要窄，这是有意的。大模型的结果说明：强 LLM 在拿到全部信息时规划得很好。
-
-试点结果真正支持的是：**钱和硬约束应该由代码来计算和检查，而不是交给自由生成的文本。**
-
-- 新功能重复了同样的规律：小模型的基线 13 个一个都没做对；强模型加详细规则能追上，但 token 多大约 6 倍。
-- 在全部 23 个场景、两个模型上，只要请求理解正确，PlanB 全部做对。它唯一的弱点是读懂请求，这正是复述确认和改进解析要解决的。
-- 实际的好处是：这样分工之后，就连一个免费的 30 亿参数模型也能用来重新规划和修改，而且 token 只要一小部分。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 更窄的结论 | a narrower claim |
-| 有意的 | on purpose |
-| 自由生成 | free-form generation |
-| 只要请求理解正确 | once the request is read correctly |
-| 一小部分 token | a fraction of the tokens |
-
----
-
-## 第 20 页 · 局限与计划（约 40 秒）
-
-先坦白局限：
-- 23 个我自己写的场景只能算开发集，不是测试集。
-- 数据是模拟的，只有一个城市，交通时间是合成的。
-- 两个模型除了规模，厂商也不同，所以我只说“小模型 vs 大模型”，不说因果。
-- 评测是一次性的，PlanB 用来应对读错请求的“复述更正”这一步还没有被测量。价格来自用户提供的规则，不是实时报价。
-
-计划按优先级：
-1. 扩展到大约 40 个场景，并划分留出集；特意加入更多“多项费用、差价、退款叠加”的场景，因为那正是基线出错的地方。
-2. 消融实验：去掉局部修复、去掉校验器、或者让 LLM 来算钱，看看哪个模块最重要。
-3. 用完全相同的流程，加一个中等规模的 Qwen 模型。
-4. 加强“读懂请求”，这是 PlanB 唯一出错的地方：用规则抽取器交叉检查 LLM，比如发现 LLM 漏掉的返程航班；并且不接受用户没提过的地点。
-5. 从确认邮件或文本里抽取订单；时间允许的话做 React 前端，研究问题本身不依赖它。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 开发集 / 测试集 | development set / test set |
-| 留出集 | held-out split |
-| 按优先级 | in priority order |
-| 消融实验 | ablations |
-| 时间允许的话 | if time allows |
-
----
-
-## 第 21 页 · 总结（约 20 秒）
-
-一句话：**可靠性来自职责分工。** 语言交给 LLM，约束和钱交给代码，决定留给用户。
-
-请记住三个数字：
-- 用免费的 3B 模型，PlanB 重新规划成功 8/10；
-- 费用 7/7 全对，而 550B 大模型的基线只有 3/7 和 6/7；
-- 只要请求理解正确，23 个场景 23 个全对。
-
-PlanB 的 token 也少大约 5 到 6 倍。
-
-谢谢大家，欢迎提问。备用页里准备了几个常见问题的简短回答。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 职责分工 | splitting responsibilities |
-| 请记住三个数字 | three numbers to remember |
-| 谢谢大家，欢迎提问 | Thank you. Questions? |
-
----
-
-## 第 22 页 · 备用答疑 1（只在被问到时翻到这页）
-
-**问：评测是不是偏向你自己的引擎？**
-答：评分器对所有方法是同一个，标准答案来自订单规则，而不是 PlanB 的输出。基线 B 甚至还额外拿到了一份明确的规则清单和检查表。
-
-**问：为什么不让 LLM 自由调用工具？**
-答：小模型在多步工具调用里容易出错，所以我们只让 LLM 做一次结构化调用。
-
-**问：为什么选这两个模型？大模型为什么不用 Qwen？**
-答：如实说：预算为零，只用免费的开源权重模型，选的是当天能调用的最大的一个。Gemma 4 31B 当时被上游限流；那天 OpenRouter 的免费列表里没有 Qwen。小模型用的就是 Qwen2.5-3B，换模型只需要改配置。
-
-**问：用强模型时基线已经很接近了，还需要 PlanB 吗？**
-答：需要。强模型规划得不错，在新功能上详细规则的提示词甚至和 PlanB 持平；但它还是会算错钱，token 多 5 到 6 倍，而且没有任何保证。
-
-**问：费用是“真实”的吗？**
-答：相对于用户输入的规则和报价，PlanB 是精确的；它从不订票、不付款，也不抓取实时价格。
-
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 偏向 | biased toward |
-| 多步工具调用 | multi-step tool use |
-| 被上游限流 | rate-limited upstream |
-| 只需要改配置 | a configuration change |
-| 没有任何保证 | no guarantee |
-
----
-
-## 第 23 页 · 备用答疑 2：新功能（只在被问到时翻到这页）（新增）
-
-**问：为什么用 3B 模型时，PlanB 新建行程只有 2/8？**
-答：直接说：3B 模型读不准带多个订单的长段落，最常见的是漏掉返程航班。给正确请求时规划器是 8/8。应用里的“复述确认”就是为这种情况设计的，下一步计划用规则抽取器做交叉检查。
+（小模型读长段落会漏，最常见的是漏返程航班；所以 PlanB 会先让用户确认，用户可以改。）
 
 **问：规划都是代码做的，这还算 AI 项目吗？**
-答：算。所有自然语言都由 LLM 处理；这个项目研究的就是“哪些工作该交给 LLM、哪些该交给代码”，证据是一个跨两种模型规模的 LLM 对照实验。
+> I think so. The LLM handles all the language. My question is which jobs should go to the LLM and which to code, and the tests compare different ways of using LLMs.
 
-**问：结果是不是看了输出之后调出来的？**
-答：所有看过输出之后做的修改都写在每次运行的 NOTES.md 里：对基线有利的评分修正、调大的超时、一处规划器修复、补写的修改场景标准理解。没有任何一处让 PlanB 的成功数变多；评分修正反而帮了基线。
+（LLM 负责所有语言理解；我研究的是哪些活该交给 LLM、哪些该交给代码。）
 
-**问：为什么不接 Google Maps 或实时数据？**
-答：预算为零，而且要让评测可复现。地点、交通时间和价格都是模拟的，并且明确标注了。这样每次运行都免费、可重复。
+**问：为什么选这两个模型？**
+> I had no budget, so I used free open models. The small one is Qwen 2.5 3B running on a CPU, and the big one was the largest free open model I could use. Changing the model is just a setting.
 
-**关键表达**
-| 中文 | 英文 |
-|---|---|
-| 交叉检查 | cross-check |
-| 跨两种模型规模的对照实验 | an experiment across two model sizes |
-| 事后修改 | post-hoc changes |
-| 对基线有利 | in the baselines' favour |
-| 可复现 | reproducible |
+（没预算，只用免费开源模型；换模型只要改设置。）
+
+**问：价格和交通是真的吗？**
+> No, it's all simulated data, and it's marked that way. PlanB never books, pays, or checks live prices.
+
+（都是模拟数据，标清楚了；PlanB 不订票、不付款、不查实时价格。）
+
+**问：接下来做什么？**
+> I'll grow to about 40 cases and keep some only for testing. I'll also take out parts of PlanB one by one to see what really matters, and add a mid-size model.
+
+（扩到约 40 个案例并留一部分只做测试；逐个拿掉模块看影响；再加一个中等模型。）
