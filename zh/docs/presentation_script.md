@@ -2,7 +2,7 @@
 
 对应文件：`PlanB_Proposal_Presentation.pptx`（正文 8 页，第 9 页起是附录）。
 
-老师的安排：每组 **4 分钟**，剩 1 分钟时老师会举手。下面这版照着讲大约 3 分 30 秒。语气就像跟同学聊天，英文都是简单的词，说错一两个字没关系。
+老师的安排：每组 **4 分钟**，剩 1 分钟时老师会举手。下面这版照着讲大约 3 分 45 秒。语气就像跟同学聊天，英文都是简单的词，说错一两个字没关系。
 
 每页三块："记住这句"是这页的核心；"中文意思"帮你理解；"英文这样说"就是上台要说的话，pptx 里每页的演讲者备注也是这段英文。每页开头那句是过渡句，最好背熟。
 
@@ -10,8 +10,8 @@
 
 | 讲完第几页 | 大约用时 |
 |---|---|
-| 第 3 页 | 1 分 15 秒 |
-| 第 5 页 | 1 分 55 秒 |
+| 第 3 页 | 1 分 10 秒 |
+| 第 5 页 | 1 分 45 秒 |
 | 第 7 页 | 3 分 10 秒 |
 | 第 8 页 | 3 分 45 秒 |
 
@@ -105,19 +105,20 @@
 
 ---
 
-## 第 7 页　Results: number of cases solved（30 秒）
+## 第 7 页　Results: number of cases solved（40 秒）
 
-记住这句：小模型下别人几乎全错，大模型下别人算错钱，读对了 PlanB 就全对。
+记住这句：小模型下别人几乎全错，大模型下别人算错钱，读对了 PlanB 就全对；而且小模型用 PlanB 又省又快。
 
-中文意思：来看结果。用小模型时，LLM 全包的方法几乎全错，PlanB 还能做对一半以上。用大模型时，它们行程排得不错，但钱还是算错。而只要给 PlanB 正确的请求，它每个案例都做对了。所以 PlanB 的错误出在"读"这一步，不在我们的代码。
+中文意思：来看结果。用小模型时，LLM 全包的方法几乎全错，PlanB 还能做对一半以上。用大模型时，它们行程排得不错，但钱还是算错。而只要给 PlanB 正确的请求，它每个案例都做对了。所以 PlanB 的错误出在"读"这一步，不在我们的代码。这一点对成本也很重要：用小模型时，PlanB 用的 token 少 5 到 7 倍，在普通 CPU 上不到一分钟就能出结果，而不是好几分钟。所以就算是一个免费的小模型，也真的能用起来。
 
 英文这样说：
 > And here's what we found.
 > With the small model, the LLM-only methods almost always fail, while PlanB still solves more than half.
 > With the big model, they plan well, but still get the money wrong.
 > And when PlanB gets the correct request, it solves every case. So its mistakes come from the reading, not from our code.
+> This also matters for cost. With the small model, PlanB uses about five to seven times fewer tokens, and on a CPU it answers in under a minute, not several minutes. So even a small free model becomes really useful.
 
-先指加粗的 PlanB 那一行，再指最后一行。
+先指加粗的 PlanB 那一行，再指最后一行，讲到成本时指最下面那条 "Cheaper and faster"。
 
 ---
 
@@ -125,12 +126,12 @@
 
 记住这句：LLM 不是完全可靠的；让它和代码各做擅长的事；让用户来确认。
 
-中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，最好的方式是让每一部分做自己擅长的事：LLM 擅长听懂人在说什么，代码擅长检查和计算，两者结合起来，比只用 LLM 可靠得多。第三，LLM 还是有可能理解错，所以要让用户参与进来：PlanB 会先把它理解的内容给用户看，用户确认了再往下走。接下来，我会为期末报告加更多测试案例，也会用更多模型来测试。今天的展示就到这里，谢谢大家！
+中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，最好的方式是让每一部分做自己擅长的事：LLM 擅长听懂人在说什么，代码擅长检查和计算，两者结合起来，比只用 LLM 可靠得多，连便宜的小模型都能用得上。第三，LLM 还是有可能理解错，所以要让用户参与进来：PlanB 会先把它理解的内容给用户看，用户确认了再往下走。接下来，我会为期末报告加更多测试案例，也会用更多模型来测试。今天的展示就到这里，谢谢大家！
 
 英文这样说：
 > So what did I learn from these experiments?
 > First, LLMs are not always right. Even a very big model forgot a fee. For hard numbers and rules, code is more precise.
-> Second, it works best when each part does what it's good at. The LLM understands what users mean, and the code checks and calculates. Together, they're more reliable than the LLM alone.
+> Second, it works best when each part does what it's good at. The LLM understands what users mean, and the code checks and calculates. Together, they're more reliable than the LLM alone, and even a small, cheap model becomes useful.
 > And third, the LLM can still misunderstand, so keep the user in the loop. PlanB shows what it understood, and the user confirms.
 > Next, I'll add more test cases and test with more models for the final report. So that's all for today's presentation, thank you!
 
