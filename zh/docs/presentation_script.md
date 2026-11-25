@@ -2,20 +2,20 @@
 
 对应文件：`PlanB_Proposal_Presentation.pptx`（正文 8 页，第 9 页起是附录）。
 
-老师的安排：每组 **4 分钟**，剩 1 分钟时老师会举手。下面这版照着讲大约 3 分半，留了半分钟余量。语气就像跟同学聊天，英文都是简单的词，说错一两个字没关系。
+老师的安排：每组 **4 分钟**，剩 1 分钟时老师会举手。下面这版照着讲大约 3 分 45 秒。语气就像跟同学聊天，英文都是简单的词，说错一两个字没关系。
 
-每页三块："记住这句"是这页的核心；"中文意思"帮你理解；"英文这样说"就是上台要说的话，pptx 里每页的演讲者备注也是这段英文。每页开头那句是过渡句，最好背熟，讲起来会很顺。
+每页三块："记住这句"是这页的核心；"中文意思"帮你理解；"英文这样说"就是上台要说的话，pptx 里每页的演讲者备注也是这段英文。每页开头那句是过渡句，最好背熟。
 
 **时间检查点**
 
 | 讲完第几页 | 大约用时 |
 |---|---|
-| 第 3 页 | 1 分 10 秒 |
+| 第 3 页 | 1 分 15 秒 |
 | 第 5 页 | 1 分 55 秒 |
-| 第 7 页 | 3 分 00 秒 |
-| 第 8 页 | 3 分 30 秒 |
+| 第 7 页 | 3 分 10 秒 |
+| 第 8 页 | 3 分 45 秒 |
 
-**老师举手（还剩 1 分钟）时，你应该正在讲第 7 页左右。** 如果那时还在第 5、6 页，就跳过第 6 页的细节，直接说 "In short, PlanB did much better, especially on money"，然后翻到第 8 页讲完体会。
+**老师举手（还剩 1 分钟）时，你应该正在讲第 7 页。** 如果那时还在第 6 页，就直接说 "In short, PlanB did much better, especially on money"，然后翻到第 8 页讲完体会。
 
 整个故事：PlanB 能做三件事 → 但直接用 LLM 会算错钱 → 所以分工 → 演示 → 怎么测 → 结果 → 我学到了什么。
 
@@ -33,15 +33,15 @@
 
 ---
 
-## 第 2 页　What PlanB does（30 秒）
+## 第 2 页　What PlanB does（35 秒）
 
-记住这句：一段话出行程，聊天改行程，出状况就重新安排。
+记住这句：你告诉它订了什么，它围绕这些订单排行程；还能聊天改、出状况重新安排。
 
-中文意思：那 PlanB 能做什么呢？三件事。第一，你用一段话写下旅行，它帮你排出每天的行程，而且不动你订好的东西。第二，你可以聊天改行程，比如"我不想去浅草寺了"，它会给你几个选项。第三，如果出了状况，比如下雨或者多待一天，它只改受影响的部分，还告诉你要多花多少钱。
+中文意思：那 PlanB 能做什么呢？三件事。第一，你用一段话告诉 PlanB 你的旅行：日期、想去哪、喜欢什么，还有你已经订好的东西，比如机票和酒店。PlanB 不会去网上搜，也不会帮你订，它只是围绕你说的这些订单来排每天的行程。第二，你可以聊天改行程，比如"我不想去浅草寺了"，它会给你几个选项。第三，如果出了状况，比如下雨或者多待一天，它只改受影响的部分，还告诉你要多花多少钱。
 
 英文这样说：
 > So what can PlanB do? Three things.
-> First, you write your trip in one paragraph, and it makes a day-by-day plan, without touching your bookings.
+> First, you tell PlanB about your trip in one paragraph: your dates, where you want to go, what you like, and what you've already booked, like your flight and hotel. PlanB doesn't search or book anything. It just plans your days around those bookings.
 > Second, you can change the plan by chat, like "I don't want to go to Senso-ji", and it gives you options.
 > And third, if something changes, like rain or an extra day, it only changes what's affected and tells you the extra cost.
 
@@ -49,14 +49,14 @@
 
 ## 第 3 页　Even a 550B model gets the price wrong（30 秒）
 
-记住这句：大模型漏了 200 块改签费，说 950，其实是 1150。
+记住这句：大模型漏了改签费，说 950，其实是 1150。
 
-中文意思：那为什么不直接让 LLM 来做？我们试过。我们让一个 5500 亿参数的模型帮忙多加一天。订单找对了，听起来也不错。但你看价格，它漏了 200 块的改签费，说 950，正确答案是 1150。小模型就更糟了。
+中文意思：那为什么不直接让 LLM 来做？我们试过。我们让一个 5500 亿参数的模型帮忙多加一天。订单找对了，听起来也不错。但你看价格，它漏了改签费，说 950 块，正确答案是 1150。小模型就更糟了。
 
 英文这样说：
 > Now, why not just ask an LLM to do all this? Well, we tried.
 > We asked a 550-billion-parameter model to add one more day. It found the right bookings, and it sounds good.
-> But look at the price: it forgot the 200-yuan change fee. It said 950, but the right answer is 1,150.
+> But look at the price: it forgot the change fee. It said 950 yuan, but the right answer is 1,150.
 > And small models are even worse.
 
 说到 "But look at the price" 时停一下，指一下 ¥950。
@@ -77,59 +77,62 @@
 
 ---
 
-## 第 5 页　Demo: stay one more day（20 秒）
+## 第 5 页　Demo: stay one more day（15 秒）
 
-记住这句：200 加 350 加 600，等于 1150。
+记住这句：只动机票和酒店，多花 1150，每一笔都有依据。
 
-中文意思：这是同一个请求在 PlanB 里的结果。只有机票和酒店受影响，费用是 200 加 350 加 600，一共 1150，全部来自订单规则。
+中文意思：这是同一个请求在 PlanB 里的结果。只有机票和酒店受影响，多花 1150 块，而且每一部分都来自订单规则。
 
 英文这样说：
 > Here's the same request in PlanB.
-> Only the flight and the hotel are affected, and the cost is 200 plus 350 plus 600, so 1,150, all from the booking rules.
+> Only the flight and the hotel are affected, and the extra cost is 1,150 yuan. Every part of it comes from a booking rule.
 
 ---
 
-## 第 6 页　How we test（35 秒）
+## 第 6 页　How we test（45 秒）
 
-记住这句：两组手写测试、四种方法、两个模型，全对才算对。
+记住这句：最后一种方法是给我们自己做检查的，用来分清是 LLM 读错了，还是代码错了。
 
-中文意思：那怎么知道它真的管用？我们手写了两组测试：10 个是旅途中出状况，13 个是新建和修改行程。比较了四种方法：两种是让 LLM 全包，一种只给普通提示，一种给一串规则；然后是 PlanB；还有给 PlanB 正确请求的版本。我们用了一小一大两个免费模型，而且一个案例要全对，包括钱，才算做对。
+中文意思：那怎么知道它真的管用？我们手写了两组测试：10 个是旅途中出状况，13 个是新建和修改行程。我们比较了四种方法。前两种是让 LLM 全包，一种只给普通提示，一种给一串规则。然后是 PlanB。最后一种是给我们自己做检查用的：我们手动把请求正确地填好，再交给 PlanB。这样如果 PlanB 还是做错，说明是我们的代码有问题；如果做对了，说明之前的错误是 LLM 读请求时读错了。我们用了一小一大两个免费模型，而且一个案例要全对，包括钱，才算做对。
 
 英文这样说：
 > So how do we know it works?
 > We wrote two test sets by hand: 10 cases where the trip changes, and 13 about planning and editing a trip.
-> We compared four methods: two where the LLM does everything, one with a simple prompt and one with a list of rules; then PlanB; and PlanB with the correct request.
+> We compared four methods. In the first two, the LLM does everything: one with a simple prompt, and one with a list of rules. Then there's PlanB.
+> And the last one is a check for ourselves: we fill in the request correctly by hand and give it to PlanB. So if PlanB still fails, the problem is in our code. If it works, then the mistakes came from the LLM reading the request.
 > We used a small and a big free model, and a case only counts if everything is right, including the money.
+
+讲到第 4 种方法时，可以指着屏幕右边的第 4 条。
 
 ---
 
 ## 第 7 页　Results: number of cases solved（30 秒）
 
-记住这句：小模型下 PlanB 对 14 个，大模型下别人算错钱，读对了就 23 个全对。
+记住这句：小模型下别人几乎全错，大模型下别人算错钱，读对了 PlanB 就全对。
 
-中文意思：来看结果。用小模型时，LLM 全包的方法几乎全错，PlanB 做对了 23 个里的 14 个。用大模型时，它们行程排得不错，但钱还是算错。而只要 PlanB 把请求读对，23 个全对。
+中文意思：来看结果。用小模型时，LLM 全包的方法几乎全错，PlanB 还能做对一半以上。用大模型时，它们行程排得不错，但钱还是算错。而只要给 PlanB 正确的请求，它每个案例都做对了。所以 PlanB 的错误出在"读"这一步，不在我们的代码。
 
 英文这样说：
 > And here's what we found.
-> With the small model, the LLM-only methods almost always fail, but PlanB gets 14 out of 23.
+> With the small model, the LLM-only methods almost always fail, while PlanB still solves more than half.
 > With the big model, they plan well, but still get the money wrong.
-> And when PlanB reads the request correctly, it gets all 23 right.
+> And when PlanB gets the correct request, it solves every case. So its mistakes come from the reading, not from our code.
 
 先指加粗的 PlanB 那一行，再指最后一行。
 
 ---
 
-## 第 8 页　What I learned（30 秒）
+## 第 8 页　What I learned（35 秒）
 
-记住这句：钱要交给代码，难的是读懂请求，小模型也要测。
+记住这句：LLM 不是完全可靠的；让它和代码各做擅长的事；让用户来确认。
 
-中文意思：那我从这个项目学到了什么？第一，就算是大模型也会算错钱，所以规则和钱应该交给代码。第二，难的其实是读懂请求，而不是排行程。第三，一定也要用小模型测一测，它让我发现了大模型掩盖住的问题，甚至找出了我自己代码里的一个 bug。接下来，我会为期末报告加更多测试。谢谢大家！
+中文意思：那我从这个项目学到了什么？第一，LLM 不是完全可靠的，连很大的模型都会漏掉一笔费用；像这种硬性的数字和规则，用代码会更准。第二，最好的方式是让每一部分做自己擅长的事：LLM 擅长听懂人在说什么，代码擅长检查和计算，两者结合起来，比只用 LLM 可靠得多。第三，LLM 还是有可能理解错，所以要让用户参与进来：PlanB 会先把它理解的内容给用户看，用户确认了再往下走。接下来，我会为期末报告加更多测试。谢谢大家！
 
 英文这样说：
 > So what did I learn?
-> First, even a big LLM gets money wrong, so rules and money should be done by code.
-> Second, the hard part is reading the request, not planning.
-> And third, test with a small model too. It showed me problems the big model hid, and even a bug in my own code.
+> First, LLMs are not always right. Even a very big model forgot a fee. For hard numbers and rules, code is more precise.
+> Second, it works best when each part does what it's good at. The LLM understands what people mean, and the code checks and calculates. Together, they're more reliable than the LLM alone.
+> And third, the LLM can still misunderstand, so keep the user in the loop. PlanB shows what it understood, and the user confirms.
 > Next, I'll add more test cases for the final report. Thank you!
 
 这页是老师特别想听的"insights 和 lessons learned"，时间再紧也要讲到。
@@ -139,6 +142,16 @@
 ## 答疑小抄
 
 被问到时先用一句话回答，需要的话再翻到对应的附录页。听不清可以说 "Sorry, could you say that again?"。
+
+**问：用户要上传订单截图或者凭证吗？PlanB 会自己去查订单吗？**
+> No. You just tell PlanB in words what you booked. It doesn't search, check or book anything. It only plans around what you told it.
+
+（不用。用户用文字告诉 PlanB 订了什么就行，PlanB 不查、不核对、也不订，只是围绕这些信息排行程。）
+
+**问：为什么要测"PlanB + correct request"？**
+> To find out where the mistakes come from. If PlanB still fails with the correct request, our code is wrong. It never failed, so all the mistakes came from the LLM reading the request.
+
+（用来找出错误出在哪里。给了正确请求还错，就是代码的问题；它一次都没错，所以错误都是 LLM 读请求时产生的。）
 
 **问：评测是不是偏向你自己的方法？**
 > Not really. I wrote the right answers by hand from the booking rules, and the same checker scores every method. The "LLM + rules" method even gets an extra list of rules.
@@ -151,14 +164,9 @@
 （大模型还是算错钱，token 多 5 到 8 倍；PlanB 有代码检查，小模型也能用。）
 
 **问：为什么小模型新建行程只有 2/8？**
-> Yeah, that's the weak point. The small model misses things in long paragraphs, usually the return flight. When the request is read correctly, it's 8 out of 8. That's why PlanB shows you what it understood first.
+> Yeah, that's the weak point. The small model misses things in long paragraphs, usually the return flight. That's why PlanB shows you what it understood first, so you can fix it.
 
-（小模型读长段落会漏，最常见的是漏返程航班；读对了就是 8/8，所以 PlanB 会先让用户确认。）
-
-**问：你发现的那个 bug 是什么？**
-> The small model read a flight time wrong. Then my planner put a sightseeing stop too close to the airport, with not enough travel time. I fixed it, and the results didn't change.
-
-（小模型读错了航班时间，规划器在去机场前排了一个景点，交通时间不够。已经修好，结果没有变化。）
+（小模型读长段落会漏，最常见的是漏返程航班；所以 PlanB 会先让用户确认，用户可以改。）
 
 **问：规划都是代码做的，这还算 AI 项目吗？**
 > I think so. The LLM handles all the language. My question is which jobs should go to the LLM and which to code, and the tests compare different ways of using LLMs.
