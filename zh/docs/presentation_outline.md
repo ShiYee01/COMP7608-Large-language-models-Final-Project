@@ -2,7 +2,7 @@
 
 > 原文：`docs/presentation_outline.md`。presentation 本身如果用英文讲，可以把本文件当作理解和准备讲稿的参考。
 
-老师已确认**每人 4–5 分钟**（11 月 26–27 日周四、周五，按 Group Registration 表的顺序）。因此 slides 正文只有 8 页（约 4 分钟：封面、PlanB 能做什么、¥950 对 ¥1,150 的失败例子、方法、一张演示截图、两页结果、总结），后面 15 页是答疑用的附录。演讲中不做现场演示。下面各节是完整素材，8 页的演讲只用其中一部分（见 `zh/docs/presentation_script.md`）。结果页只放 `evaluation/results/<run>/summary.md` 里的真实数字。
+老师的最终安排：**每组 4 分钟**（11 月 26–27 日，顺序见课程的 Google Sheet），剩 1 分钟时举手提醒，并希望讲到 key insights 和 lessons learned。因此 pptx 正文 8 页（约 3 分半：封面、PlanB 能做什么、¥950 对 ¥1,150 的失败例子、分工、一张演示截图、怎么测、一张结果表、我学到了什么），后面是答疑用的附录。演讲中不做现场演示。下面各节是完整素材，8 页的演讲只用其中一部分（见 `zh/docs/presentation_script.md`）。结果页只放 `evaluation/results/<run>/summary.md` 里的真实数字。
 
 ## 1. 标题
 **PlanB：一个能感知约束、重规划行程并分析订单费用影响的 AI 旅行副驾驶**
